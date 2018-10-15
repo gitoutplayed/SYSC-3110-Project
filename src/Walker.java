@@ -6,6 +6,6 @@
  */
 public class Walker extends Zombie{
 	public Walker() {
-		super(3, 10, 30, zombieTypes.WALKER);
+		super(3, 10, 30, ZombieTypes.WALKER);
 	}
 }

@@ -1,8 +1,8 @@
 
 public class ZombieFactory {
 	public ZombieFactory() {}
-	public static Zombie createZombie(zombieTypes zombieType) {
-		if(zombieType == zombieTypes.WALKER) {
+	public static Zombie createZombie(ZombieTypes zombieType) {
+		if(zombieType == ZombieTypes.WALKER) {
 			return new Walker();
 		}
 		return null;

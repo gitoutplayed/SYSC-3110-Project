@@ -8,7 +8,7 @@ abstract public class Zombie {
 	private int movementSpeed;
 	private int damage;
 	private int health;
-	private zombieTypes zombieType;
+	private ZombieTypes zombieType;
 	
 	/**
 	 * Constructor method for class Zombie
@@ -17,7 +17,7 @@ abstract public class Zombie {
 	 * @param health
 	 * @param zombieType
 	 */
-	public Zombie(int movementSpeed, int damage, int health, zombieTypes zombieType) {
+	public Zombie(int movementSpeed, int damage, int health, ZombieTypes zombieType) {
 		this.movementSpeed = movementSpeed;
 		this.damage = damage;
 		this.health = health;
@@ -76,15 +76,15 @@ abstract public class Zombie {
 	 * Getter method to determine the type of zombie
 	 * @return zombieType; returns the zombie type
 	 */
-	public zombieTypes getZombieType() {
+	public ZombieTypes getZombieType() {
 		return zombieType;
 	}
 	
 	/**
 	 * Method to determine if the zombie is dead
-	 * @return health<0; check if the health is less than zero
+	 * @return health<=0; check if the health is less than zero
 	 */
 	public boolean isDead() {
-		return health< 0;
+		return health<=0;
 	}
 }

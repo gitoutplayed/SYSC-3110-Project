@@ -4,6 +4,6 @@
  *
  */
 
-public enum zombieTypes {
+public enum ZombieTypes {
 	WALKER;
 }
