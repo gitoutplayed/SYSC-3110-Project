@@ -110,7 +110,7 @@ public abstract class Plant {
 	 * @return
 	 */
 	private boolean canAttack() {
-		return damage == 0;
+		return damage != 0;
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public abstract class Plant {
 	 * @return
 	 */
 	private boolean canResrc_gen() {
-		return resrc_gen == 0;
+		return resrc_gen != 0;
 	}
 	
 }
