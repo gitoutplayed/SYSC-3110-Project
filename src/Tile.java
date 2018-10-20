@@ -87,5 +87,40 @@ public class Tile {
 		}
 		return frontZombie;
 	}
-
+	
+	/**
+	 * Method to determine if there is a plant on the tile
+	 * @return ; true if there is a plant, false if there isn't
+	 */
+	public boolean hasPlant() {
+		if(this.residingPlant != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Method to determine if there is a plant on the tile
+	 * @return ; true if there is a zombie or more, false if there are none
+	 */
+	public boolean hasZombie() {
+		if(!(this.residingZombie.isEmpty())) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Method to remove the plant
+	 */
+	public void removePlant() {
+		this.residingPlant = null;
+	}
+	/**
+	 * Method to check if the tile is empty
+	 * @return !hasPlant() && !hasZombie(); check if there are no plants and no zombies
+	 */
+	public boolean isEmpty() {
+		return !hasPlant() && !hasZombie();
+	}
 }

@@ -175,4 +175,12 @@ abstract public class Zombie {
 	public double getZombieProgress() {
 		return ((double)this.movementCounter)/this.currentMovementSpeed;
 	}
+	
+	/**
+	 * Method for when the zombie takes damage
+	 * @param damage; The damage taken for the zombie
+	 */
+	public void takeDamage(int damage) {
+		this.health -= damage; 
+	}
 }
