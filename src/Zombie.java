@@ -183,4 +183,12 @@ abstract public class Zombie {
 	public void takeDamage(int damage) {
 		this.health -= damage; 
 	}
+	
+	/**
+	 * Method to check if the zombie is ready to move
+	 * @return this.movementCounter == this.currentMovementSpeed; checks if the movement counter is the same as the movement speed
+	 */
+	public boolean isReadyToMove() {
+		return this.movementCounter == this.currentMovementSpeed;
+	}
 }
