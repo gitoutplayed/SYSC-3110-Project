@@ -2,12 +2,13 @@
  * Super class for zombies
  * 
  * @author Hoang Bui 1010129049
- * @version 1, October 15 2018
+ * @version 2, October 15 2018
  */
 abstract public class Zombie {
 	private int movementSpeed;
 	private int damage;
 	private int health;
+	private int atkRange;
 	private ZombieTypes zombieType;
 	
 	/**
@@ -17,10 +18,11 @@ abstract public class Zombie {
 	 * @param health
 	 * @param zombieType
 	 */
-	public Zombie(int movementSpeed, int damage, int health, ZombieTypes zombieType) {
+	public Zombie(int movementSpeed, int damage, int health, int atkRange, ZombieTypes zombieType) {
 		this.movementSpeed = movementSpeed;
 		this.damage = damage;
 		this.health = health;
+		this.atkRange = atkRange;
 		this.zombieType = zombieType;
 	}
 
@@ -70,6 +72,21 @@ abstract public class Zombie {
 	 */
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	
+	/**
+	 * Getter method to get the zombie's atk range
+	 * @return atkRange; returns the zombie's atk rnage value
+	 */
+	public int getAtkRange() {
+		return atkRange;
+	}
+	/**
+	* Setter method to set the zombie's atk range
+	* @param atkRange; the new value for the zombie's atk range
+	*/
+	public void setAtkRange(int atkRange) {
+		this.atkRange = atkRange;
 	}
 
 	/**
