@@ -2,9 +2,9 @@
  * @author Souheil
  *
  */
-public class SunFlower extends ResourcePlant {
+public class SunFlower extends Plant {
 	
 	public SunFlower() {
-		super(PlantName.SunFlower, 50, 10, 25);
+		super(PlantName.SunFlower, 50, 10, 0, 25);
 	}
 }
