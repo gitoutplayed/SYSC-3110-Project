@@ -155,4 +155,19 @@ public abstract class Plant {
 		return atkRange_Y;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDead() {
+		return health<=0;
+	}
+	
+	/**
+	 * 
+	 * @param dmg
+	 */
+	public void takeDmg(int dmg) {
+		health = health - dmg;
+	}
 }
