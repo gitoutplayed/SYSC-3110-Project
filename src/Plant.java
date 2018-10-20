@@ -9,7 +9,7 @@
 public abstract class Plant {
 	
 	private PlantName name;
-	private int health, price, damage, resrc_gen;;
+	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y;
 	
 	/**
 	 * 
@@ -17,12 +17,14 @@ public abstract class Plant {
 	 * @param price
 	 * @param health
 	 */
-	public Plant(PlantName name, int price, int health, int damage, int resrc_gen) {
+	public Plant(PlantName name, int price, int health, int damage, int resrc_gen, int atkRange_X, int atkRange_Y) {
 		this.name = name;
 		this.price = price;
 		this.health = health;
 		this.damage = damage;
 		this.resrc_gen = resrc_gen;
+		this.atkRange_X = atkRange_X;
+		this.atkRange_Y = atkRange_Y;
 	}
 	
 	/**
@@ -77,7 +79,7 @@ public abstract class Plant {
 	 * 
 	 * @param damage
 	 */
-	private void setDamage(int damage) {
+	public void setDamage(int damage) {
 		this.damage = damage;
 	}
 	
@@ -85,7 +87,7 @@ public abstract class Plant {
 	 * 
 	 * @return
 	 */
-	private int getDamage() {
+	public int getDamage() {
 		return damage;
 	}
 	
@@ -93,7 +95,7 @@ public abstract class Plant {
 	 * 
 	 * @param Resrc_gen
 	 */
-	private void setResrc_gen(int Resrc_gen) {
+	public void setResrc_gen(int Resrc_gen) {
 		this.resrc_gen = Resrc_gen;
 	}
 	
@@ -101,7 +103,7 @@ public abstract class Plant {
 	 * 
 	 * @return
 	 */
-	private int getResrc_gen() {
+	public int getResrc_gen() {
 		return resrc_gen;
 	}
 	
@@ -109,7 +111,7 @@ public abstract class Plant {
 	 * 
 	 * @return
 	 */
-	private boolean canAttack() {
+	public boolean canAttack() {
 		return damage != 0;
 	}
 	
@@ -117,8 +119,40 @@ public abstract class Plant {
 	 * 
 	 * @return
 	 */
-	private boolean canResrc_gen() {
+	public boolean canResrc_gen() {
 		return resrc_gen != 0;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 */
+	public void setAtkRange_X(int atkRange_X) {
+		this.atkRange_X = atkRange_X;
+	}
+	
+	/**
+	 * 
+	 * @param y
+	 */
+	public void setAtkRange_Y(int atkRange_Y) {
+		this.atkRange_Y = atkRange_Y;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getAtkRange_X() {
+		return atkRange_X;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getAtkRange_Y() {
+		return atkRange_Y;
 	}
 	
 }
