@@ -91,10 +91,18 @@ abstract public class Zombie {
 	 * Setter method to set the zombie's current movement speed
 	 * @param movementSpeed; new value for the zombie's current movement speed
 	 */
-	public void setMovementSpeed(int movementSpeed) {
+	public void setCurrentMovementSpeed(int movementSpeed) {
 		this.currentMovementSpeed = movementSpeed;
 	}
 
+	/**
+	 * Getter method to get the zombie's movement Counter
+	 * @return this.movementCounter; the zombie's movement counter
+	 */
+	public int getMovementCounter() {
+		return this.movementCounter;
+	}
+	
 	/**
 	 * Getter method to determine the type of zombie
 	 * @return zombieType; returns the zombie type
@@ -160,4 +168,11 @@ abstract public class Zombie {
 		this.movementCounter -= this.currentMovementSpeed;
 	}
 	
+	/**
+	 * Method to obtain the movement progress as a comparable value
+	 * @return
+	 */
+	public double getZombieProgress() {
+		return ((double)this.movementCounter)/this.currentMovementSpeed;
+	}
 }
