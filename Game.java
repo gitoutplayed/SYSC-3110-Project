@@ -3,6 +3,8 @@ import java.util.Random;
 
 /**
  * This class represents the Game.
+ * 
+ * @author Michael Fan 101029934
  */
 
 public class Game {
@@ -23,7 +25,10 @@ public class Game {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Gameplay
-
+    
+    /**
+     * Starts a the current level. Call this method after a level is loaded
+     */
     public void start() {
 	gameState = new GameState();
 	gameState.addPendingZombies(currentLevel.getZombies());
@@ -53,7 +58,14 @@ public class Game {
     }
 
     /**
+     * Buys a plant and plant in the grid. Returns true if a plant is purchased 
+     * and planted successfully or false otherwise.
      * 
+     * @param plant the name(PlantName) of the plant
+     * @param row the row in the grid
+     * @param col the column in the grid
+     * 
+     * @return true if a plant is purchased and planted successfully or false otherwise
      */
     public boolean buyPlant(PlantName plant, int row, int col) {
 	Plant newPlant = shop.purchase(plant, gameState.getSunCounter());
@@ -95,7 +107,10 @@ public class Game {
 	    }
 	}
     }
-
+    
+    /**
+     * Gains the base amount of sun counter.
+     */
     private void gainBaseSunCounter() {
 	gameState.gainSunCounter(currentLevel.getBaseSunCounterGain());
     }
@@ -191,6 +206,11 @@ public class Game {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Game info
     
+    /**
+     * Returns a string representation of the grid.
+     * 
+     * @return a string representation of the grid.
+     */
     public String getGrid() {
 	Tile[][] grid = gameState.getGrid();
 	StringBuilder sb = new StringBuilder();
@@ -219,15 +239,30 @@ public class Game {
 
 	return sb.toString();
     }
-
+    
+    /**
+     * Returns the current turn number.
+     * 
+     * @return the current turn number
+     */
     public int getTurnNumber() {
 	return gameState.getTurnNumber();
     }
-
+    
+    /**
+     * Returns true if the current level is finished.
+     * 
+     * @return true if the current level is finished
+     */
     public boolean isLevelFinished() {
 	return gameState.isLevelFinished();
     }
-
+    
+    /**
+     * Returns a string of all the zombies that will appear in the current level.
+     * 
+     * @return a string of all the zombies that will appear in the current level
+     */
     public String getAvailableZombies() {
 	StringBuilder sb = new StringBuilder();
 
@@ -237,23 +272,49 @@ public class Game {
 
 	return sb.toString();
     }
-
+    
+    /**
+     * Returns the number of zombies that are waiting to be spawned.
+     * 
+     * @return the number of zombies that are waiting to be spawned
+     */
     public int getNumberOfZombiesPending() {
 	return gameState.getNumberOfZombiesPending();
     }
-
+    
+    /**
+     * Returns the amount of sun counter.
+     * 
+     * @return the amount of sun counter
+     */
     public int getSunCounter() {
 	return gameState.getSunCounter();
     }
-
+    
+    /**
+     * Returns the number of zombies that are still alive.
+     * 
+     * @return the number of zombies that are still alive
+     */
     public int getNumberOfZombiesLeft() {
 	return gameState.getNumberOfZombiesLeft();
     }
-
+    
+    /**
+     * Returns the total amount of zombie that will appear in this level. This number will not change
+     * during a level.
+     * 
+     * @return he total amount of zombie that will appear in this level
+     */
     public int getTotalNumberOfZombies() {
 	return gameState.getTotalNumberOfZombies();
     }
     
+    /**
+     * Returns true if a level is loaded or false otherwise.
+     * 
+     * @return true if a level is loaded or false otherwise
+     */
     public boolean isLevelLoaded() {
 	return isLevelLoaded();
     }
@@ -265,10 +326,11 @@ public class Game {
     // Level loading
 
     /**
-     * Loads the specified level
+     * Loads the specified level. Returns true if loaded successfully or false otherwise.
      * 
-     * @param levelID
-     *            the id of the level to load
+     * @param levelID the id of the level to load
+     * 
+     * @return true if loaded successfully or false otherwise
      */
     public boolean loadLevel(int levelID) {
 	currentLevel = levelManager.getLevel(levelID - 1);
@@ -281,6 +343,11 @@ public class Game {
 	return true;
     }
 
+    /**
+     * Returns true if loaded successfully or false otherwise.
+     * 
+     * @return true if loaded successfully or false otherwise
+     */
     public boolean loadNextLevel() {
 	currentLevel = levelManager.getNextLevel();
 
@@ -291,7 +358,12 @@ public class Game {
 	levelLoaded = true;
 	return true;
     }
-
+    
+    /**
+     * Returns true if loaded successfully or false otherwise.
+     * 
+     * @return true if loaded successfully or false otherwise
+     */
     public boolean loadPreviousLevel() {
 	currentLevel = levelManager.getPreviousLevel();
 

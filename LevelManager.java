@@ -3,6 +3,8 @@ import java.util.List;
 
 /**
  * This class represents the LevelManager.
+ * 
+ * @author Michael Fan 101029934
  */
 
 public class LevelManager {
