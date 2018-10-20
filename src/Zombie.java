@@ -5,10 +5,13 @@
  * @version 2, October 15 2018
  */
 abstract public class Zombie {
-	private int movementSpeed;
 	private int damage;
 	private int health;
 	private int atkRange;
+	private int currentMovementSpeed;
+	private int originalMovementSpeed;
+	private int movementCounter;
+	private int slowDuration;
 	private ZombieTypes zombieType;
 	
 	/**
@@ -19,35 +22,22 @@ abstract public class Zombie {
 	 * @param zombieType
 	 */
 	public Zombie(int movementSpeed, int damage, int health, int atkRange, ZombieTypes zombieType) {
-		this.movementSpeed = movementSpeed;
 		this.damage = damage;
 		this.health = health;
 		this.atkRange = atkRange;
+		this.currentMovementSpeed = movementSpeed;
+		this.originalMovementSpeed = movementSpeed;
+		this.movementCounter = 0;
+		this.slowDuration = 0;
 		this.zombieType = zombieType;
 	}
-
-	/**
-	 * Getter method to get the movement speed of the zombie
-	 * @return movementSpeed; returns the zombie's movement speed
-	 */
-	public int getMovementSpeed() {
-		return movementSpeed;
-	}
-
-	/**
-	 * Setter method to set the zombie's movement speed
-	 * @param movementSpeed; new value for the zombie's movement speed
-	 */
-	public void setMovementSpeed(int movementSpeed) {
-		this.movementSpeed = movementSpeed;
-	}
-
+	
 	/**
 	 * Getter method to get the zombie's damage value
 	 * @return damage; returns the zombie's damage value
 	 */
 	public int getDamage() {
-		return damage;
+		return this.damage;
 	}
 
 	/**
@@ -57,13 +47,13 @@ abstract public class Zombie {
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-
+	
 	/**
 	 * Getter method to get the zombie's health
 	 * @return health; returns the zombie's current health
 	 */
 	public int getHealth() {
-		return health;
+		return this.health;
 	}
 
 	/**
@@ -90,11 +80,27 @@ abstract public class Zombie {
 	}
 
 	/**
+	 * Getter method to get the current movement speed of the zombie
+	 * @return movementSpeed; returns the zombie's current movement speed
+	 */
+	public int getCurrentMovementSpeed() {
+		return this.currentMovementSpeed;
+	}
+
+	/**
+	 * Setter method to set the zombie's current movement speed
+	 * @param movementSpeed; new value for the zombie's current movement speed
+	 */
+	public void setMovementSpeed(int movementSpeed) {
+		this.currentMovementSpeed = movementSpeed;
+	}
+
+	/**
 	 * Getter method to determine the type of zombie
 	 * @return zombieType; returns the zombie type
 	 */
 	public ZombieTypes getZombieType() {
-		return zombieType;
+		return this.zombieType;
 	}
 	
 	/**
@@ -102,6 +108,56 @@ abstract public class Zombie {
 	 * @return health<=0; check if the health is less than zero
 	 */
 	public boolean isDead() {
-		return health<=0;
+		return this.health<=0;
 	}
+	
+	/**
+	 * Method to determine if the zombie has move accross a tile
+	 * @return this.movementCounter >= this.currentMovementSpeed; checks if the zombie's movement counter exceeds it's movement speed
+	 */
+	public boolean isDoneTile() {
+		return this.movementCounter >= this.currentMovementSpeed;
+	}
+	
+	/**
+	 * Method to determine if the zombie is affected by a slow effect
+	 * @return this.slowDuration > 0; checks if the value of slowDuration is above 0
+	 */
+	public boolean isSlowed() {
+		return this.slowDuration > 0;
+	}
+	
+	/**
+	 * Method to decrement the zombie's slow duration
+	 */
+	public void decrementSlowDuration() {
+		if(this.isSlowed()) {
+			slowDuration--;
+			if(!(this.isSlowed())) {
+				this.currentMovementSpeed = this.originalMovementSpeed;
+			}
+		}
+	}
+	
+	/**
+	 * Method to increment the zombie's movement counter
+	 */
+	public void incrementMovementCounter() {
+		this.movementCounter++;
+	}
+	
+	/**
+	 * Method to reset the movement counter when entering a new tile
+	 */
+	public void resetMovementCounter(){
+		this.movementCounter = 0;
+	}
+	
+	/**
+	 * Method to adjust the movement counter when entering a new tile
+	 */
+	public void adjustMovementCounter() {
+		this.movementCounter -= this.currentMovementSpeed;
+	}
+	
 }
