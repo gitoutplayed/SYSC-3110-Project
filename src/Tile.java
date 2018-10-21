@@ -4,22 +4,25 @@ import java.util.List;
 public class Tile {
 	private Plant residingPlant;
 	private List<Zombie> residingZombie;
+	private TileTypes tileType;
 	
 	/**
 	 * Constructor method to create a tile
 	 */
-	public Tile() {
+	public Tile(TileTypes tileType) {
 		this.residingPlant = null;
 		this.residingZombie = new ArrayList<Zombie>();
+		this.tileType = tileType;
 	}
 	
 	/**
 	 * Constructor method to create a tile with a plant already residing on it (Used for special levels)
 	 * @param residingPlant; The plant that will reside in the tile
 	 */
-	public Tile(Plant residingPlant) {
+	public Tile(Plant residingPlant, TileTypes tileType) {
 		this.residingPlant = residingPlant;
 		this.residingZombie = new ArrayList<Zombie>();
+		this.tileType = tileType;
 	}
 	
 	/**
@@ -36,6 +39,22 @@ public class Tile {
 	 */
 	public void setResidingPlant(Plant residingPlant) {
 		this.residingPlant = residingPlant;
+	}
+	
+	/**
+	 * Getter method to get the type of the tile
+	 * @return this.tileType; the type of the tile
+	 */
+	public TileTypes getTileType() {
+		return this.tileType;
+	}
+	
+	/**
+	 * Setter method to set the type of the tile
+	 * @param tileType; the new type of tile
+	 */
+	public void setResidingPlant(TileTypes tileType) {
+		this.tileType = tileType;
 	}
 	
 	/**
