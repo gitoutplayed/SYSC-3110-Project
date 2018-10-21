@@ -5,5 +5,5 @@
  */
 
 public enum TileTypes {
-	GRASS;
+	GRASS, ZOMBIE_SPAWN;
 }
