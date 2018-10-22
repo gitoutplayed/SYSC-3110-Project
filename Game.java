@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -25,7 +26,7 @@ public class Game {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Gameplay
-    
+
     /**
      * Starts a the current level. Call this method after a level is loaded
      */
@@ -58,22 +59,26 @@ public class Game {
     }
 
     /**
-     * Buys a plant and plant in the grid. Returns true if a plant is purchased 
-     * and planted successfully or false otherwise.
+     * Buys a plant and plant in the grid. Returns true if a plant is purchased and
+     * planted successfully or false otherwise.
      * 
-     * @param plant the name(PlantName) of the plant
-     * @param row the row in the grid
-     * @param col the column in the grid
+     * @param plant
+     *            the name(PlantName) of the plant
+     * @param row
+     *            the row in the grid
+     * @param col
+     *            the column in the grid
      * 
-     * @return true if a plant is purchased and planted successfully or false otherwise
+     * @return true if a plant is purchased and planted successfully or false
+     *         otherwise
      */
     public boolean buyPlant(PlantName plant, int row, int col) {
 	Plant newPlant = shop.purchase(plant, gameState.getSunCounter());
 
 	if (newPlant == null) {
 	    return false;
-	} else if ((row < GameState.BEGINNING || row >= GameState.ZOMBIE_SPAWN)
-		|| (col < GameState.BEGINNING || col >= GameState.ZOMBIE_SPAWN)) {
+	} else if ((row < GameState.FIRST || row > GameState.LAST)
+		|| (col < GameState.FIRST || col >= GameState.LAST)) {
 	    return false;
 	} else if (gameState.isRowDisabled(row)) {
 	    return false;
@@ -107,7 +112,7 @@ public class Game {
 	    }
 	}
     }
-    
+
     /**
      * Gains the base amount of sun counter.
      */
@@ -123,7 +128,7 @@ public class Game {
 	else if (plant.canAttack()) {
 	    // Attacking horizontally
 	    for (int x = 1; x <= plant.getAtkRange_X(); x++) {
-		if (x + col >= GameState.COL) {
+		if (x + col > GameState.LAST) {
 		    break;
 		}
 
@@ -146,20 +151,22 @@ public class Game {
     }
 
     private void zombieAction(List<Zombie> zombies, Tile[][] grid, int row, int col) {
-	for (int i = 0; i < zombies.size(); i++) {
-	    Zombie zombie = zombies.get(i);
-	    // If the zombie is ready to move that it will move
-	    if (zombie.isReadyToMove()) {
-		Tile currentTile = grid[row][col];
-		Tile nextTile = (col - 1 > GameState.BEGINNING) ? grid[row][col - 1] : null;
+	Iterator<Zombie> zombieIter = zombies.iterator();
 
-		// If the next tile is the beginning then this row is disabled
-		if (nextTile == null) {
+	while (zombieIter.hasNext()) {
+	    Zombie zombie = zombieIter.next();
+
+	    if (zombie.isReadyToMove()) {
+		// If the next tile is the lawn mower then this row is disabled
+		if (col - 1 == GameState.LAWN_MOWER) {
 		    gameState.addDisabledRow(row);
 		    for (Tile t : grid[row]) {
+			gameState.zombieDied(t.getResidingZombie().size());
 			t.clearResidingZombie();
 		    }
 		} else {
+		    Tile nextTile = grid[row][col - 1];
+
 		    // If the next tile contains a plant attack it
 		    if (nextTile.hasPlant()) {
 			Plant plant = nextTile.getResidingPlant();
@@ -172,12 +179,11 @@ public class Game {
 		    }
 		    // If the next tile is empty then move to it
 		    else {
-			currentTile.removeZombie(zombie);
 			nextTile.addZombie(zombie);
-			zombie.resetMovementCounter();
-			i--;
+			zombieIter.remove();
 		    }
 		}
+		zombie.resetMovementCounter();
 	    } else {
 		zombie.incrementMovementCounter();
 	    }
@@ -205,41 +211,57 @@ public class Game {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Game info
-    
+
     /**
-     * Returns a string representation of the grid.
+     * Returns a read-only version of the grid.
      * 
-     * @return a string representation of the grid.
+     * @return a read-only version of the grid
      */
-    public String getGrid() {
+    public String[][] getGrid() {
 	Tile[][] grid = gameState.getGrid();
-	StringBuilder sb = new StringBuilder();
+	String[][] readOnly = new String[GameState.ROW][GameState.COL];
 
 	for (int row = 0; row < GameState.ROW; row++) {
 	    for (int col = 0; col < GameState.COL; col++) {
+		if (gameState.isRowDisabled(row)) {
+		    readOnly[row][col] = "X";
+		    continue;
+		} else if (col == GameState.LAWN_MOWER) {
+		    readOnly[row][col] = "L";
+		    continue;
+		}
+
 		Tile tile = grid[row][col];
 
 		if (tile.hasPlant()) {
 		    switch (tile.getResidingPlant().getName()) {
 		    case PeaShooter:
-			sb.append("|P|");
+			readOnly[row][col] = "P";
 			break;
 		    case SunFlower:
-			sb.append("|S|");
+			readOnly[row][col] = "S";
 			break;
 		    }
 		} else if (tile.hasZombie()) {
-		    sb.append("|" + "Z" + tile.getResidingZombie().size() + "|");
+		    readOnly[row][col] = tile.getResidingZombie().size() + "Z";
 		} else {
-		    sb.append("| |");
+		    readOnly[row][col] = " ";
 		}
 	    }
-	    sb.append("\n");
 	}
 
-	return sb.toString();
+	return readOnly;
     }
-    
+
+    /**
+     * Returns the plants in the shop and their prices as a string.
+     * 
+     * @return the plants in the shop and their prices as a string
+     */
+    public String getShopItems() {
+	return shop.getShopItems();
+    }
+
     /**
      * Returns the current turn number.
      * 
@@ -248,7 +270,7 @@ public class Game {
     public int getTurnNumber() {
 	return gameState.getTurnNumber();
     }
-    
+
     /**
      * Returns true if the current level is finished.
      * 
@@ -257,7 +279,7 @@ public class Game {
     public boolean isLevelFinished() {
 	return gameState.isLevelFinished();
     }
-    
+
     /**
      * Returns a string of all the zombies that will appear in the current level.
      * 
@@ -272,7 +294,7 @@ public class Game {
 
 	return sb.toString();
     }
-    
+
     /**
      * Returns the number of zombies that are waiting to be spawned.
      * 
@@ -281,7 +303,7 @@ public class Game {
     public int getNumberOfZombiesPending() {
 	return gameState.getNumberOfZombiesPending();
     }
-    
+
     /**
      * Returns the amount of sun counter.
      * 
@@ -290,7 +312,7 @@ public class Game {
     public int getSunCounter() {
 	return gameState.getSunCounter();
     }
-    
+
     /**
      * Returns the number of zombies that are still alive.
      * 
@@ -299,17 +321,17 @@ public class Game {
     public int getNumberOfZombiesLeft() {
 	return gameState.getNumberOfZombiesLeft();
     }
-    
+
     /**
-     * Returns the total amount of zombie that will appear in this level. This number will not change
-     * during a level.
+     * Returns the total amount of zombie that will appear in this level. This
+     * number will not change during a level.
      * 
      * @return he total amount of zombie that will appear in this level
      */
     public int getTotalNumberOfZombies() {
 	return gameState.getTotalNumberOfZombies();
     }
-    
+
     /**
      * Returns true if a level is loaded or false otherwise.
      * 
@@ -318,17 +340,19 @@ public class Game {
     public boolean isLevelLoaded() {
 	return isLevelLoaded();
     }
-    
+
     // End Game info
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Level loading
 
     /**
-     * Loads the specified level. Returns true if loaded successfully or false otherwise.
+     * Loads the specified level. Returns true if loaded successfully or false
+     * otherwise.
      * 
-     * @param levelID the id of the level to load
+     * @param levelID
+     *            the id of the level to load
      * 
      * @return true if loaded successfully or false otherwise
      */
@@ -358,7 +382,7 @@ public class Game {
 	levelLoaded = true;
 	return true;
     }
-    
+
     /**
      * Returns true if loaded successfully or false otherwise.
      * 

@@ -23,9 +23,11 @@ public class GameState {
     private int numberOfZombiesLeft;
 
     public static int ROW = 5;
-    public static int COL = 10;
-    public static int BEGINNING = 0;
-    public static int ZOMBIE_SPAWN = 9;
+    public static int COL = 11;
+    public static int FIRST = 1;
+    public static int LAST = 9;
+    public static int ZOMBIE_SPAWN = 10;
+    public static int LAWN_MOWER = 0;
 
     public GameState() {
 	grid = new Tile[ROW][COL];
@@ -114,6 +116,10 @@ public class GameState {
     
     public void zombieDied() {
 	numberOfZombiesLeft--;
+    }
+    
+    public void zombieDied(int amount) {
+	numberOfZombiesLeft -= amount;
     }
     
     public int getNumberOfZombiesLeft() {
