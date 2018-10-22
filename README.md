@@ -22,5 +22,6 @@ Below is a list of getters that returns information about the current level
 * getNumberOfZombiesLeft()
 * getTotalNumberOfZombies()
 * isLevelLoaded() 
+* getShopItems()
 
     
