@@ -1,5 +1,7 @@
 /**
- * @author Souheil
+ * This class defines a SunFlower's fields for instantiation.
+ * 
+ * @author Souheil Yazji 101007994
  *
  */
 public class SunFlower extends Plant {

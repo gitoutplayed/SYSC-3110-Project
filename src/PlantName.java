@@ -1,5 +1,6 @@
 /**
- * @author Souheil
+ * 
+ * @author Souheil Yazji 101007994
  *
  */
 public enum PlantName {

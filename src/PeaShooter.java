@@ -1,5 +1,7 @@
 /**
- * @author Souheil
+ * This class defines a PeaShooter's fields for instantiation.
+ * 
+ * @author Souheil Yazji 101007994
  *
  */
 public class PeaShooter extends Plant{

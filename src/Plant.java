@@ -1,9 +1,9 @@
 /**
+ * This abstract class defines the overall Plant object. 
+ * All specific plants must be a subclass of this class.
+ * All specific plants must have constant values set for all fields of this class.
  * 
- */
-
-/**
- * @author Souheil
+ * @author Souheil Yazji 101007994
  *
  */
 public abstract class Plant {
@@ -12,6 +12,7 @@ public abstract class Plant {
 	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y;
 	
 	/**
+	 * Plant's constructor method
 	 * 
 	 * @param name
 	 * @param price
@@ -28,6 +29,7 @@ public abstract class Plant {
 	}
 	
 	/**
+	 * Set the name of the plant
 	 * 
 	 * @param name
 	 */
@@ -36,14 +38,16 @@ public abstract class Plant {
 	}
 	
 	/**
+	 * Get the name of the plant
 	 * 
-	 * @return
+	 * @return the ENUM name of the plant
 	 */
 	public PlantName getName() {
 		return name;
 	}
 	
 	/**
+	 * Set the plant's price
 	 * 
 	 * @param price
 	 */
@@ -52,14 +56,16 @@ public abstract class Plant {
 	}
 	
 	/**
+	 * Get the plant's price
 	 * 
-	 * @return
+	 * @return price
 	 */
 	public int getPrice() {
 		return price;
 	}
 	
 	/**
+	 * set the plant's health
 	 * 
 	 * @param health
 	 */
@@ -68,14 +74,16 @@ public abstract class Plant {
 	}
 	
 	/**
+	 * get the plant's health
 	 * 
-	 * @return
+	 * @return health
 	 */
 	public int getHealth() {
 		return health;
 	}
 	
 	/**
+	 * set the plant's damage
 	 * 
 	 * @param damage
 	 */
@@ -84,14 +92,16 @@ public abstract class Plant {
 	}
 	
 	/**
+	 * get the plant's damage
 	 * 
-	 * @return
+	 * @return damage
 	 */
 	public int getDamage() {
 		return damage;
 	}
 	
 	/**
+	 * set the plant's resource generation rate
 	 * 
 	 * @param Resrc_gen
 	 */
@@ -100,30 +110,34 @@ public abstract class Plant {
 	}
 	
 	/**
+	 * get the plant's resource generation rate
 	 * 
-	 * @return
+	 * @return resrc_gen
 	 */
 	public int getResrc_gen() {
 		return resrc_gen;
 	}
 	
 	/**
+	 * check if the plant can attack
 	 * 
-	 * @return
+	 * @return true if damage > 0, false otherwise
 	 */
 	public boolean canAttack() {
-		return damage != 0;
+		return damage > 0;
 	}
 	
 	/**
+	 * check if the plant can generate resource
 	 * 
-	 * @return
+	 * @return true if resrc_gen > 0, false otherwise
 	 */
 	public boolean canResrc_gen() {
-		return resrc_gen != 0;
+		return resrc_gen > 0;
 	}
 	
 	/**
+	 * used for implementation of area of effect attacks
 	 * 
 	 * @param x
 	 */
@@ -132,6 +146,7 @@ public abstract class Plant {
 	}
 	
 	/**
+	 * used for implementation of area of effect attacks
 	 * 
 	 * @param y
 	 */
@@ -140,30 +155,34 @@ public abstract class Plant {
 	}
 	
 	/**
+	 * used for implementation of area of effect attacks
 	 * 
-	 * @return
+	 * @return int atkRange_X
 	 */
 	public int getAtkRange_X() {
 		return atkRange_X;
 	}
 	
 	/**
+	 * used for implementation of area of effect attacks
 	 * 
-	 * @return
+	 * @return int atkRange_Y
 	 */
 	public int getAtkRange_Y() {
 		return atkRange_Y;
 	}
 	
 	/**
+	 * check if the plant is dead
 	 * 
-	 * @return
+	 * @return health of the plant
 	 */
 	public boolean isDead() {
 		return health<=0;
 	}
 	
 	/**
+	 * calculate the health of the plant upon taking damage
 	 * 
 	 * @param dmg
 	 */
