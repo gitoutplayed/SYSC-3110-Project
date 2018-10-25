@@ -5,9 +5,19 @@ public class Tile {
 	private Plant residingPlant;
 	private List<Zombie> residingZombie;
 	private TileTypes tileType;
-	
+
 	/**
 	 * Constructor method to create a tile
+	 */
+	public Tile() {
+		this.residingPlant = null;
+		this.residingZombie = new ArrayList<Zombie>();
+		this.tileType = null;
+	}
+	
+	/**
+	 * Constructor method to create a tile with a specified tile type
+	 * @param tileType; the type of tile
 	 */
 	public Tile(TileTypes tileType) {
 		this.residingPlant = null;
@@ -17,6 +27,7 @@ public class Tile {
 	
 	/**
 	 * Constructor method to create a tile with a plant already residing on it (Used for special levels)
+	 * @param tileType; the type of tile
 	 * @param residingPlant; The plant that will reside in the tile
 	 */
 	public Tile(Plant residingPlant, TileTypes tileType) {
