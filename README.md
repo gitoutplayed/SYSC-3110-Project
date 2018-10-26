@@ -9,8 +9,8 @@ After a level is loaded, call game.start() to start the current level. Calling o
 
 ## Game started
 * Call game.endTurn() to finish the current turn
-* Call game.buyPlant() to buy plants
-* Call game.shovel() to remove a plant
+* Call game.buyPlant(name, row, col) to buy plants
+* Call game.shovel(row, col) to remove a plant
 * Call game.isLevelFinished() to check if the current level is done
 
 ## Game info
