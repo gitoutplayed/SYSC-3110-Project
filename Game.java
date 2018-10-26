@@ -34,10 +34,13 @@ public class Game {
 
 	/**
 	 * Starts the current level. Call this method after a level is loaded.
-	 * Calling this method before a level is loaded have no effect.
+	 * Calling this method before a level is loaded or the current level is
+	 * not finished, will have no effect.
 	 */
 	public void start() {
 		if(!levelLoaded) {
+			return;
+		} else if(levelLoaded && !gameState.isLevelFinished()) {
 			return;
 		}
 		
