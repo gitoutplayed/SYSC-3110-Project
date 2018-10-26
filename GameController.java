@@ -1,35 +1,61 @@
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.Stack;
 public class GameController {
-	GameState gameState;
-	private Parser parser;
+	
+	Game game;
+	GameView gameView;
+	private Stack<GameState > undoStack = new Stack<GameState  >();
+	private Stack<GameState  > redoStack= new Stack <GameState >();
+	
 
 	public GameController() {
-		gameState = new GameState();
-	}
-    /**
-     * Given a command, process (that is: execute) the command.
-     * @param command The command to be processed.
-     * @return true If the command ends the game, false otherwise.
-     */
-	private boolean proccessCommand (Command command)
-	{
-		boolean wantToQuit=false;
-		if(command.isUnknown()) {
-			System.out.println("can't quit");
-			return false;
-		}
-		String commandWord = command.getCommandWord();
-		if(commandWord.contentEquals("help")) {
+		game = new Game();
+		gameView= new GameView();
+		
+	try {
+		BufferedReader reader= new BufferedReader(new InputStreamReader(System.in));
+		
+		while(true) {
+			System.out.print("Enter command:");
+			String command = reader.readLine();
+			if (command.equals("restart")){
+				//restart();
+				break;
+			} else if (command.equals("Help")){
+		
 			printHelp();
+			break;
+			} else if (command.equals("quit")) {
+				quit();
+				break;
+			}else if (command.equals("undo")) {
+				undo();
+				break;
+			}else if (command.equals("redo")) {
+				redo();
+				break;
+			} else if (command.equals("shop:")) {
+				shop();
+				break;
+			} else if (command.equals("shovel")) {
+				shovel();
+				break;
+			}
+			
+			
 		}
-		else if (commandWord.equals("quit")){
-			wantToQuit= quit(command);
+	}
+	
+		catch (IOException ioe) {
+		ioe.printStackTrace();
 		}
-		//else command not recognised.
-		return wantToQuit;
-		}
-		
-		
+	}
+	
+
+
 	
     /**
      * Print out some help information.
@@ -37,29 +63,72 @@ public class GameController {
      * command words.
      */
 	public void printHelp() {
+		
 		System.out.println("What do you need help with?");
-		parser.showCommands();
+		
 		
 	}
+	//public void restart () {
+		//return 
+	//}
+	
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
      */
-    private boolean quit(Command command) 
+    private boolean quit() 
     {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
+    	System.out.println("are you sure you want to quit?");
+    	BufferedReader reader= new BufferedReader(new InputStreamReader(System.in));
+    	String word = null;
+		try {
+			word = reader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+        if(word.equals("quit")) {
+            System.out.println("Are you sure you want to quit?");
             return false;
         }
         else {
             return true;  // signal that we want to quit
         }
     }
+    	
+    public void redo() {
+    		if (!redoStack.isEmpty()) {
+    			try {
+    				GameState command= redoStack.pop();
 
+    				undoStack.push(command);
+    				
+    			}catch (IllegalStateException e) {
+    				// report and log
+    			}
+    		}
+    		
+    }
+    public void undo() {
+    		if(!undoStack.isEmpty()) {
+    			try {
+    				
+    				GameState command= undoStack.pop();
+    			
+    				redoStack.push(command);
+    				
+    			}catch (IllegalStateException e) {
+    				//report and log
+    			}
+    		}
+    }
 	public void cancel () {
 		
 	}
+	//public String shop() {
+		//return shop.getShopPlants();
+	//}
 	//public Plant buyPlant() {
 		
 	//
