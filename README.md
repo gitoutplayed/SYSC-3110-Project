@@ -9,5 +9,4 @@ The draft version of the game is here. Feel free to push your change here.
   <li>Adjusted the 'buy plant' command. The specified plant is now one word instead of just two, such as sun flower to sunflower.</li></ul>
 <h3>Known Issues:</h3>
 <ul>
-  
-  </ul>
+</ul>
