@@ -19,6 +19,7 @@
 * ZombieTypes.java
 * ZombieFactory.java
 * Walker.java
+* ZombieTypes.java
 
 #### Choices of Data Structures:
 
