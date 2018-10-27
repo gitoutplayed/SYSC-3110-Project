@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
  * This class represents the GameController.
  * 
  * @author Tamer Ibrahim 101032919
+ * @editor Hoang Bui 101029049
+ * @version 2
  */
 public class GameController {
 
@@ -92,10 +94,10 @@ public class GameController {
 	 *
 	 */
 	public void printHelp() {
-		System.out.println("\n1. write buy plant to buy plants");
-		System.out.println("2. write shovel to shovel a plant");
-		System.out.println("3. write end turn to end a turn");
-		System.out.println("4. write quit to quite the game \n");
+		System.out.println("\n1. write 'buy plant' to buy plants");
+		System.out.println("2. write 'shovel' to shovel a plant");
+		System.out.println("3. write 'end turn' to end a turn");
+		System.out.println("4. write 'quit' to quite the game \n");
 	}
 
 	/**
@@ -140,9 +142,9 @@ public class GameController {
 
 			PlantName name;
 			// checking the type that the player has entered
-			if(type.equalsIgnoreCase("pea shooter")) {
+			if(type.equalsIgnoreCase("peashooter")) {
 				name = PlantName.PeaShooter;
-			} else if(type.equalsIgnoreCase("sun flower")) {
+			} else if(type.equalsIgnoreCase("sunflower")) {
 				name = PlantName.SunFlower;
 			} else {
 				return false;
