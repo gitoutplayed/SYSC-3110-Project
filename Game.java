@@ -314,7 +314,7 @@ public class Game {
 				} else if(tile.hasZombie()) {
 					readOnly[row][col] = tile.getResidingZombie().size() + "Z";
 				} else {
-					readOnly[row][col] = " ";
+					readOnly[row][col] = ".";
 				}
 			}
 		}
