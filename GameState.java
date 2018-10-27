@@ -18,7 +18,7 @@ public class GameState {
 	private boolean levelFinished;
 	private int turnNumber;
 	private List<Zombie> pendingZombies;
-	private Set<Integer> disabledRows;
+	private Set<Integer> clearedRow;
 	private int totalNumberOfZombies;
 	private int numberOfZombiesLeft;
 
@@ -46,7 +46,7 @@ public class GameState {
 		totalNumberOfZombies = 0;
 		numberOfZombiesLeft = 0;
 		pendingZombies = new LinkedList<Zombie>();
-		disabledRows = new HashSet<Integer>();
+		clearedRow = new HashSet<Integer>();
 	}
 
 	/**
@@ -148,35 +148,6 @@ public class GameState {
 	}
 
 	/**
-	 * Adds rows a row to the disabled rows.
-	 * 
-	 * @param row the row that is to be disabled
-	 */
-	public void addDisabledRow(int row) {
-		disabledRows.add(row);
-	}
-
-	/**
-	 * Returns the true if the specified row is disabled or false otherwise.
-	 * 
-	 * @param row the row that is to be checked
-	 * 
-	 * @return true if the specified row is disabled or false otherwise
-	 */
-	public boolean isRowDisabled(int row) {
-		return disabledRows.contains(row);
-	}
-
-	/**
-	 * Returns the number of disabled rows.
-	 * 
-	 * @return the number of disabled rows
-	 */
-	public int getNumberOfDisabledRows() {
-		return disabledRows.size();
-	}
-
-	/**
 	 * Spends a certain of sun.
 	 * 
 	 * @param spent the amount of sun to be spent
@@ -224,5 +195,23 @@ public class GameState {
 	 */
 	public int getTotalNumberOfZombies() {
 		return totalNumberOfZombies;
+	}
+	
+	/**
+	 * Adds a row that has been cleared.
+	 * 
+	 * @param row that has been cleared
+	 */
+	public void addClearedRow(int row) {
+		clearedRow.add(row);
+	}
+	
+	/**
+	 * Returns true if the specified row has been cleared or false otherwise.
+	 * 
+	 * @return true if the specified row has been cleared or false otherwise
+	 */
+	public boolean isRowCleared(int row) {
+		return clearedRow.contains(row);
 	}
 }

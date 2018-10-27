@@ -33,9 +33,9 @@ public class Game {
 	// Gameplay
 
 	/**
-	 * Starts the current level. Call this method after a level is loaded.
-	 * Calling this method before a level is loaded or the current level is
-	 * not finished, will have no effect.
+	 * Starts the current level. Call this method after a level is loaded. Calling
+	 * this method before a level is loaded or the current level is not finished,
+	 * will have no effect.
 	 */
 	public void start() {
 		if(!levelLoaded) {
@@ -43,7 +43,7 @@ public class Game {
 		} else if(gameState != null && levelLoaded && !gameState.isLevelFinished()) {
 			return;
 		}
-		
+
 		gameState = new GameState();
 		gameState.addPendingZombies(currentLevel.getZombies());
 		shop.addPlants(currentLevel.getPlants());
@@ -54,19 +54,23 @@ public class Game {
 	 * then calling this method will have no effect.
 	 */
 	public void endTurn() {
-		if(isLevelDone()) {
-			gameState.levelFinished();
-			levelLoaded = false;
+		if(gameState.isLevelFinished()) {
 			return;
 		}
 
 		// Spawn new zombies
 		spawnZombies();
 
-		// Gain base sun 
+		// Gain base sun
 		gainBaseSun();
 
 		action();
+
+		if(isLevelDone()) {
+			gameState.levelFinished();
+			levelLoaded = false;
+			return;
+		}
 
 		gameState.nextTurn();
 
@@ -94,8 +98,6 @@ public class Game {
 			return false;
 		} else if(col < GameState.FIRST || col > GameState.LAST) {
 			return false;
-		} else if(gameState.isRowDisabled(row)) {
-			return false;
 		} else if(!gameState.getGrid()[row][col].isEmpty()) {
 			return false;
 		}
@@ -105,10 +107,10 @@ public class Game {
 
 		return true;
 	}
-	
+
 	/**
-	 * Removes a plant at the specified row and col. Returns true if the plant is removed 
-	 * successfully or false otherwise.
+	 * Removes a plant at the specified row and col. Returns true if the plant is
+	 * removed successfully or false otherwise.
 	 * 
 	 * @param row the row of the plant that is to be removed
 	 * @param col the column of the the plant that is to be removed
@@ -134,17 +136,35 @@ public class Game {
 
 		return true;
 	}
-	
+
 	/**
-	 * Returns the true if the level is done or false otherwise. A level is done when all rows are disabled
-	 * or when there are no zombies left.
+	 * Returns true  if the current level is finished or false otherwise. The game is finished when a zombie 
+	 * has reached the lawn mower tile when the lawn mower has been triggered already or when there are 
+	 * no more zombies left.
 	 * 
-	 * @return true if the level is done or false otherwise
+	 * @return true if the current level is finished or false otherwise
 	 */
 	private boolean isLevelDone() {
-		return gameState.getNumberOfDisabledRows() == GameState.ROW || gameState.getNumberOfZombiesLeft() == 0;
+		// check if there are zombies left
+		if(gameState.getNumberOfZombiesLeft() == 0) {
+			return true;
+		}
+		
+		// check if a lawn mower tile has any zombie
+		Tile[][] grid = gameState.getGrid();
+		for(int row = 0; row < GameState.ROW; row++) {
+			if(grid[row][GameState.LAWN_MOWER].hasZombie() && gameState.isRowCleared(row)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
+	/**
+	 * The actions that will take place when a turn ends. The actions include plant
+	 * actions and zombie actions.
+	 */
 	private void action() {
 		Tile[][] grid = gameState.getGrid();
 		for(int row = 0; row < GameState.ROW; row++) {
@@ -168,7 +188,7 @@ public class Game {
 	private void gainBaseSun() {
 		gameState.gainSun(currentLevel.getBaseSunGain());
 	}
-	
+
 	/**
 	 * Performs plant action. This includes generates resources and attack zombies.
 	 * 
@@ -206,7 +226,7 @@ public class Game {
 			}
 		}
 	}
-	
+
 	/**
 	 * Performs zombie actions. This includes attack and move.
 	 * 
@@ -222,9 +242,9 @@ public class Game {
 			Zombie zombie = zombieIter.next();
 
 			if(zombie.isReadyToMove()) {
-				// If the next tile is the lawn mower then this row is disabled and everything from this row is removed
-				if(col - 1 == GameState.LAWN_MOWER) {
-					gameState.addDisabledRow(row);
+				// If the current row still has the lawn mover then the lawn mower is triggered
+				if(col - 1 == GameState.LAWN_MOWER && !gameState.isRowCleared(row)) {
+					gameState.addClearedRow(row);
 					for(Tile t : grid[row]) {
 						gameState.zombieDied(t.getResidingZombie().size());
 						t.removePlant();
@@ -255,7 +275,7 @@ public class Game {
 			}
 		}
 	}
-	
+
 	/**
 	 * Spawn zombies based the spawn rate and spawn amount of the current level.
 	 */
@@ -267,11 +287,7 @@ public class Game {
 		}
 
 		for(int i = 0; i < currentLevel.getSpawnAmount(); i++) {
-			int row = random.nextInt(GameState.ROW);
-			while(gameState.isRowDisabled(row)) {
-				row = random.nextInt(GameState.ROW);
-			}
-			gameState.addZombie(row);
+			gameState.addZombie(random.nextInt(GameState.ROW));
 		}
 	}
 
@@ -292,10 +308,7 @@ public class Game {
 
 		for(int row = 0; row < GameState.ROW; row++) {
 			for(int col = 0; col < GameState.COL; col++) {
-				if(gameState.isRowDisabled(row)) {
-					readOnly[row][col] = "X";
-					continue;
-				} else if(col == GameState.LAWN_MOWER) {
+				if(col == GameState.LAWN_MOWER) {
 					readOnly[row][col] = "L";
 					continue;
 				}
