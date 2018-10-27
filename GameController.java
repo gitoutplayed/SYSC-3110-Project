@@ -1,9 +1,13 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.util.Stack;
 
+
+/**
+ * This class represents the GameController.
+ * 
+ * @author Tamer Ibrahim 101032919
+ */
 public class GameController {
 
 	Game game;
@@ -16,6 +20,10 @@ public class GameController {
 	}
 
 
+	/**
+	 * starts a new game object. 
+	 * Checks for user's inputs and calls the appropriate methods
+	 */
 	public void start() {
 		game.loadLevel(1); 
 		game.start();
@@ -23,17 +31,13 @@ public class GameController {
 			BufferedReader reader= new BufferedReader(new InputStreamReader(System.in));
 
 			while(true) {
-				System.out.println("\n\n#####################################\n\n\nHere's the grid:");
+				System.out.println("\n\n#####################################\n\n\nThe current grid is:");
 				gameView.printGrid();
 
 				System.out.print("\nEnter command:  ");
 				String command = reader.readLine().toLowerCase().trim();
-				if (command.equals("restart")){
-					//restart();
-					break;
-				} 
 
-				else if (command.equals("buy plant")){
+				if (command.equals("buy plant")){
 					boolean plantAdded = buyPlant();
 					if(plantAdded) { System.out.println("Error, please try again."); }
 					break;
@@ -65,20 +69,14 @@ public class GameController {
 
 
 	/**
-	 * Print out some help information.
-	 * Here we print some stupid, cryptic message and a list of the 
-	 * command words.
+	 * Print out help information for each command.
+	 *
 	 */
 	public void printHelp() {
-		System.out.println("What do you need help with?");
+		System.out.println("\n 1. write buy plant to buy plants \n");
+		System.out.println(" 2. write quit to quite the game \n");
 	}
 
-
-
-
-	//public void restart () {
-	//return 
-	//}
 
 	/** 
 	 * "Quit" was entered. Check the rest of the command to see
@@ -96,7 +94,7 @@ public class GameController {
 		}
 
 		if(word.equals("quit")) {
-			System.out.println("Bye");
+			System.out.println("Quitting the game....");
 			return false;
 		}
 		else {
@@ -105,35 +103,32 @@ public class GameController {
 	}
 
 
-
-	public void cancel () {
-
-	}
-	//public String shop() {
-	//return shop.getShopPlants();
-	//}
-
+	/** 
+	 * "buy plant" was entered. Asks the user for the Plant's type, the row number and the column's number
+	 * @return true, if the plant type entered is , false otherwise.
+	 */
 
 	public boolean buyPlant() {
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	
+			
 			System.out.println("Enter Type");
+			
 			String type = reader.readLine();
-			PlantName name = PlantName.PeaShooter ;
-			PlantName name2= PlantName.SunFlower;
-			//TODO: convert the "type" to an actual PlantName object
+			PlantName name = PlantName.PeaShooter ; 
+			PlantName name2= PlantName.SunFlower;// convert name to a plantName type
+			
 
 			System.out.println("Enter ROW");
 			String xS = reader.readLine();
 			int row = Integer.parseInt(xS); //convert x and y to integers
-			
+
 			System.out.println("Enter COLUMN");
 			String yS = reader.readLine();
 			int column = Integer.parseInt(yS); //convert x and y to integers
-			
+
 			return game.buyPlant(name, row, column);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
