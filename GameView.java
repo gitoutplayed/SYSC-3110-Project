@@ -4,38 +4,39 @@ import javax.swing.JButton;
 
 public class GameView {
 
-	private  JButton grid [][];
-	private int currentTurn;
-	private Zombie currentZombie;
-	private int sunCounter;
-	private List <Plant> currentPlants;
-	private List <Zombie> currentZombies;
-	
-	public int getCurrentTurn() {
-		return currentTurn;
+	//	private  JButton grid [][];
+
+	private Game game; 
+
+	public GameView(Game game) {
+		this.game = game;
 	}
 
-public Zombie printZombie(){
-	return currentZombie;
-	
-}
 
-public void printPlants(){
-		System.out.println("Plants:"+ currentPlants);
-}
-public int getSunCounter(){
-	return sunCounter;
+
+	//	public String printZombie(){
+	//		
+	//	}
+
+	//	public void printPlants(){
+	//	}
+
+
+	public void printGrid(){
+		//loop through the state and print line by line
+		String[][] readOnly = game.getGrid();
+		for(int i = 0; i < readOnly.length; i++) {
+			for(int j = 0; j < readOnly[i].length; j++) {
+				System.out.print(readOnly[i][j]);
+			}	
+			System.out.println();
+		}
 	}
-public void printGrid(){
-	System.out.println(grid);
-	System.out.println(currentZombies);
-	System.out.println(currentPlants);
+
+	public void printShop(){
+		//		System.out.println(currentPlants );
+		//		System.out.println(sunCounter);
+	}
 }
 
-public void printShop(){
-	System.out.println(currentPlants );
-	System.out.println(sunCounter);
-}
-}
-	
 
