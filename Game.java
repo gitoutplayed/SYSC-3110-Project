@@ -40,7 +40,7 @@ public class Game {
 	public void start() {
 		if(!levelLoaded) {
 			return;
-		} else if(levelLoaded && !gameState.isLevelFinished()) {
+		} else if(gameState != null && levelLoaded && !gameState.isLevelFinished()) {
 			return;
 		}
 		
