@@ -336,7 +336,7 @@ public class Game {
 	 * 
 	 * @return the plants in the shop and their prices as a string
 	 */
-	public String getShopItems() {
+	public String getShopPlants() {
 		return shop.getShopPlants();
 	}
 

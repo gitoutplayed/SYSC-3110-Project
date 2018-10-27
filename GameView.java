@@ -61,7 +61,7 @@ public class GameView {
 	 * 
 	 */
 	public void printShop() {
-		String Printshop = game.getShopItems();
+		String Printshop = game.getShopPlants();
 		System.out.println("Shop: "); // Just adding a descriptive label. You can put any label you want.
 		System.out.println(Printshop);
 	}
