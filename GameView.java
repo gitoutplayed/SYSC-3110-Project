@@ -20,7 +20,7 @@ public class GameView {
 	 */
 	public void printCurrentTurn() {
 		int currentTurn= game.getTurnNumber();
-		System.out.println(currentTurn);
+		System.out.println("Turn: " + currentTurn); // Just adding a descriptive label. You can put any label you want.
 	}
 	/**
 	 * prints the sun counter.
@@ -29,7 +29,7 @@ public class GameView {
 	
 	public void prtinSunCounter() {
 		int sunCounter = game.getSunCounter();
-		System.out.println(sunCounter);
+		System.out.println("Sun Counter: " + sunCounter); // Just adding a descriptive label. You can put any label you want.
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class GameView {
 	 */
 	public void printZombie() {
 		String zombieType = game.getAvailableZombies();
-		System.out.println(zombieType);
+		System.out.println("Zombies: " + zombieType); // Just adding a descriptive label. You can put any label you want.
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class GameView {
 		String[][] readOnly = game.getGrid();
 		for (int i = 0; i < readOnly.length; i++) {
 			for (int j = 0; j < readOnly[i].length; j++) {
-				System.out.print(readOnly[i][j]);
+				System.out.print(readOnly[i][j] + " ");
 			}
 			System.out.println();
 		}
@@ -62,6 +62,31 @@ public class GameView {
 	 */
 	public void printShop() {
 		String Printshop = game.getShopItems();
+		System.out.println("Shop: "); // Just adding a descriptive label. You can put any label you want.
 		System.out.println(Printshop);
+	}
+	
+	/**
+	 * Prints the total number of zombies that will appear in this game.
+	 */
+	public void printTotalNumberOfZombies() {
+		int total = game.getTotalNumberOfZombies();
+		System.out.println("Total number of zombies: " + total);
+	}
+	
+	/**
+	 * Prints the number of zombies are pending
+	 */
+	public void printNumberOfPendingZombies() {
+		int pending = game.getNumberOfZombiesPending();
+		System.out.println("Number of zombies pending: " + pending);
+	}
+	
+	/**
+	 * Prints the number of zombies of left.
+	 */
+	public void printNumberOfZombiesLeft() {
+		int left = game.getNumberOfZombiesLeft(); 
+		System.out.println("Number of zombies left: "+ left);
 	}
 }
