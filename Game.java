@@ -304,7 +304,7 @@ public class Game {
 
 		for(int row = 0; row < GameState.ROW; row++) {
 			for(int col = 0; col < GameState.COL; col++) {
-				if(col == GameState.LAWN_MOWER) {
+				if(col == GameState.LAWN_MOWER && !gameState.isRowCleared(row)) {
 					readOnly[row][col] = "L";
 					continue;
 				}
