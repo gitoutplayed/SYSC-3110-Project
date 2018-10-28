@@ -45,3 +45,4 @@
 ## Know Issues
 
 ## Roadmap
+* More plants will be added in the future. Each will have special effects that make them stand out. This will lead to additional subclasses of Plant being made, some fields added to class Plant, and the PlantFactory class slightly modified to handle other plants.
