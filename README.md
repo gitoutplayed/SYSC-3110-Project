@@ -53,7 +53,7 @@ There are no known issues.
 There will more status aliments caused by plants in the future, so more methods will be created to enable those debuffs in Zombie
 
 ### Tiles
-* There is potentially more TileTypes that can prevent the player from planting, so methods will be incldued for that potential
+* There is potentially more TileTypes that can prevent the player from planting, so methods will be included for that potential
 
 ### Plants
 * More plants will be added in the future. Each will have special effects that make them stand out. This will lead to additional subclasses of Plant being made, some fields added to class Plant, and the PlantFactory class slightly modified to handle other plants.
