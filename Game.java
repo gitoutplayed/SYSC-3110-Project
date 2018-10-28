@@ -69,7 +69,7 @@ public class Game {
 			return;
 		}
 		
-		shop.reduceCoolDown();
+		shop.reduceCooldowns();
 		
 		gameState.nextTurn();
 

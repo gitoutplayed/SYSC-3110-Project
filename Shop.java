@@ -13,7 +13,7 @@ import java.util.Set;
 public class Shop {
 	private Map<PlantName, Integer> shop;
 	private Map<PlantName, Integer> cooldowns;
-	private Map<PlantName, Integer> currentCoolDowns;
+	private Map<PlantName, Integer> currentCooldowns;
 	
 	/**
 	 * Creates a new shop.
@@ -21,7 +21,7 @@ public class Shop {
 	public Shop() {
 		shop = new HashMap<PlantName, Integer>();
 		cooldowns = new HashMap<PlantName, Integer>();
-		currentCoolDowns = new HashMap<PlantName, Integer>();
+		currentCooldowns = new HashMap<PlantName, Integer>();
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class Shop {
 			Plant plant = PlantFactory.createPlant(p);
 			shop.putIfAbsent(p, plant.getPrice());
 			cooldowns.putIfAbsent(p, plant.getCooldown());
-			currentCoolDowns.putIfAbsent(p, 0);
+			currentCooldowns.putIfAbsent(p, 0);
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class Shop {
 		StringBuilder sb = new StringBuilder();
 
 		for(PlantName p : shop.keySet()) {
-			sb.append(p.name() + " " + shop.get(p) + "(Cooldown: " + currentCoolDowns.get(p) + " turn(s) left)" + '\n');
+			sb.append(p.name() + " " + shop.get(p) + "(Cooldown: " + currentCooldowns.get(p) + " turn(s) left)" + '\n');
 		}
 
 		return sb.toString();
@@ -66,11 +66,11 @@ public class Shop {
 			return null;
 		} else if(sunCounter < shop.get(plant)) {
 			return null;
-		} else if(currentCoolDowns.get(plant) > 0) {
+		} else if(currentCooldowns.get(plant) > 0) {
 			return null;
 		}
 		
-		currentCoolDowns.put(plant, cooldowns.get(plant));
+		currentCooldowns.put(plant, cooldowns.get(plant));
 
 		return PlantFactory.createPlant(plant);
 	}
@@ -78,11 +78,11 @@ public class Shop {
 	/**
 	 * Reduces the cooldowns for purchasing plants.
 	 */
-	public void reduceCoolDown() {
-		for(PlantName p : currentCoolDowns.keySet()) {
-			int cooldown = currentCoolDowns.get(p);
+	public void reduceCooldowns() {
+		for(PlantName p : currentCooldowns.keySet()) {
+			int cooldown = currentCooldowns.get(p);
 			if(cooldown > 0) {
-				currentCoolDowns.put(p, cooldown - 1);
+				currentCooldowns.put(p, cooldown - 1);
 			}
 		}
 	}
