@@ -211,6 +211,8 @@ public class GameState {
 	/**
 	 * Returns true if the specified row has been cleared or false otherwise.
 	 * 
+	 * @param row the row to check
+	 * 
 	 * @return true if the specified row has been cleared or false otherwise
 	 */
 	public boolean isRowCleared(int row) {

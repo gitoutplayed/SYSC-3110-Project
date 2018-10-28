@@ -19,6 +19,7 @@ abstract public class Zombie {
 	 * @param movementSpeed the zombie's movement speed
 	 * @param damage the zombie's damage
 	 * @param health the zombie's health
+	 * @param atkRange the zombie's attack range
 	 * @param zombieType the zombie's type
 	 */
 	public Zombie(int movementSpeed, int damage, int health, int atkRange, ZombieTypes zombieType) {
