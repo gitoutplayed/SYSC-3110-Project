@@ -4,12 +4,13 @@
  * All specific plants must have constant values set for all fields of this class.
  * 
  * @author Souheil Yazji 101007994
+ * @version Oct 29th
  *
  */
 public abstract class Plant {
 	
 	private PlantName name;
-	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y;
+	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y, cooldown;
 	
 	/**
 	 * Plant's constructor method
@@ -18,7 +19,7 @@ public abstract class Plant {
 	 * @param price
 	 * @param health
 	 */
-	public Plant(PlantName name, int price, int health, int damage, int resrc_gen, int atkRange_X, int atkRange_Y) {
+	public Plant(PlantName name, int price, int health, int damage, int resrc_gen, int atkRange_X, int atkRange_Y, int cooldown) {
 		this.name = name;
 		this.price = price;
 		this.health = health;
@@ -26,6 +27,7 @@ public abstract class Plant {
 		this.resrc_gen = resrc_gen;
 		this.atkRange_X = atkRange_X;
 		this.atkRange_Y = atkRange_Y;
+		this.cooldown = cooldown;
 	}
 	
 	/**
@@ -105,8 +107,8 @@ public abstract class Plant {
 	 * 
 	 * @param Resrc_gen
 	 */
-	public void setResrc_gen(int Resrc_gen) {
-		this.resrc_gen = Resrc_gen;
+	public void setResrc_gen(int resrc_gen) {
+		this.resrc_gen = resrc_gen;
 	}
 	
 	/**
@@ -188,5 +190,14 @@ public abstract class Plant {
 	 */
 	public void takeDmg(int dmg) {
 		health = health - dmg;
+	}
+	
+	/**
+	 * get the plant purchase cooldown turn timer
+	 * 
+	 * @return int cooldown
+	 */
+	public int getCooldown() {
+		return cooldown;
 	}
 }
