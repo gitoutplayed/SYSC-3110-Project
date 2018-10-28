@@ -11,7 +11,7 @@ import java.util.Set;
  * etc.  
  * 
  * @author Michael Fan 101029934
- * @version Oct 25, 2018
+ * @version Oct 28, 2018
  */
 
 public class GameState {
@@ -42,7 +42,7 @@ public class GameState {
 			}
 		}
 
-		sunCounter = 0;
+		sunCounter = 50;
 		levelFinished = false;
 		turnNumber = 1;
 		totalNumberOfZombies = 0;
