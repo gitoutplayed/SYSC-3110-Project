@@ -11,8 +11,6 @@
 * LevelManager.java
 * Shop.java
 
-#### Choices of Data Structures:
-
 ### Hoang Bui
 * Tile.java
 * Zombie.java
