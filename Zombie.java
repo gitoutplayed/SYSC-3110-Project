@@ -16,10 +16,10 @@ abstract public class Zombie {
 	
 	/**
 	 * Constructor method for class Zombie
-	 * @param movementSpeed
-	 * @param damage
-	 * @param health
-	 * @param zombieType
+	 * @param movementSpeed the zombie's movement speed
+	 * @param damage the zombie's damage
+	 * @param health the zombie's health
+	 * @param zombieType the zombie's type
 	 */
 	public Zombie(int movementSpeed, int damage, int health, int atkRange, ZombieTypes zombieType) {
 		this.damage = damage;
