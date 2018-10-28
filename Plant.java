@@ -105,7 +105,7 @@ public abstract class Plant {
 	/**
 	 * set the plant's resource generation rate
 	 * 
-	 * @param Resrc_gen
+	 * @param resrc_gen
 	 */
 	public void setResrc_gen(int resrc_gen) {
 		this.resrc_gen = resrc_gen;
@@ -123,7 +123,7 @@ public abstract class Plant {
 	/**
 	 * check if the plant can attack
 	 * 
-	 * @return true if damage > 0, false otherwise
+	 * @return true if damage is greater than 0, false otherwise
 	 */
 	public boolean canAttack() {
 		return damage > 0;
@@ -132,7 +132,7 @@ public abstract class Plant {
 	/**
 	 * check if the plant can generate resource
 	 * 
-	 * @return true if resrc_gen > 0, false otherwise
+	 * @return true if resrc_gen is greater than 0, false otherwise
 	 */
 	public boolean canResrc_gen() {
 		return resrc_gen > 0;
@@ -141,7 +141,7 @@ public abstract class Plant {
 	/**
 	 * used for implementation of area of effect attacks
 	 * 
-	 * @param x
+	 * @param atkRange_X
 	 */
 	public void setAtkRange_X(int atkRange_X) {
 		this.atkRange_X = atkRange_X;
@@ -150,7 +150,7 @@ public abstract class Plant {
 	/**
 	 * used for implementation of area of effect attacks
 	 * 
-	 * @param y
+	 * @param atkRange_Y
 	 */
 	public void setAtkRange_Y(int atkRange_Y) {
 		this.atkRange_Y = atkRange_Y;

@@ -57,7 +57,7 @@ public class Shop {
 	 * Purchase a plant.
 	 * 
 	 * @param plant the plant to be purchased
-	 * @param sunCounterthe current amount of sun counter
+	 * @param sunCounter the current amount of sun counter
 	 * 
 	 * @return the purchased plant if purchased successfully or false otherwise
 	 */
