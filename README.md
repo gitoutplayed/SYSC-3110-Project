@@ -1,4 +1,4 @@
-# SYSC-3110-Project
+# Zombies vs Plants
 
 ### Repository: https://github.com/gitoutplayed/SYSC-3110-Project
 
