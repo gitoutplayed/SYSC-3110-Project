@@ -1,5 +1,7 @@
 # SYSC-3110-Project
 
+### Repository: https://github.com/gitoutplayed/SYSC-3110-Project
+
 ### Authors: Michael Fan, Hoang Bui, Souheil Yazji, Tamer Ibrahim
 
 # Milestone 1
