@@ -80,7 +80,7 @@ public class Level {
 	/**
 	 * Sets the base amount of sun gain.
 	 * 
-	 * @param sunCounterGain the base amount of sun gain
+	 * @param sunGain the base amount of sun gain
 	 */
 	public void setBaseSunGain(int sunGain) {
 		this.baseSunGain = sunGain;

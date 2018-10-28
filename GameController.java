@@ -166,9 +166,9 @@ public class GameController {
 	}
 
 	/**
-	 * shovels a plant
+	 * Shovels a plant.
 	 * 
-	 * @param args
+	 * @return true if shoveled successfully or false otherwise
 	 */
 	public boolean shovel() {
 		try {

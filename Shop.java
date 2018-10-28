@@ -7,17 +7,21 @@ import java.util.Set;
  * The plants that appear in the shop depends on the level.
  *
  * @author Michael Fan 101029934
- * @version Oct 25, 2018
+ * @version Oct 28, 2018
  */
 
 public class Shop {
 	private Map<PlantName, Integer> shop;
+	private Map<PlantName, Integer> cooldowns;
+	private Map<PlantName, Integer> currentCooldowns;
 	
 	/**
 	 * Creates a new shop.
 	 */
 	public Shop() {
 		shop = new HashMap<PlantName, Integer>();
+		cooldowns = new HashMap<PlantName, Integer>();
+		currentCooldowns = new HashMap<PlantName, Integer>();
 	}
 	
 	/**
@@ -28,7 +32,9 @@ public class Shop {
 	public void addPlants(Set<PlantName> plants) {
 		for(PlantName p : plants) {
 			Plant plant = PlantFactory.createPlant(p);
-			this.shop.putIfAbsent(p, plant.getPrice());
+			shop.putIfAbsent(p, plant.getPrice());
+			cooldowns.putIfAbsent(p, plant.getCooldown());
+			currentCooldowns.putIfAbsent(p, 0);
 		}
 	}
 	
@@ -41,7 +47,7 @@ public class Shop {
 		StringBuilder sb = new StringBuilder();
 
 		for(PlantName p : shop.keySet()) {
-			sb.append(p.name() + " " + shop.get(p) + '\n');
+			sb.append(p.name() + " " + shop.get(p) + "(Cooldown: " + currentCooldowns.get(p) + " turn(s) left)" + '\n');
 		}
 
 		return sb.toString();
@@ -51,21 +57,33 @@ public class Shop {
 	 * Purchase a plant.
 	 * 
 	 * @param plant the plant to be purchased
-	 * @param sunCounterthe current amount of sun counter
+	 * @param sunCounter the current amount of sun counter
 	 * 
 	 * @return the purchased plant if purchased successfully or false otherwise
 	 */
 	public Plant purchase(PlantName plant, int sunCounter) {
 		if(!shop.containsKey(plant)) {
 			return null;
-		}
-
-		Plant newPlant = PlantFactory.createPlant(plant);
-
-		if(sunCounter < shop.get(plant)) {
+		} else if(sunCounter < shop.get(plant)) {
+			return null;
+		} else if(currentCooldowns.get(plant) > 0) {
 			return null;
 		}
+		
+		currentCooldowns.put(plant, cooldowns.get(plant));
 
-		return newPlant;
+		return PlantFactory.createPlant(plant);
+	}
+	
+	/**
+	 * Reduces the cooldowns for purchasing plants.
+	 */
+	public void reduceCooldowns() {
+		for(PlantName p : currentCooldowns.keySet()) {
+			int cooldown = currentCooldowns.get(p);
+			if(cooldown > 0) {
+				currentCooldowns.put(p, cooldown - 1);
+			}
+		}
 	}
 }

@@ -6,7 +6,7 @@ import java.util.Random;
  * This class represents the Game. All gameplay related logic is here.
  * 
  * @author Michael Fan 101029934
- * @version Oct 25, 2018
+ * @version Oct 28, 2018
  */
 
 public class Game {
@@ -68,7 +68,9 @@ public class Game {
 			levelLoaded = false;
 			return;
 		}
-
+		
+		shop.reduceCooldowns();
+		
 		gameState.nextTurn();
 
 	}

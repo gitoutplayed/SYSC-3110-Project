@@ -1,4 +1,6 @@
-# SYSC-3110-Project
+# Zombies vs Plants
+
+### Repository: https://github.com/gitoutplayed/SYSC-3110-Project
 
 ### Authors: Michael Fan, Hoang Bui, Souheil Yazji, Tamer Ibrahim
 
