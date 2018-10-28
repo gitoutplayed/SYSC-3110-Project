@@ -15,9 +15,15 @@ public abstract class Plant {
 	/**
 	 * Plant's constructor method
 	 * 
-	 * @param name
-	 * @param price
-	 * @param health
+	 * @param name ENUM name of the plant to be created
+	 * @param price the cost of the plant in Sun points
+	 * @param health the health of the plant
+	 * @param damage the plant's damage output per turn
+	 * @param resrc_gen the plant's Sun point generation rate per turn
+	 * @param atkRange_X the plant's attack range in the X axis
+	 * @param atkRange_Y the plant's attack range in the Y axis
+	 * @param cooldown the plant's purchase cooldown in turns
+	 *  
 	 */
 	public Plant(PlantName name, int price, int health, int damage, int resrc_gen, int atkRange_X, int atkRange_Y, int cooldown) {
 		this.name = name;
@@ -33,7 +39,7 @@ public abstract class Plant {
 	/**
 	 * Set the name of the plant
 	 * 
-	 * @param name
+	 * @param name ENUM name of the plant to be created
 	 */
 	public void setName(PlantName name) {
 		this.name = name;
@@ -51,7 +57,7 @@ public abstract class Plant {
 	/**
 	 * Set the plant's price
 	 * 
-	 * @param price
+	 * @param price the cost of the plant in Sun points
 	 */
 	public void setPrice(int price) {
 		this.price = price;
@@ -60,7 +66,7 @@ public abstract class Plant {
 	/**
 	 * Get the plant's price
 	 * 
-	 * @return price
+	 * @return price the cost of the plant in Sun points
 	 */
 	public int getPrice() {
 		return price;
@@ -69,7 +75,7 @@ public abstract class Plant {
 	/**
 	 * set the plant's health
 	 * 
-	 * @param health
+	 * @param health the health of the plant
 	 */
 	public void setHealth(int health) {
 		this.health = health;
@@ -78,7 +84,7 @@ public abstract class Plant {
 	/**
 	 * get the plant's health
 	 * 
-	 * @return health
+	 * @return health the health of the plant
 	 */
 	public int getHealth() {
 		return health;
@@ -87,7 +93,7 @@ public abstract class Plant {
 	/**
 	 * set the plant's damage
 	 * 
-	 * @param damage
+	 * @param damage the plant's damage output per turn
 	 */
 	public void setDamage(int damage) {
 		this.damage = damage;
@@ -96,7 +102,7 @@ public abstract class Plant {
 	/**
 	 * get the plant's damage
 	 * 
-	 * @return damage
+	 * @return damage the plant's damage output per turn
 	 */
 	public int getDamage() {
 		return damage;
@@ -105,7 +111,7 @@ public abstract class Plant {
 	/**
 	 * set the plant's resource generation rate
 	 * 
-	 * @param resrc_gen
+	 * @param resrc_gen the plant's Sun point generation rate per turn
 	 */
 	public void setResrc_gen(int resrc_gen) {
 		this.resrc_gen = resrc_gen;
@@ -114,7 +120,7 @@ public abstract class Plant {
 	/**
 	 * get the plant's resource generation rate
 	 * 
-	 * @return resrc_gen
+	 * @return resrc_gen the plant's Sun point generation rate per turn
 	 */
 	public int getResrc_gen() {
 		return resrc_gen;
@@ -141,7 +147,7 @@ public abstract class Plant {
 	/**
 	 * used for implementation of area of effect attacks
 	 * 
-	 * @param atkRange_X
+	 * @param atkRange_X the plant's attack range in the X axis
 	 */
 	public void setAtkRange_X(int atkRange_X) {
 		this.atkRange_X = atkRange_X;
@@ -150,7 +156,7 @@ public abstract class Plant {
 	/**
 	 * used for implementation of area of effect attacks
 	 * 
-	 * @param atkRange_Y
+	 * @param atkRange_Y the plant's attack range in the Y axis
 	 */
 	public void setAtkRange_Y(int atkRange_Y) {
 		this.atkRange_Y = atkRange_Y;
@@ -159,7 +165,7 @@ public abstract class Plant {
 	/**
 	 * used for implementation of area of effect attacks
 	 * 
-	 * @return int atkRange_X
+	 * @return atkRange_X the plant's attack range in the X axis
 	 */
 	public int getAtkRange_X() {
 		return atkRange_X;
@@ -168,7 +174,7 @@ public abstract class Plant {
 	/**
 	 * used for implementation of area of effect attacks
 	 * 
-	 * @return int atkRange_Y
+	 * @return atkRange_Y the plant's attack range in the Y axis
 	 */
 	public int getAtkRange_Y() {
 		return atkRange_Y;
@@ -177,7 +183,7 @@ public abstract class Plant {
 	/**
 	 * check if the plant is dead
 	 * 
-	 * @return health of the plant
+	 * @return true if the plant's health is less than or equal to 0, false otherwise
 	 */
 	public boolean isDead() {
 		return health<=0;
@@ -186,7 +192,7 @@ public abstract class Plant {
 	/**
 	 * calculate the health of the plant upon taking damage
 	 * 
-	 * @param dmg
+	 * @param dmg the damage the plant has received
 	 */
 	public void takeDmg(int dmg) {
 		health = health - dmg;
@@ -195,7 +201,7 @@ public abstract class Plant {
 	/**
 	 * get the plant purchase cooldown turn timer
 	 * 
-	 * @return int cooldown
+	 * @return cooldown the plant's purchase cooldown in turns
 	 */
 	public int getCooldown() {
 		return cooldown;
