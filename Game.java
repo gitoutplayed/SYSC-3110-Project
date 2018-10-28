@@ -57,10 +57,8 @@ public class Game {
 			return;
 		}
 
-		// Spawn new zombies
 		spawnZombies();
 
-		// Gain base sun
 		gainBaseSun();
 
 		action();

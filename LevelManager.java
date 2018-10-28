@@ -2,7 +2,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This class represents the LevelManager.
+ * This class represents the LevelManager. The level manager handles level
+ * loading. 
  * 
  * @author Michael Fan 101029934
  * @version Oct 25, 2018

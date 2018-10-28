@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This is class represents a GameState.
+ * This class represents the GameState. The state includes information about the 
+ * current level. It includes information like grid, sun counter, pending zombies and 
+ * etc.  
  * 
  * @author Michael Fan 101029934
  * @version Oct 25, 2018

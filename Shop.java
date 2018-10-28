@@ -3,8 +3,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class represents the Shop. The shop that appear in the shop depends on
- * the level.
+ * This class represents the Shop. The shop manages the purchasing of plants. 
+ * The plants that appear in the shop depends on the level.
  *
  * @author Michael Fan 101029934
  * @version Oct 25, 2018

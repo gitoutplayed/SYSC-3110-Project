@@ -4,7 +4,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class represents a Level.
+ * This class represents a Level. A level has plants(the name of the plants that are available to purchase),
+ * zombies(the name of the zombies that will appear), base sun gain(the base amount of sun gain),
+ *  spawn rate(how fast are zombies spawning) and spawn amonut(how many per spawn).
  * 
  * @author Michael Fan 101029934
  * @version Oct 25, 2018
