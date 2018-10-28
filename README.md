@@ -1,6 +1,6 @@
 # SYSC-3110-Project
 
-Authors: Michael Fan, Hoang Bui, Souheil Yazji, Tamer Ibrahim
+### Authors: Michael Fan, Hoang Bui, Souheil Yazji, Tamer Ibrahim
 
 # Milestone 1
 
