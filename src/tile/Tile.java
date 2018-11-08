@@ -1,5 +1,9 @@
+package tile;
 import java.util.ArrayList;
 import java.util.List;
+
+import plant.Plant;
+import zombie.Zombie;
 
 public class Tile {
 	private Plant residingPlant;
@@ -17,7 +21,7 @@ public class Tile {
 	
 	/**
 	 * Constructor method to create a tile with a specified tile type
-	 * @param tileType; the type of tile
+	 * @param tileType the type of tile
 	 */
 	public Tile(TileTypes tileType) {
 		this.residingPlant = null;
@@ -27,8 +31,8 @@ public class Tile {
 	
 	/**
 	 * Constructor method to create a tile with a plant already residing on it (Used for special levels)
-	 * @param tileType; the type of tile
-	 * @param residingPlant; The plant that will reside in the tile
+	 * @param tileType the type of tile
+	 * @param residingPlant The plant that will reside in the tile
 	 */
 	public Tile(Plant residingPlant, TileTypes tileType) {
 		this.residingPlant = residingPlant;
@@ -38,7 +42,7 @@ public class Tile {
 	
 	/**
 	 * Getter method to get the residing plant
-	 * @return this.residingPlant; the plant residing in the tile
+	 * @return the plant residing in the tile
 	 */
 	public Plant getResidingPlant() {
 		return this.residingPlant;
@@ -46,7 +50,7 @@ public class Tile {
 	
 	/**
 	 * Setter method to set the residing plant
-	 * @param residingPlant; the plant that will reside in the tile
+	 * @param residingPlant the plant that will reside in the tile
 	 */
 	public void setResidingPlant(Plant residingPlant) {
 		this.residingPlant = residingPlant;
@@ -54,7 +58,7 @@ public class Tile {
 	
 	/**
 	 * Getter method to get the type of the tile
-	 * @return this.tileType; the type of the tile
+	 * @return the type of the tile
 	 */
 	public TileTypes getTileType() {
 		return this.tileType;
@@ -62,7 +66,7 @@ public class Tile {
 	
 	/**
 	 * Setter method to set the type of the tile
-	 * @param tileType; the new type of tile
+	 * @param tileType the new type of tile
 	 */
 	public void setResidingPlant(TileTypes tileType) {
 		this.tileType = tileType;
@@ -70,7 +74,7 @@ public class Tile {
 	
 	/**
 	 * Getter method to obtain the list of zombies on the tile
-	 * @return this.residingZombie; the list of zombies on the tile
+	 * @return the list of zombies on the tile
 	 */
 	public List<Zombie> getResidingZombie() {
 		return this.residingZombie;
@@ -85,7 +89,7 @@ public class Tile {
 	
 	/**
 	 * Method to add a new zombie in the zombie list
-	 * @param zombie; the new zombie on the tile
+	 * @param zombie the new zombie on the tile
 	 */
 	public void addZombie(Zombie zombie) {
 		residingZombie.add(zombie);
@@ -93,7 +97,7 @@ public class Tile {
 	
 	/**
 	 * Method to remove a zombie from the zombie list
-	 * @param zombie; the zombie to remove
+	 * @param zombie the zombie to remove
 	 */
 	public void removeZombie(Zombie zombie) {
 		residingZombie.remove(zombie);
@@ -101,7 +105,7 @@ public class Tile {
 	
 	/**
 	 * Method to determine which zombie is in front of the other zombies
-	 * @return frontZombie; returns null if there are no zombies on the tile, returns the front zombie
+	 * @return null if there are no zombies on the tile, returns the front zombie
 	 */
 	public Zombie getFirstZombie() {
 		Zombie frontZombie = null;
@@ -120,7 +124,7 @@ public class Tile {
 	
 	/**
 	 * Method to determine if there is a plant on the tile
-	 * @return ; true if there is a plant, false if there isn't
+	 * @return true if there is a plant, false if there isn't
 	 */
 	public boolean hasPlant() {
 		if(this.residingPlant != null) {
@@ -131,7 +135,7 @@ public class Tile {
 	
 	/**
 	 * Method to determine if there is a plant on the tile
-	 * @return ; true if there is a zombie or more, false if there are none
+	 * @return true if there is a zombie or more, false if there are none
 	 */
 	public boolean hasZombie() {
 		if(!(this.residingZombie.isEmpty())) {
@@ -148,7 +152,7 @@ public class Tile {
 	}
 	/**
 	 * Method to check if the tile is empty
-	 * @return !hasPlant() && !hasZombie(); check if there are no plants and no zombies
+	 * @return true if there are no plants and no zombies
 	 */
 	public boolean isEmpty() {
 		return !hasPlant() && !hasZombie();

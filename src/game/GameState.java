@@ -1,3 +1,4 @@
+package game;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -5,11 +6,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import plant.Plant;
+import tile.Tile;
+import tile.TileTypes;
+import zombie.Zombie;
+import zombie.ZombieFactory;
+import zombie.ZombieTypes;
+
 /**
- * This is class represents a GameState.
+ * This class represents the GameState. The state includes information about the
+ * current level. It includes information like grid, sun counter, pending
+ * zombies and etc.
  * 
  * @author Michael Fan 101029934
- * @version Oct 25, 2018
+ * @version Nov 7, 2018
  */
 
 public class GameState {
@@ -28,6 +38,7 @@ public class GameState {
 	public static int LAST = 9;
 	public static int ZOMBIE_SPAWN = 10;
 	public static int LAWN_MOWER = 0;
+	public static int ROAD = 11;
 
 	/**
 	 * Constructs a new GameState.
@@ -36,11 +47,20 @@ public class GameState {
 		grid = new Tile[ROW][COL];
 		for(int row = 0; row < GameState.ROW; row++) {
 			for(int col = 0; col < GameState.COL; col++) {
-				grid[row][col] = new Tile();
+				TileTypes tileType;
+				if(col == LAWN_MOWER) {
+					tileType = TileTypes.LAWNMOWER;
+				} else if(col == ZOMBIE_SPAWN) {
+					tileType = TileTypes.ZOMBIE_SPAWN;
+				} else {
+					tileType = TileTypes.GRASS;
+				}
+
+				grid[row][col] = new Tile(tileType);
 			}
 		}
 
-		sunCounter = 0;
+		sunCounter = 50;
 		levelFinished = false;
 		turnNumber = 1;
 		totalNumberOfZombies = 0;
@@ -155,30 +175,31 @@ public class GameState {
 	public void spendSun(int spent) {
 		sunCounter -= spent;
 	}
-	
+
 	/**
 	 * Finishes the current level.
 	 */
 	public void levelFinished() {
 		levelFinished = true;
 	}
-	
+
 	/**
 	 * Only one zombie died so the number of zombies left is decreased by 1.
 	 */
 	public void zombieDied() {
 		numberOfZombiesLeft--;
 	}
-	
+
 	/**
-	 * More than one zombie is dead so the number of zombies left are decreased by the specified amount.
+	 * More than one zombie is dead so the number of zombies left are decreased by
+	 * the specified amount.
 	 * 
 	 * @param amount the amount zombies that are dead
 	 */
 	public void zombieDied(int amount) {
 		numberOfZombiesLeft -= amount;
 	}
-	
+
 	/**
 	 * Returns the number of zombies left.
 	 * 
@@ -187,16 +208,17 @@ public class GameState {
 	public int getNumberOfZombiesLeft() {
 		return numberOfZombiesLeft;
 	}
-	
+
 	/**
-	 * Returns the total number of zombies. This number is persistent throughout a level.
+	 * Returns the total number of zombies. This number is persistent throughout a
+	 * level.
 	 * 
 	 * @return the total number of zombies
 	 */
 	public int getTotalNumberOfZombies() {
 		return totalNumberOfZombies;
 	}
-	
+
 	/**
 	 * Adds a row that has been cleared.
 	 * 
@@ -205,9 +227,11 @@ public class GameState {
 	public void addClearedRow(int row) {
 		clearedRow.add(row);
 	}
-	
+
 	/**
 	 * Returns true if the specified row has been cleared or false otherwise.
+	 * 
+	 * @param row the row to check
 	 * 
 	 * @return true if the specified row has been cleared or false otherwise
 	 */

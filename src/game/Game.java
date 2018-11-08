@@ -1,12 +1,21 @@
+package game;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import plant.Plant;
+import plant.PlantName;
+import tile.Tile;
+import ui.GameEvent;
+import ui.GameListener;
+import zombie.Zombie;
+import zombie.ZombieTypes;
 
 /**
  * This class represents the Game. All gameplay related logic is here.
  * 
  * @author Michael Fan 101029934
- * @version Oct 25, 2018
+ * @version Oct 28, 2018
  */
 
 public class Game {
@@ -14,19 +23,25 @@ public class Game {
 	private LevelManager levelManager;
 	private GameState gameState;
 	private Level currentLevel;
+	private PlantName selectedPlant;
 
 	public static Random random = new Random();
 
 	private boolean levelLoaded;
 
+	private GameListener gameListener;
+
 	/**
 	 * Creates a new game.
 	 */
-	public Game() {
+	public Game(GameListener gameListener) {
 		shop = new Shop();
 		levelManager = new LevelManager();
 
 		levelLoaded = false;
+		selectedPlant = null;
+
+		this.gameListener = gameListener;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,18 +49,29 @@ public class Game {
 
 	/**
 	 * Starts the current level. Call this method after a level is loaded. Calling
-	 * this method before a level is loaded or the current level is not finished,
-	 * will have no effect.
+	 * this method before a level is loaded will have no effect. Calling this method
+	 * when the current level is not done will cause the current level to restart.
 	 */
 	public void start() {
+		GameEvent gameEvent = new GameEvent(this);
+
 		if(!levelLoaded) {
-			return;
-		} else if(gameState != null && levelLoaded && !gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level not loaded");
+			gameListener.gameStarted(gameEvent);
 			return;
 		}
+
+		if(gameState != null && levelLoaded && !gameState.isLevelFinished()) {
+			gameEvent.setSuccess(true).setMessage("Level will be restarted");
+		} else {
+			gameEvent.setSuccess(true).setMessage("Level Started");
+		}
+
 		gameState = new GameState();
 		gameState.addPendingZombies(currentLevel.getZombies());
 		shop.addPlants(currentLevel.getPlants());
+
+		gameListener.gameStarted(gameEvent);
 	}
 
 	/**
@@ -53,14 +79,16 @@ public class Game {
 	 * then calling this method will have no effect.
 	 */
 	public void endTurn() {
+		GameEvent gameEvent = new GameEvent(this);
+		
 		if(gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level aready finished");
+			gameListener.turnEnded(gameEvent);
 			return;
 		}
 
-		// Spawn new zombies
 		spawnZombies();
 
-		// Gain base sun
 		gainBaseSun();
 
 		action();
@@ -68,43 +96,61 @@ public class Game {
 		if(isLevelDone()) {
 			gameState.levelFinished();
 			levelLoaded = false;
+			
+			gameEvent.setSuccess(true).setMessage("Level completed");
+			gameListener.levelFinished(gameEvent);
 			return;
 		}
 
-		gameState.nextTurn();
+		shop.reduceCooldowns();
 
+		gameState.nextTurn();
+		
+		gameEvent.setSuccess(true);
+		gameListener.turnEnded(gameEvent);
 	}
 
 	/**
 	 * Buys a plant and plant in the grid. Returns true if a plant is purchased and
 	 * planted successfully or false otherwise.
 	 * 
-	 * @param plant the name(PlantName) of the plant
 	 * @param row the row in the grid
 	 * @param col the column in the grid
-	 * 
-	 * @return true if a plant is purchased and planted successfully or false
-	 *         otherwise
 	 */
-	public boolean buyPlant(PlantName plant, int row, int col) {
-		Plant newPlant = shop.purchase(plant, gameState.getSunCounter());
-
-		if(gameState.isLevelFinished()) {
-			return false;
-		} else if(newPlant == null) {
-			return false;
-		} else if(row < 0 || row >= GameState.ROW) {
-			return false;
-		} else if(col < GameState.FIRST || col > GameState.LAST) {
-			return false;
-		} else if(!gameState.getGrid()[row][col].isEmpty()) {
-			return false;
+	public void buyPlant(int row, int col) {
+		if(selectedPlant == null) {
+			return;
 		}
-
+		
+		Plant newPlant = shop.purchase(selectedPlant, gameState.getSunCounter());
+		
+		GameEvent gameEvent = new GameEvent(this);
+		
+		if(gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level already finished");
+			gameListener.plantBought(gameEvent);
+			return;
+		} else if(newPlant == null) {
+			gameEvent.setSuccess(false).setMessage("Cannot purchase the plant (The plant is on cooldown or insuffcient sun counter");
+			gameListener.plantBought(gameEvent);
+			return;
+		} else if(row < 0 || row >= GameState.ROW) {
+			// Call to event method will an error message
+			return;
+		} else if(col < GameState.FIRST || col > GameState.LAST) {
+			// Call to event method will an error message
+			return;
+		} else if(!gameState.getGrid()[row][col].isEmpty()) {
+			// Call to event method will an error message
+			return;
+		}
+		
+		selectedPlant = null;
 		gameState.addPlant(newPlant, row, col);
 		gameState.spendSun(newPlant.getPrice());
-
-		return true;
+		
+		gameEvent.setSuccess(true);
+		gameListener.plantBought(gameEvent);
 	}
 
 	/**
@@ -113,33 +159,37 @@ public class Game {
 	 * 
 	 * @param row the row of the plant that is to be removed
 	 * @param col the column of the the plant that is to be removed
-	 * 
-	 * @return true if the plant is removed successfully or false otherwise
 	 */
-	public boolean shovel(int row, int col) {
+	public void shovel(int row, int col) {
+		GameEvent gameEvent = new GameEvent(this);
+		
 		if(gameState.isLevelFinished()) {
-			return false;
+			// Call to event method will an error message
+			return;
 		} else if(row < 0 || row >= GameState.ROW) {
-			return false;
+			// Call to event method will an error message
+			return;
 		} else if(col < GameState.FIRST || col > GameState.LAST) {
-			return false;
+			return;
 		}
 
 		Tile tile = gameState.getGrid()[row][col];
 
 		if(!tile.hasPlant()) {
-			return false;
+			// Call to event method will an error message
+			return;
 		}
 
 		tile.removePlant();
-
-		return true;
+		
+		gameEvent.setSuccess(true);
+		gameListener.plantShoveled(gameEvent);
 	}
 
 	/**
-	 * Returns true  if the current level is finished or false otherwise. The game is finished when a zombie 
-	 * has reached the lawn mower tile when the lawn mower has been triggered already or when there are 
-	 * no more zombies left.
+	 * Returns true if the current level is finished or false otherwise. The game is
+	 * finished when a zombie has reached the lawn mower tile when the lawn mower
+	 * has been triggered already or when there are no more zombies left.
 	 * 
 	 * @return true if the current level is finished or false otherwise
 	 */
@@ -148,7 +198,7 @@ public class Game {
 		if(gameState.getNumberOfZombiesLeft() == 0) {
 			return true;
 		}
-		
+
 		// check if a lawn mower tile has any zombie
 		Tile[][] grid = gameState.getGrid();
 		for(int row = 0; row < GameState.ROW; row++) {
@@ -156,7 +206,7 @@ public class Game {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -187,6 +237,7 @@ public class Game {
 	private void gainBaseSun() {
 		gameState.gainSun(currentLevel.getBaseSunGain());
 	}
+
 	/**
 	 * Performs plant action. This includes generates resources and attack zombies.
 	 * 
@@ -224,6 +275,7 @@ public class Game {
 			}
 		}
 	}
+
 	/**
 	 * Performs zombie actions. This includes attack and move.
 	 * 
@@ -272,6 +324,7 @@ public class Game {
 			}
 		}
 	}
+
 	/**
 	 * Spawn zombies based the spawn rate and spawn amount of the current level.
 	 */
@@ -286,49 +339,38 @@ public class Game {
 			gameState.addZombie(random.nextInt(GameState.ROW));
 		}
 	}
+	
+	/**
+	 * Selects a plant in the shop.
+	 * 
+	 * @param plant the selected plant
+	 */
+	public void selectPlant(PlantName plant) {
+		selectedPlant = plant;
+	}
+	
+	/**
+	 * Returns the selected plant.
+	 * 
+	 * @return the selected plant
+	 */
+	public PlantName getSelectedPlant() {
+		return selectedPlant;
+	}
 
 	// End Gameplay
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Game info
-
+	
 	/**
-	 * Returns a read-only version of the grid.
+	 * Returns the grid.
 	 * 
-	 * @return a read-only version of the grid
+	 * @return the grid
 	 */
-	public String[][] getGrid() {
-		Tile[][] grid = gameState.getGrid();
-		String[][] readOnly = new String[GameState.ROW][GameState.COL];
-
-		for(int row = 0; row < GameState.ROW; row++) {
-			for(int col = 0; col < GameState.COL; col++) {
-				if(col == GameState.LAWN_MOWER && !gameState.isRowCleared(row)) {
-					readOnly[row][col] = "L";
-					continue;
-				}
-
-				Tile tile = grid[row][col];
-
-				if(tile.hasPlant()) {
-					switch(tile.getResidingPlant().getName()) {
-					case PeaShooter:
-						readOnly[row][col] = "P";
-						break;
-					case SunFlower:
-						readOnly[row][col] = "S";
-						break;
-					}
-				} else if(tile.hasZombie()) {
-					readOnly[row][col] = tile.getResidingZombie().size() + "Z";
-				} else {
-					readOnly[row][col] = ".";
-				}
-			}
-		}
-
-		return readOnly;
+	public Tile[][] getGrid() {
+		return gameState.getGrid();
 	}
 
 	/**
@@ -430,50 +472,62 @@ public class Game {
 	 * otherwise.
 	 * 
 	 * @param levelID the id of the level to load
-	 * 
-	 * @return true if loaded successfully or false otherwise
 	 */
-	public boolean loadLevel(int levelID) {
+	public void loadLevel(int levelID) {
 		currentLevel = levelManager.getLevel(levelID - 1);
 
+		GameEvent gameEvent = new GameEvent(this);
+
 		if(currentLevel == null) {
-			return false;
+			gameEvent.setSuccess(false).setMessage("Level does not exist");
+			gameListener.levelLoaded(gameEvent);
+			return;
 		}
 
 		levelLoaded = true;
-		return true;
+
+		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
+		gameListener.levelLoaded(gameEvent);
 	}
 
 	/**
 	 * Returns true if loaded successfully or false otherwise.
-	 * 
-	 * @return true if loaded successfully or false otherwise
 	 */
-	public boolean loadNextLevel() {
+	public void loadNextLevel() {
 		currentLevel = levelManager.getNextLevel();
 
+		GameEvent gameEvent = new GameEvent(this);
+
 		if(currentLevel == null) {
-			return false;
+			gameEvent.setSuccess(false).setMessage("Already at the end");
+			gameListener.levelLoaded(gameEvent);
+			return;
 		}
 
 		levelLoaded = true;
-		return true;
+
+		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
+		gameListener.levelLoaded(gameEvent);
 	}
 
 	/**
 	 * Returns true if loaded successfully or false otherwise.
-	 * 
-	 * @return true if loaded successfully or false otherwise
 	 */
-	public boolean loadPreviousLevel() {
+	public void loadPreviousLevel() {
 		currentLevel = levelManager.getPreviousLevel();
 
+		GameEvent gameEvent = new GameEvent(this);
+
 		if(currentLevel == null) {
-			return false;
+			gameEvent.setSuccess(false).setMessage("This is the first level");
+			gameListener.levelLoaded(gameEvent);
+			return;
 		}
 
 		levelLoaded = true;
-		return true;
+
+		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
+		gameListener.levelLoaded(gameEvent);
 	}
 
 	// End Level loading

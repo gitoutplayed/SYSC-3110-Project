@@ -1,8 +1,13 @@
+package game;
 import java.util.LinkedList;
 import java.util.List;
 
+import plant.PlantName;
+import zombie.ZombieTypes;
+
 /**
- * This class represents the LevelManager.
+ * This class represents the LevelManager. The level manager handles level
+ * loading. 
  * 
  * @author Michael Fan 101029934
  * @version Oct 25, 2018
@@ -36,7 +41,7 @@ public class LevelManager {
 	 * @return the next level
 	 */
 	public Level getNextLevel() {
-		if(currentLevel == levels.size()) {
+		if((currentLevel + 1) >= levels.size()) {
 			return null;
 		}
 

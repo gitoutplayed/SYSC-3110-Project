@@ -1,3 +1,4 @@
+package zombie;
 /**
  * Class for walker zombie
  * 

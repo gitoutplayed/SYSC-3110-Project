@@ -1,10 +1,16 @@
+package game;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import plant.PlantName;
+import zombie.ZombieTypes;
+
 /**
- * This class represents a Level.
+ * This class represents a Level. A level has plants(the name of the plants that are available to purchase),
+ * zombies(the name of the zombies that will appear), base sun gain(the base amount of sun gain),
+ *  spawn rate(how fast are zombies spawning) and spawn amonut(how many per spawn).
  * 
  * @author Michael Fan 101029934
  * @version Oct 25, 2018
@@ -78,7 +84,7 @@ public class Level {
 	/**
 	 * Sets the base amount of sun gain.
 	 * 
-	 * @param sunCounterGain the base amount of sun gain
+	 * @param sunGain the base amount of sun gain
 	 */
 	public void setBaseSunGain(int sunGain) {
 		this.baseSunGain = sunGain;
