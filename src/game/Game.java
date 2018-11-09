@@ -137,13 +137,16 @@ public class Game {
 			gameListener.plantBought(gameEvent);
 			return;
 		} else if(row < 0 || row >= GameState.ROW) {
-			// Call to event method will an error message
+			gameEvent.setSuccess(false).setMessage("Cannot place the plant here.");
+			gameListener.plantBought(gameEvent);
 			return;
 		} else if(col < GameState.FIRST || col > GameState.LAST) {
-			// Call to event method will an error message
+			gameEvent.setSuccess(false).setMessage("Cannot place the plant here.");
+			gameListener.plantBought(gameEvent);
 			return;
 		} else if(!gameState.getGrid()[row][col].isEmpty()) {
-			// Call to event method will an error message
+			gameEvent.setSuccess(false).setMessage("Cannot place the plant here.");
+			gameListener.plantBought(gameEvent);
 			return;
 		}
 		
@@ -166,19 +169,24 @@ public class Game {
 		GameEvent gameEvent = new GameEvent(this);
 		
 		if(gameState.isLevelFinished()) {
-			// Call to event method will an error message
+			gameEvent.setSuccess(false).setMessage("Level already finished");
+			gameListener.plantShoveled(gameEvent);
 			return;
 		} else if(row < 0 || row >= GameState.ROW) {
-			// Call to event method will an error message
+			gameEvent.setSuccess(false).setMessage("Cannot shovel here");
+			gameListener.plantShoveled(gameEvent);
 			return;
 		} else if(col < GameState.FIRST || col > GameState.LAST) {
+			gameEvent.setSuccess(false).setMessage("Cannot shovel here");
+			gameListener.plantShoveled(gameEvent);
 			return;
 		}
 
 		Tile tile = gameState.getGrid()[row][col];
 
 		if(!tile.hasPlant()) {
-			// Call to event method will an error message
+			gameEvent.setSuccess(false).setMessage("Tile has no plant to shovel");
+			gameListener.plantShoveled(gameEvent);
 			return;
 		}
 
@@ -351,10 +359,20 @@ public class Game {
 		selectedPlant = plant;
 	}
 	
+	/**
+	 * Puts the game to shovel mode.
+	 * 
+	 * @param shovel true for shovel mode and false for not
+	 */
 	public void selectShovel(boolean shovel) {
 		this.shovel = shovel;
 	}
 	
+	/**
+	 * Returns true if the game is shovel mode.
+	 * 
+	 * @return true if the game is in shovel mode
+	 */
 	public boolean isShovelSelected() {
 		return shovel;
 	}
