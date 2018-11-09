@@ -24,6 +24,7 @@ public class Game {
 	private GameState gameState;
 	private Level currentLevel;
 	private PlantName selectedPlant;
+	private boolean shovel;
 
 	public static Random random = new Random();
 
@@ -40,6 +41,7 @@ public class Game {
 
 		levelLoaded = false;
 		selectedPlant = null;
+		shovel = false;
 
 		this.gameListener = gameListener;
 	}
@@ -347,6 +349,14 @@ public class Game {
 	 */
 	public void selectPlant(PlantName plant) {
 		selectedPlant = plant;
+	}
+	
+	public void selectShovel(boolean shovel) {
+		this.shovel = shovel;
+	}
+	
+	public boolean isShovelSelected() {
+		return shovel;
 	}
 	
 	/**

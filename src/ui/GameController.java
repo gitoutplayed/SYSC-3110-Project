@@ -19,10 +19,10 @@ public class GameController {
 		gameView = new GameView();
 		game = new Game(gameView);
 		
-		setupMenu();
+		setupListeners();
 	}
 	
-	private void setupMenu() {
+	private void setupListeners() {
 		gameView.getStart().addActionListener(new MenuListener());
 		gameView.getLoadNextLevel().addActionListener(new MenuListener());
 	}

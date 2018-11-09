@@ -101,7 +101,7 @@ public class GameView extends JFrame implements GameListener {
 				} else if(tile.getTileType() == TileTypes.LAWNMOWER) {
 					type = "Lawnmower";
 				} else {
-					type = "Grass";
+					buttonGrid[row][col].setIcon(tile.getIcon());
 				}
 				
 				buttonGrid[row][col].setText(type);
