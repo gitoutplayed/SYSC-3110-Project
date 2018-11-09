@@ -70,7 +70,14 @@ public class GameView extends JFrame implements GameListener {
 		setVisible(true);
 		setLocationRelativeTo(null);
 	}
-
+	
+	/**
+	 * Updates the view.
+	 */
+	private void updateView() {
+		
+	}
+	
 	public void levelLoaded(GameEvent e) {
 		if(!e.getSuccess()) {
 			showMessage(e.getMessage());
@@ -93,18 +100,7 @@ public class GameView extends JFrame implements GameListener {
 		
 		for(int row = 0; row < GameState.ROW; row++) {
 			for(int col = 0; col < GameState.COL; col++) {
-				Tile tile = grid[row][col];
-				String type = "";
-				
-				if(tile.getTileType() == TileTypes.ZOMBIE_SPAWN) {
-					type = "Zombie Spawn";
-				} else if(tile.getTileType() == TileTypes.LAWNMOWER) {
-					type = "Lawnmower";
-				} else {
-					buttonGrid[row][col].setIcon(tile.getIcon());
-				}
-				
-				buttonGrid[row][col].setText(type);
+				buttonGrid[row][col].setIcon(grid[row][col].getIcon());
 			}
 		}
 	}
@@ -137,6 +133,14 @@ public class GameView extends JFrame implements GameListener {
 	
 	public JMenuItem getLoadNextLevel() {
 		return loadNextLevel;
+	}
+	
+	public JMenuItem getLoadLevel() {
+		return loadLevel;
+	}
+	
+	public JMenuItem getLoadPreviousLevel() {
+		return loadPreviousLevel;
 	}
 	
 	private void showMessage(String message) {

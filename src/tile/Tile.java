@@ -27,11 +27,11 @@ public class Tile {
 
 		try {
 			if(tileType == TileTypes.GRASS) {
-				icon = loadIcon("grass.png");
+				icon = loadIcon("grass");
 			} else if(tileType == TileTypes.LAWNMOWER) {
-
+				icon = loadIcon("lawnmower");
 			} else if(tileType == TileTypes.ZOMBIE_SPAWN) {
-
+				icon = loadIcon("road");
 			}
 		}
 		catch(Exception e) {
@@ -186,6 +186,6 @@ public class Tile {
 	}
 
 	private ImageIcon loadIcon(String name) throws IOException {
-		return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name)));
+		return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name + ".png")));
 	}
 }

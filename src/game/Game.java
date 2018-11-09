@@ -1,6 +1,7 @@
 package game;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import plant.Plant;
@@ -15,7 +16,7 @@ import zombie.ZombieTypes;
  * This class represents the Game. All gameplay related logic is here.
  * 
  * @author Michael Fan 101029934
- * @version Oct 28, 2018
+ * @version Nov 9, 2018
  */
 
 public class Game {
@@ -402,11 +403,11 @@ public class Game {
 	}
 
 	/**
-	 * Returns the plants in the shop and their prices as a string.
+	 * Returns the plants in the shop and their prices
 	 * 
-	 * @return the plants in the shop and their prices as a string
+	 * @return the plants in the shop and their prices
 	 */
-	public String getShopPlants() {
+	public Map<PlantName, Integer> getShopPlants() {
 		return shop.getShopPlants();
 	}
 

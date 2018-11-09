@@ -48,14 +48,8 @@ public class Shop {
 	 * 
 	 * @return the plants and their prices
 	 */
-	public String getShopPlants() {
-		StringBuilder sb = new StringBuilder();
-
-		for(PlantName p : shop.keySet()) {
-			sb.append(p.name() + " " + shop.get(p) + "(Cooldown: " + currentCooldowns.get(p) + " turn(s) left)" + '\n');
-		}
-
-		return sb.toString();
+	public Map<PlantName, Integer> getShopPlants() {
+		return shop;
 	}
 	
 	/**
