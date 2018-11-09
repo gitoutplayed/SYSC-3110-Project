@@ -1,12 +1,11 @@
 package tile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-
 import plant.Plant;
 import zombie.Zombie;
 
@@ -19,22 +18,24 @@ public class Tile {
 	/**
 	 * Constructor method to create a tile with a specified tile type
 	 * 
-	 * @param tileType
-	 *            the type of tile
+	 * @param tileType the type of tile
 	 */
 	public Tile(TileTypes tileType) {
 		this.residingPlant = null;
 		this.residingZombie = new ArrayList<Zombie>();
 		this.tileType = tileType;
-		
-		if(tileType == TileTypes.GRASS) {
-			icon = loadIcon("../../images/grass.png");
+
+		try {
+			if(tileType == TileTypes.GRASS) {
+				icon = loadIcon("grass.png");
+			} else if(tileType == TileTypes.LAWNMOWER) {
+
+			} else if(tileType == TileTypes.ZOMBIE_SPAWN) {
+
+			}
 		}
-		else if(tileType == TileTypes.LAWNMOWER) {
-			
-		}
-		else if(tileType == TileTypes.ZOMBIE_SPAWN) {
-			
+		catch(Exception e) {
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -42,10 +43,8 @@ public class Tile {
 	 * Constructor method to create a tile with a plant already residing on it (Used
 	 * for special levels)
 	 * 
-	 * @param tileType
-	 *            the type of tile
-	 * @param residingPlant
-	 *            The plant that will reside in the tile
+	 * @param tileType the type of tile
+	 * @param residingPlant The plant that will reside in the tile
 	 */
 	public Tile(Plant residingPlant, TileTypes tileType) {
 		this.residingPlant = residingPlant;
@@ -65,8 +64,7 @@ public class Tile {
 	/**
 	 * Setter method to set the residing plant
 	 * 
-	 * @param residingPlant
-	 *            the plant that will reside in the tile
+	 * @param residingPlant the plant that will reside in the tile
 	 */
 	public void setResidingPlant(Plant residingPlant) {
 		this.residingPlant = residingPlant;
@@ -84,8 +82,7 @@ public class Tile {
 	/**
 	 * Setter method to set the type of the tile
 	 * 
-	 * @param tileType
-	 *            the new type of tile
+	 * @param tileType the new type of tile
 	 */
 	public void setResidingPlant(TileTypes tileType) {
 		this.tileType = tileType;
@@ -110,8 +107,7 @@ public class Tile {
 	/**
 	 * Method to add a new zombie in the zombie list
 	 * 
-	 * @param zombie
-	 *            the new zombie on the tile
+	 * @param zombie the new zombie on the tile
 	 */
 	public void addZombie(Zombie zombie) {
 		residingZombie.add(zombie);
@@ -120,8 +116,7 @@ public class Tile {
 	/**
 	 * Method to remove a zombie from the zombie list
 	 * 
-	 * @param zombie
-	 *            the zombie to remove
+	 * @param zombie the zombie to remove
 	 */
 	public void removeZombie(Zombie zombie) {
 		residingZombie.remove(zombie);
@@ -134,11 +129,11 @@ public class Tile {
 	 */
 	public Zombie getFirstZombie() {
 		Zombie frontZombie = null;
-		for (Zombie zombie : this.residingZombie) {
-			if (frontZombie == null) {
+		for(Zombie zombie : this.residingZombie) {
+			if(frontZombie == null) {
 				frontZombie = zombie;
 			} else {
-				if (zombie.getZombieProgress() > frontZombie.getZombieProgress()) {
+				if(zombie.getZombieProgress() > frontZombie.getZombieProgress()) {
 					frontZombie = zombie;
 				}
 			}
@@ -152,7 +147,7 @@ public class Tile {
 	 * @return true if there is a plant, false if there isn't
 	 */
 	public boolean hasPlant() {
-		if (this.residingPlant != null) {
+		if(this.residingPlant != null) {
 			return true;
 		}
 		return false;
@@ -164,7 +159,7 @@ public class Tile {
 	 * @return true if there is a zombie or more, false if there are none
 	 */
 	public boolean hasZombie() {
-		if (!(this.residingZombie.isEmpty())) {
+		if(!(this.residingZombie.isEmpty())) {
 			return true;
 		}
 		return false;
@@ -190,7 +185,7 @@ public class Tile {
 		return icon;
 	}
 
-	private ImageIcon loadIcon(String name){
-		return new ImageIcon(name);
+	private ImageIcon loadIcon(String name) throws IOException {
+		return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name)));
 	}
 }
