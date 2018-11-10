@@ -1,3 +1,9 @@
+/**
+ * A class for tiles that is part of zombies vs plants grid
+ * 
+ * @author Hoang Bui 101029049
+ * @version 3, November 10, 2018
+ */
 package tile;
 
 import java.io.File;
@@ -28,9 +34,11 @@ public class Tile {
 		try {
 			if(tileType == TileTypes.GRASS) {
 				icon = loadIcon("grass");
-			} else if(tileType == TileTypes.LAWNMOWER) {
+			} 
+			else if(tileType == TileTypes.LAWNMOWER) {
 				icon = loadIcon("lawnmower");
-			} else if(tileType == TileTypes.ZOMBIE_SPAWN) {
+			} 
+			else if(tileType == TileTypes.ZOMBIE_SPAWN) {
 				icon = loadIcon("road");
 			}
 		}
@@ -181,10 +189,20 @@ public class Tile {
 		return !hasPlant() && !hasZombie();
 	}
 
+	/**
+	 * Method to get the tile's image
+	 * @return icon the tile's image
+	 */
 	public ImageIcon getIcon() {
 		return icon;
 	}
 
+	/**
+	 * Method to generate the tile's image
+	 * @param name the name of the file
+	 * @return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name + ".png"))) a new image icon
+	 * @throws IOException when the method fails to generate the image
+	 */
 	private ImageIcon loadIcon(String name) throws IOException {
 		return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name + ".png")));
 	}

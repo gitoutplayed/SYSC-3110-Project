@@ -1,9 +1,18 @@
 package zombie;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+import tile.TileTypes;
+
 /**
  * Super class for zombies
  * 
  * @author Hoang Bui 1010129049
- * @version 2, October 15 2018
+ * @version 3, November 10 2018
  */
 abstract public class Zombie {
 	private int damage;
@@ -14,6 +23,7 @@ abstract public class Zombie {
 	private int movementCounter;
 	private int slowDuration;
 	private ZombieTypes zombieType;
+	private ImageIcon icon;
 	
 	/**
 	 * Constructor method for class Zombie
@@ -32,6 +42,15 @@ abstract public class Zombie {
 		this.movementCounter = 0;
 		this.slowDuration = 0;
 		this.zombieType = zombieType;
+		
+		try {
+			if(zombieType == ZombieTypes.WALKER) {
+				icon = loadIcon("zombieGrass");
+			}
+		}
+		catch(Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	/**
@@ -192,5 +211,23 @@ abstract public class Zombie {
 	 */
 	public boolean isReadyToMove() {
 		return this.movementCounter == this.currentMovementSpeed;
+	}
+	
+	/**
+	 * Method to get the tile's image
+	 * @return icon the tile's image
+	 */
+	public ImageIcon getIcon() {
+		return icon;
+	}
+
+	/**
+	 * Method to generate the tile's image
+	 * @param name the name of the file
+	 * @return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name + ".png"))) a new image icon
+	 * @throws IOException when the method fails to generate the image
+	 */
+	private ImageIcon loadIcon(String name) throws IOException {
+		return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name + ".png")));
 	}
 }
