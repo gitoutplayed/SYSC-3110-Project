@@ -141,7 +141,7 @@ abstract public class Zombie {
 	}
 	
 	/**
-	 * Method to determine if the zombie has move accross a tile
+	 * Method to determine if the zombie has move across a tile
 	 * @return true if the zombie's movement counter exceeds it's movement speed
 	 */
 	public boolean isDoneTile() {
@@ -229,5 +229,37 @@ abstract public class Zombie {
 	 */
 	private ImageIcon loadIcon(String name) throws IOException {
 		return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name + ".png")));
+	}
+	
+	/**
+	 * Method to update the zombie's icon
+	 * 
+	 * @param tileType the tile type
+	 */
+	public void updateIcon(TileTypes tileType) {
+		if(tileType == TileTypes.GRASS) {
+			try {
+				icon = loadIcon("zombieGrass");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.err.println(e.getMessage());
+			}
+		} 
+		else if(tileType == TileTypes.LAWNMOWER) {
+			try {
+				icon = loadIcon("zombieConcrete");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.err.println(e.getMessage());
+			}
+		} 
+		else if(tileType == TileTypes.ZOMBIE_SPAWN) {
+			try {
+				icon = loadIcon("zombieRoad");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.err.println(e.getMessage());
+			}
+		}
 	}
 }
