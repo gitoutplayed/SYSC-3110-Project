@@ -4,7 +4,7 @@
 
 ### Authors: Michael Fan, Hoang Bui, Souheil Yazji, Tamer Ibrahim
 
-# Milestone 1
+# Milestone 2
 
 ## Authors
 
@@ -35,15 +35,12 @@
 * GameView.java
 
 ## Rest of Deliverables
-* Milestone 2
 * Milestone 3
 * Milestone 4
 
 ## Changes Made Since the Previous Deliverable
-This is the first deliverable.
 
 ## Know Issues
-There are no known issues.
 
 ## Roadmap
 
