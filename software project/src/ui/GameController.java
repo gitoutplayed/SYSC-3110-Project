@@ -29,10 +29,14 @@ public class GameController {
 	 * Attaches the listeners to the buttons
 	 */
 	private void setupListeners() {
+		// Menu Listener 
 		gameView.getStart().addActionListener(new MenuListener());
 		gameView.getLoadNextLevel().addActionListener(new MenuListener());
 		gameView.getLoadLevel().addActionListener(new MenuListener());
 		gameView.getLoadPreviousLevel().addActionListener(new MenuListener());
+		
+		// End turn
+		gameView.getEndTurn().addActionListener(new EndTurnListener());
 	}
 	
 	/**
@@ -58,8 +62,13 @@ public class GameController {
 		}	
 	}
 	
+	private class EndTurnListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			game.endTurn();
+		}
+	}
+	
 	public static void main(String[] args) {
 		GameController controller = new GameController();
-		
 	}
 }

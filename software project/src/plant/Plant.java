@@ -1,4 +1,10 @@
 package plant;
+
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 /**
  * This abstract class defines the overall Plant object. 
  * All specific plants must be a subclass of this class.
@@ -12,6 +18,7 @@ public abstract class Plant {
 	
 	private PlantName name;
 	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y, cooldown;
+	protected ImageIcon icon;
 	
 	/**
 	 * Plant's constructor method
@@ -206,5 +213,13 @@ public abstract class Plant {
 	 */
 	public int getCooldown() {
 		return cooldown;
+	}
+	
+	protected ImageIcon loadIcon(String name) throws IOException {
+		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
+	}
+	
+	public ImageIcon getIcon() {
+		return icon;
 	}
 }

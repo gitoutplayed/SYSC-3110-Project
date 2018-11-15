@@ -22,8 +22,8 @@ abstract public class Zombie {
 	private int originalMovementSpeed;
 	private int movementCounter;
 	private int slowDuration;
-	private ZombieTypes zombieType;
-	private ImageIcon icon;
+	protected ZombieTypes zombieType;
+	protected ImageIcon icon;
 
 	/**
 	 * Constructor method for class Zombie
@@ -48,14 +48,6 @@ abstract public class Zombie {
 		this.movementCounter = 0;
 		this.slowDuration = 0;
 		this.zombieType = zombieType;
-
-		try {
-			if (zombieType == ZombieTypes.WALKER) {
-				icon = loadIcon("zombieGrass");
-			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
 	}
 
 	/**
@@ -259,7 +251,7 @@ abstract public class Zombie {
 	 * @throws IOException
 	 *             when the method fails to generate the image
 	 */
-	private ImageIcon loadIcon(String name) throws IOException {
+	protected ImageIcon loadIcon(String name) throws IOException {
 		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
 	}
 
@@ -269,18 +261,5 @@ abstract public class Zombie {
 	 * @param tileType
 	 *            the tile type
 	 */
-	public void updateIcon(TileTypes tileType) {
-		try {
-			if (tileType == TileTypes.GRASS) {
-				icon = loadIcon("zombieGrass");
-			} else if (tileType == TileTypes.LAWNMOWER) {
-				icon = loadIcon("zombieConcrete");
-			} else if (tileType == TileTypes.ZOMBIE_SPAWN) {
-				icon = loadIcon("zombieRoad");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.err.println(e.getMessage());
-		}
-	}
+	public abstract Zombie updateIcon(TileTypes tileType);
 }
