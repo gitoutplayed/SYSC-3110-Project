@@ -182,4 +182,8 @@ public class GameView extends JFrame implements GameListener {
 	public JButton getShovel() {
 		return upperPane.getShovel();
 	}
+	
+	public JButton[][] getButtonGrid() {
+		return gridPane.getButtonGrid();
+	}
 }

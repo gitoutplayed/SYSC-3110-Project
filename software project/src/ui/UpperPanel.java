@@ -4,13 +4,15 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class UpperPanel extends JPanel {
-	JButton endTurn;
-	JLabel turnNumber;
-	JLabel zombiesLeft;
-	JButton shovel;
-	JLabel sunCounter;
+	private JButton endTurn;
+	private JLabel turnNumber;
+	private JLabel zombiesLeft;
+	private JButton shovel;
+	private JLabel sunCounter;
+	private ArrayList<JButton> shop;
 
 	public static int HEIGHT = 120;
 
@@ -83,5 +85,9 @@ public class UpperPanel extends JPanel {
 	
 	public void setSunCtouner(int sunCounter) {
 		this.sunCounter.setText("Sun Counter: " + sunCounter);
+	}
+	
+	public void updateShop() {
+		
 	}
 }

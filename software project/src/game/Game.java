@@ -177,8 +177,13 @@ public class Game {
 	 */
 	public void shovel(int row, int col) {
 		GameEvent gameEvent = new GameEvent(this);
-
-		if(gameState.isLevelFinished()) {
+		shovel = false;
+		
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not started");
+			gameListener.plantShoveled(gameEvent);
+			return;
+		} else if(gameState.isLevelFinished()) {
 			gameEvent.setSuccess(false).setMessage("Level already finished");
 			gameListener.plantShoveled(gameEvent);
 			return;
