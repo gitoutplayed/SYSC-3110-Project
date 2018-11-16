@@ -6,48 +6,28 @@
 
 # Milestone 2
 
-## Authors
-
-### Michael Fan
-* Game.java
-* GameState.java
-* Level.java
-* LevelManager.java
-* Shop.java
-
-### Hoang Bui
-* Tile.java
-* Zombie.java
-* ZombieTypes.java
-* ZombieFactory.java
-* Walker.java
-* ZombieTypes.java
-
-### Souheil Yazji
-* Plant.java
-* PlantName.java
-* PlantFactory.java
-* PeaShooter.java
-* SunFlower.java
-
-### Tamer Ibrahim
-* GameController.java
-* GameView.java
-
 ## Rest of Deliverables
 * Milestone 3
 * Milestone 4
 
 ## Changes Made Since the Previous Deliverable
+* Added GUI
+* Added JUnit test for Game State
 
-## Know Issues
+## Known Issues
 
 ## Roadmap
+* Add more zombies
+* Add more plants
+* Add more levels
+* Implement Undo and Redo
+* Implement Save and Load
+* Custom level design
 
 ### Game
 * Allow unlimited undo and redo
 * Allow save and load 
-* Implement a level builder
+* In-game Level builder
 
 ### Zombies
 * There will be more ZombieTypes in the future. Each will have special stats that makes them stand out from the Walker zombie. So that would lead to adjusting ZombieFactory and adding more sub classes of Zombie
