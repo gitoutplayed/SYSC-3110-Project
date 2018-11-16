@@ -513,7 +513,14 @@ public class Game {
 	public boolean isLevelLoaded() {
 		return levelLoaded;
 	}
-
+	
+	/**
+	 * Returns true if the specified plant is on cooldown or false otherwise.
+	 * 
+	 * @param plant the plant to check
+	 * 
+	 * @return true if the specified plant is on cooldown or false otherwise
+	 */
 	public boolean isPlantOnCooldown(PlantName plant) {
 		return shop.isPlantOnCooldown(plant);
 	}
