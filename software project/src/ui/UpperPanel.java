@@ -9,6 +9,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * 
+ * @author Michael Fan 101029934
+ * @version Nov 16, 2018
+ */
 public class UpperPanel extends JPanel {
 	private JButton endTurn;
 	private JLabel turnNumber;
@@ -18,7 +23,10 @@ public class UpperPanel extends JPanel {
 	private ShopPanel shopPane;
 
 	public static int HEIGHT = GameView.SQUARE_SIZE;
-
+	
+	/**
+	 * Constructs a new 
+	 */
 	public UpperPanel() {
 		setPreferredSize(new Dimension(GameView.WIDTH, HEIGHT));
 		setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
@@ -43,7 +51,7 @@ public class UpperPanel extends JPanel {
 		sunCounterPane.add(sunCounter);
 		add(sunCounterPane);
 		
-		// Shop
+		// Shop Panel
 		shopPane = new ShopPanel();
 		JScrollPane scrollPane = new JScrollPane(shopPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setPreferredSize(new Dimension(ShopPanel.WIDTH + 18, HEIGHT));
