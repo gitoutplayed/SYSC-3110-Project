@@ -39,6 +39,8 @@ public class Game {
 
 	/**
 	 * Creates a new game.
+	 * 
+	 * @param gameListener the game listener (in this case it will be the view)
 	 */
 	public Game(GameListener gameListener) {
 		shop = new Shop();

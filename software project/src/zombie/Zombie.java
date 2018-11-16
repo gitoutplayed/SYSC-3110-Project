@@ -228,6 +228,8 @@ abstract public class Zombie {
 	/**
 	 * Return an icon given the type of the tile
 	 * 
+	 * @param tileType the type of the tile that the zombie is on
+	 * 
 	 * @return icon the tile's image
 	 */
 	public ImageIcon getIcon(TileTypes tileType) {

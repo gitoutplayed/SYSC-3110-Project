@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
+ * This class represents the UpperPanel. The UpperPanel has shop, shovel button and end turn button as well as some
+ * labels that will display information about the game (i.e. turn number, sun counter etc.)
  * 
  * @author Michael Fan 101029934
  * @version Nov 16, 2018
@@ -25,7 +27,7 @@ public class UpperPanel extends JPanel {
 	public static int HEIGHT = GameView.SQUARE_SIZE;
 	
 	/**
-	 * Constructs a new 
+	 * Constructs a new UpperPanel.
 	 */
 	public UpperPanel() {
 		setPreferredSize(new Dimension(GameView.WIDTH, HEIGHT));
@@ -83,30 +85,65 @@ public class UpperPanel extends JPanel {
 		add(infoPane);
 	}
 
+	/**
+	 * Returns the end turn button.
+	 * 
+	 * @return the end turn button
+	 */
 	public JButton getEndTurn() {
 		return endTurn;
 	}
 	
+	/**
+	 * Returns the shop button.
+	 * 
+	 * @return the shop button
+	 */
 	public JButton getShovel() {
 		return shovel;
 	}
 
+	/**
+	 * Display the turn number.
+	 * 
+	 * @param turnNumber the turn number to be displayed
+	 */
 	public void setTurnNumber(int turnNumber) {
 		this.turnNumber.setText("  Turn #: " + turnNumber);
 	}
-
+	
+	/**
+	 * Display the number of zombies left..
+	 * 
+	 * @param zombiesLeft the number of zombies left to be displayed
+	 */
 	public void setZombiesLeft(int zombiesLeft) {
 		this.zombiesLeft.setText("  Zombies Left: " + zombiesLeft);
 	}
 	
+	/**
+	 * Display the sun counter.
+	 * 
+	 * @param sunCounter the sun counter to be displayed
+	 */
 	public void setSunCtouner(int sunCounter) {
 		this.sunCounter.setText("Sun Counter: " + sunCounter);
 	}
 	
+	/**
+	 * Returns all the buttons in the shop.
+	 * 
+	 * @return all the buttons in the shop
+	 */
 	public ArrayList<ShopButton> getShopButtons() {
 		return shopPane.getShopButtons();
 	}
 	
+	/**
+	 * Load plants into the shop.
+	 * 
+	 * @param plants the plants that are to be loaded into the shop
+	 */
 	public void loadShop(Map<PlantName, ImageIcon> plants) {
 		shopPane.loadShop(plants);
 	}
