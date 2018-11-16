@@ -68,9 +68,7 @@ public class Shop {
 	public Plant purchase(PlantName plant, int sunCounter) {
 		if(sunCounter < shop.get(plant)) {
 			return null;
-		} else if(currentCooldowns.get(plant) > 0) {
-			return null;
-		}
+		} 
 		
 		currentCooldowns.put(plant, cooldowns.get(plant));
 
