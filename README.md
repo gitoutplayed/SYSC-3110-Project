@@ -14,7 +14,7 @@
 * Added GUI
 * Added JUnit test for Game State
 
-## Know Issues
+## Known Issues
 
 ## Roadmap
 * Add more zombies
