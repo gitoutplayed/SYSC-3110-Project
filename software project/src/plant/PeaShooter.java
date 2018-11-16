@@ -3,7 +3,7 @@ package plant;
  * This class defines a PeaShooter's fields for instantiation.
  * 
  * @author Souheil Yazji 101007994
- * @version Oct 29th
+ * @version Nov 16th
  *
  */
 public class PeaShooter extends Plant{

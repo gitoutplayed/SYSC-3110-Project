@@ -2,6 +2,8 @@ package zombie;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -12,7 +14,7 @@ import tile.TileTypes;
  * Super class for zombies
  * 
  * @author Hoang Bui 1010129049
- * @version 3, November 10 2018
+ * @version 4, November 16 2018
  */
 abstract public class Zombie {
 	private int damage;
@@ -23,21 +25,16 @@ abstract public class Zombie {
 	private int movementCounter;
 	private int slowDuration;
 	protected ZombieTypes zombieType;
-	protected ImageIcon icon;
+	protected Map<TileTypes, ImageIcon> icons;
 
 	/**
 	 * Constructor method for class Zombie
 	 * 
-	 * @param movementSpeed
-	 *            the zombie's movement speed
-	 * @param damage
-	 *            the zombie's damage
-	 * @param health
-	 *            the zombie's health
-	 * @param atkRange
-	 *            the zombie's attack range
-	 * @param zombieType
-	 *            the zombie's type
+	 * @param movementSpeed the zombie's movement speed
+	 * @param damage the zombie's damage
+	 * @param health the zombie's health
+	 * @param atkRange the zombie's attack range
+	 * @param zombieType the zombie's type
 	 */
 	public Zombie(int movementSpeed, int damage, int health, int atkRange, ZombieTypes zombieType) {
 		this.damage = damage;
@@ -48,6 +45,7 @@ abstract public class Zombie {
 		this.movementCounter = 0;
 		this.slowDuration = 0;
 		this.zombieType = zombieType;
+		icons = new HashMap<TileTypes, ImageIcon>();
 	}
 
 	/**
@@ -62,8 +60,7 @@ abstract public class Zombie {
 	/**
 	 * Setter method to set the zombie's damage
 	 * 
-	 * @param damage
-	 *            new value for the zombie's damage
+	 * @param damage new value for the zombie's damage
 	 */
 	public void setDamage(int damage) {
 		this.damage = damage;
@@ -81,8 +78,7 @@ abstract public class Zombie {
 	/**
 	 * Setter method to set the zombie's health
 	 * 
-	 * @param health
-	 *            the new health of the zombie
+	 * @param health the new health of the zombie
 	 */
 	public void setHealth(int health) {
 		this.health = health;
@@ -100,8 +96,7 @@ abstract public class Zombie {
 	/**
 	 * Setter method to set the zombie's atk range
 	 * 
-	 * @param atkRange
-	 *            the new value for the zombie's atk range
+	 * @param atkRange the new value for the zombie's atk range
 	 */
 	public void setAtkRange(int atkRange) {
 		this.atkRange = atkRange;
@@ -119,8 +114,7 @@ abstract public class Zombie {
 	/**
 	 * Setter method to set the zombie's current movement speed
 	 * 
-	 * @param movementSpeed
-	 *            new value for the zombie's current movement speed
+	 * @param movementSpeed new value for the zombie's current movement speed
 	 */
 	public void setCurrentMovementSpeed(int movementSpeed) {
 		this.currentMovementSpeed = movementSpeed;
@@ -175,9 +169,9 @@ abstract public class Zombie {
 	 * Method to decrement the zombie's slow duration
 	 */
 	public void decrementSlowDuration() {
-		if (this.isSlowed()) {
+		if(this.isSlowed()) {
 			slowDuration--;
-			if (!(this.isSlowed())) {
+			if(!(this.isSlowed())) {
 				this.currentMovementSpeed = this.originalMovementSpeed;
 			}
 		}
@@ -216,8 +210,7 @@ abstract public class Zombie {
 	/**
 	 * Method for when the zombie takes damage
 	 * 
-	 * @param damage
-	 *            The damage taken for the zombie
+	 * @param damage The damage taken for the zombie
 	 */
 	public void takeDamage(int damage) {
 		this.health -= damage;
@@ -233,33 +226,23 @@ abstract public class Zombie {
 	}
 
 	/**
-	 * Method to get the tile's image
+	 * Return an icon given the type of the tile
 	 * 
 	 * @return icon the tile's image
 	 */
-	public ImageIcon getIcon() {
-		return icon;
+	public ImageIcon getIcon(TileTypes tileType) {
+		return icons.get(tileType);
 	}
 
 	/**
 	 * Method to generate the tile's image
 	 * 
-	 * @param name
-	 *            the name of the file
+	 * @param name the name of the file
 	 * @return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name +
 	 *         ".png"))) a new image icon
-	 * @throws IOException
-	 *             when the method fails to generate the image
+	 * @throws IOException when the method fails to generate the image
 	 */
 	protected ImageIcon loadIcon(String name) throws IOException {
 		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
 	}
-
-	/**
-	 * Method to update the zombie's icon
-	 * 
-	 * @param tileType
-	 *            the tile type
-	 */
-	public abstract Zombie updateIcon(TileTypes tileType);
 }

@@ -93,7 +93,7 @@ public class GameView extends JFrame implements GameListener {
 				} 
 				// Check if the tile has zombie
 				else if(tile.hasZombie()) {
-					button.setIcon(tile.getFirstZombie().updateIcon(tile.getTileType()).getIcon());
+					button.setIcon(tile.getFirstZombie().getIcon(tile.getTileType()));
 				} 
 				// Empty tile
 				else {

@@ -14,7 +14,7 @@ import plant.PlantName;
  * The plants that appear in the shop depends on the level.
  *
  * @author Michael Fan 101029934
- * @version Nov 7, 2018
+ * @version Nov 16, 2018
  */
 
 public class Shop {
@@ -49,7 +49,7 @@ public class Shop {
 	}
 	
 	/**
-	 * Returns the plants and their icons
+	 * Returns the plants and their icons.
 	 * 
 	 * @return the plants and their icons
 	 */
@@ -87,6 +87,13 @@ public class Shop {
 		}
 	}
 	
+	/**
+	 * Returns true if the specified plant is on cooldown.
+	 * 
+	 * @param plant the plant to check
+	 * 
+	 * @return true if the specified plant is on cooldown
+	 */
 	public boolean isPlantOnCooldown(PlantName plant) {
 		if(plant == null) {
 			return true;
