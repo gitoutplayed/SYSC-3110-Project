@@ -7,6 +7,7 @@ import tile.Tile;
 import tile.TileTypes;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * This class represents the GameView.
@@ -102,6 +103,14 @@ public class GameView extends JFrame implements GameListener {
 		upperPane.setTurnNumber(game.getTurnNumber());
 		upperPane.setZombiesLeft(game.getNumberOfZombiesLeft());
 		upperPane.setSunCtouner(game.getSunCounter());
+		
+		for(ShopButton button : upperPane.getShopButtons()) {
+			if(game.isPlantOnCooldown(button.getPlant())) {
+				button.setEnabled(false);
+			} else {
+				button.setEnabled(true);
+			}
+		}
 	}
 	
 	public void levelLoaded(GameEvent e) {
@@ -121,6 +130,7 @@ public class GameView extends JFrame implements GameListener {
 		
 		showMessage(e.getMessage());
 		
+		upperPane.loadShop(((Game) e.getSource()).getShopPlants());
 		updateView(e);
 	}
 
@@ -185,5 +195,9 @@ public class GameView extends JFrame implements GameListener {
 	
 	public JButton[][] getButtonGrid() {
 		return gridPane.getButtonGrid();
+	}
+	
+	public ArrayList<ShopButton> getShopButtons() {
+		return upperPane.getShopButtons();
 	}
 }

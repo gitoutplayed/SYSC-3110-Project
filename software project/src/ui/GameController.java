@@ -52,6 +52,11 @@ public class GameController {
 
 		// Shovel
 		gameView.getShovel().addActionListener(new ShovelListener());
+		
+		// Shop
+		for(ShopButton button : gameView.getShopButtons()) {
+			button.addActionListener(new ShopListener());
+		}
 	}
 
 	/**
@@ -86,6 +91,7 @@ public class GameController {
 	private class ShovelListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			game.selectShovel(!game.isShovelSelected());
+			game.selectPlant(null);
 		}
 	}
 
@@ -97,7 +103,9 @@ public class GameController {
 			for(int row = 0; row < GameState.ROW; row++) {
 				for(int col = 0; col < GameState.COL; col++) {
 					if(buttonGrid[row][col] == button) {
-						if(game.isShovelSelected()) {
+						if(game.isPlantSelected()) {
+							game.buyPlant(row, col);
+						} else if(game.isShovelSelected()) {
 							game.shovel(row, col);
 						}
 					}
@@ -106,6 +114,14 @@ public class GameController {
 		}
 	}
 
+	private class ShopListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			ShopButton button = (ShopButton) e.getSource();
+			game.selectPlant(button.getPlant());
+			game.selectShovel(false);
+		}
+	}
+	
 	public static void main(String[] args) {
 		GameController controller = new GameController();
 	}

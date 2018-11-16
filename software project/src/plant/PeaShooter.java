@@ -22,6 +22,7 @@ public class PeaShooter extends Plant{
 		
 		try {
 			icon = loadIcon("peashooter");
+			shopIcon = loadIcon("peashooterShop");
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}

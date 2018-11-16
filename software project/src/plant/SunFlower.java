@@ -22,6 +22,7 @@ public class SunFlower extends Plant {
 		
 		try {
 			icon = loadIcon("sunflower");
+			shopIcon = loadIcon("sunflowerShop");
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}

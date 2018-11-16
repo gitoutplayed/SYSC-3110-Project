@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+
 import plant.Plant;
 import plant.PlantName;
 import tile.Tile;
@@ -133,17 +135,14 @@ public class Game {
 			return;
 		}
 
-		Plant newPlant = shop.purchase(selectedPlant, gameState.getSunCounter());
-
 		GameEvent gameEvent = new GameEvent(this);
 
-		if(gameState.isLevelFinished()) {
-			gameEvent.setSuccess(false).setMessage("Level already finished");
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not started");
 			gameListener.plantBought(gameEvent);
 			return;
-		} else if(newPlant == null) {
-			gameEvent.setSuccess(false)
-					.setMessage("Cannot purchase the plant (The plant is on cooldown or insuffcient sun counter");
+		} else if(gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level already finished");
 			gameListener.plantBought(gameEvent);
 			return;
 		} else if(row < 0 || row >= GameState.ROW) {
@@ -160,7 +159,15 @@ public class Game {
 			return;
 		}
 
+		Plant newPlant = shop.purchase(selectedPlant, gameState.getSunCounter());
 		selectedPlant = null;
+		
+		if(newPlant == null) {
+			gameEvent.setSuccess(false).setMessage("Not enough sun counter");
+			gameListener.plantBought(gameEvent);
+			return;
+		}
+
 		gameState.addPlant(newPlant, row, col);
 		gameState.spendSun(newPlant.getPrice());
 
@@ -178,7 +185,7 @@ public class Game {
 	public void shovel(int row, int col) {
 		GameEvent gameEvent = new GameEvent(this);
 		shovel = false;
-		
+
 		if(!levelLoaded) {
 			gameEvent.setSuccess(false).setMessage("Level not started");
 			gameListener.plantShoveled(gameEvent);
@@ -392,13 +399,8 @@ public class Game {
 		return shovel;
 	}
 
-	/**
-	 * Returns the selected plant.
-	 * 
-	 * @return the selected plant
-	 */
-	public PlantName getSelectedPlant() {
-		return selectedPlant;
+	public boolean isPlantSelected() {
+		return !(selectedPlant == null);
 	}
 
 	// End Gameplay
@@ -417,11 +419,11 @@ public class Game {
 	}
 
 	/**
-	 * Returns the plants in the shop and their prices
+	 * Returns the plants in the shop and their icons
 	 * 
-	 * @return the plants in the shop and their prices
+	 * @return the plants in the shop and their icon
 	 */
-	public Map<PlantName, Integer> getShopPlants() {
+	public Map<PlantName, ImageIcon> getShopPlants() {
 		return shop.getShopPlants();
 	}
 
@@ -502,6 +504,10 @@ public class Game {
 	 */
 	public boolean isLevelLoaded() {
 		return levelLoaded;
+	}
+
+	public boolean isPlantOnCooldown(PlantName plant) {
+		return shop.isPlantOnCooldown(plant);
 	}
 
 	// End Game info

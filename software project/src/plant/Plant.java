@@ -19,6 +19,7 @@ public abstract class Plant {
 	private PlantName name;
 	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y, cooldown;
 	protected ImageIcon icon;
+	protected ImageIcon shopIcon;
 	
 	/**
 	 * Plant's constructor method
@@ -221,5 +222,9 @@ public abstract class Plant {
 	
 	public ImageIcon getIcon() {
 		return icon;
+	}
+	
+	public ImageIcon getShopIcon() {
+		return shopIcon;
 	}
 }
