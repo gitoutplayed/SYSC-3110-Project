@@ -7,6 +7,7 @@ import tile.Tile;
 import tile.TileTypes;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * This class represents the GameView.
@@ -16,7 +17,7 @@ import java.awt.*;
  */
 public class GameView extends JFrame implements GameListener {
 	GridPanel gridPane;
-	UpperPanel upperlPane;
+	UpperPanel upperPane;
 	
 	JMenuItem start;
 	JMenuItem loadLevel;
@@ -31,6 +32,8 @@ public class GameView extends JFrame implements GameListener {
 	 * Constructs a new game view.
 	 */
 	public GameView() {
+		setTitle("Zombies vs Plants");
+		
 		Container contentPane = getContentPane();
 
 		contentPane.setLayout(new BorderLayout());
@@ -58,10 +61,10 @@ public class GameView extends JFrame implements GameListener {
 		setJMenuBar(menuBar);
 		
 		gridPane = new GridPanel();
-		upperlPane = new UpperPanel();
+		upperPane = new UpperPanel();
 
 		contentPane.add(gridPane, BorderLayout.CENTER);
-		contentPane.add(upperlPane, BorderLayout.NORTH);
+		contentPane.add(upperPane, BorderLayout.NORTH);
 		
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,8 +77,42 @@ public class GameView extends JFrame implements GameListener {
 	/**
 	 * Updates the view.
 	 */
-	private void updateView() {
+	private void updateView(GameEvent e) {
+		Game game = (Game) e.getSource();
+		Tile[][] grid =game.getGrid();
+		JButton[][] buttonGrid = gridPane.getButtonGrid();
 		
+		for(int row = 0; row < GameState.ROW; row++) {
+			for(int col = 0; col < GameState.COL; col++) {
+				Tile tile = grid[row][col];
+				JButton button = buttonGrid[row][col]; 
+				
+				// Check if the tile has plant
+				if(tile.hasPlant()) {
+					button.setIcon(tile.getResidingPlant().getIcon());
+				} 
+				// Check if the tile has zombie
+				else if(tile.hasZombie()) {
+					button.setIcon(tile.getFirstZombie().updateIcon(tile.getTileType()).getIcon());
+				} 
+				// Empty tile
+				else {
+					button.setIcon(tile.getIcon());
+				}
+			}
+		}
+		
+		upperPane.setTurnNumber(game.getTurnNumber());
+		upperPane.setZombiesLeft(game.getNumberOfZombiesLeft());
+		upperPane.setSunCtouner(game.getSunCounter());
+		
+		for(ShopButton button : upperPane.getShopButtons()) {
+			if(game.isPlantOnCooldown(button.getPlant())) {
+				button.setEnabled(false);
+			} else {
+				button.setEnabled(true);
+			}
+		}
 	}
 	
 	public void levelLoaded(GameEvent e) {
@@ -95,14 +132,8 @@ public class GameView extends JFrame implements GameListener {
 		
 		showMessage(e.getMessage());
 		
-		Tile[][] grid = ((Game) e.getSource()).getGrid();
-		JButton[][] buttonGrid = gridPane.getButtonGrid();
-		
-		for(int row = 0; row < GameState.ROW; row++) {
-			for(int col = 0; col < GameState.COL; col++) {
-				buttonGrid[row][col].setIcon(grid[row][col].getIcon());
-			}
-		}
+		upperPane.loadShop(((Game) e.getSource()).getShopPlants());
+		updateView(e);
 	}
 
 	public void plantBought(GameEvent e) {
@@ -110,6 +141,8 @@ public class GameView extends JFrame implements GameListener {
 			showMessage(e.getMessage());
 			return;
 		} 
+		
+		updateView(e);
 	}
 
 	public void plantShoveled(GameEvent e) {
@@ -117,14 +150,25 @@ public class GameView extends JFrame implements GameListener {
 			showMessage(e.getMessage());
 			return;
 		} 
+		
+		updateView(e);
 	}
-
+	
+	private void showMessage(String message) {
+		JOptionPane.showMessageDialog(this, message);
+	}
+	
 	public void turnEnded(GameEvent e) {
-
+		if(!e.getSuccess()) {
+			showMessage(e.getMessage());
+			return;
+		}
+		updateView(e);
 	}
 	
 	public void levelFinished(GameEvent e) {
-		
+		showMessage(e.getMessage());
+		updateView(e);
 	}
 	
 	public JMenuItem getStart() {
@@ -143,7 +187,19 @@ public class GameView extends JFrame implements GameListener {
 		return loadPreviousLevel;
 	}
 	
-	private void showMessage(String message) {
-		JOptionPane.showMessageDialog(this, message);
+	public JButton getEndTurn() {
+		return upperPane.getEndTurn();
+	}
+	
+	public JButton getShovel() {
+		return upperPane.getShovel();
+	}
+	
+	public JButton[][] getButtonGrid() {
+		return gridPane.getButtonGrid();
+	}
+	
+	public ArrayList<ShopButton> getShopButtons() {
+		return upperPane.getShopButtons();
 	}
 }

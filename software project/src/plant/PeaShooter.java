@@ -19,6 +19,13 @@ public class PeaShooter extends Plant{
 		
 	public PeaShooter() {
 		super(PlantName.PeaShooter, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN);
+		
+		try {
+			icon = loadIcon("peashooter");
+			shopIcon = loadIcon("peashooterShop");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 }

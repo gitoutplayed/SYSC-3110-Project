@@ -34,20 +34,7 @@ public class Tile {
 		this.residingZombie = new ArrayList<Zombie>();
 		this.tileType = tileType;
 
-		try {
-			if(tileType == TileTypes.GRASS) {
-				icon = loadIcon("grass");
-			} 
-			else if(tileType == TileTypes.LAWNMOWER) {
-				icon = loadIcon("lawnmower");
-			} 
-			else if(tileType == TileTypes.ZOMBIE_SPAWN) {
-				icon = loadIcon("road");
-			}
-		}
-		catch(Exception e) {
-			System.err.println(e.getMessage());
-		}
+		updateIcon(tileType);
 	}
 
 	/**
@@ -208,5 +195,28 @@ public class Tile {
 	 */
 	private ImageIcon loadIcon(String name) throws IOException {
 		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
+	}
+	
+	public void setTileType(TileTypes tileType) {
+		this.tileType = tileType;
+	}
+	
+	public void updateIcon(TileTypes tileType) {
+		try {
+			if(tileType == TileTypes.GRASS) {
+				icon = loadIcon("grass");
+			} 
+			else if(tileType == TileTypes.LAWNMOWER) {
+				icon = loadIcon("lawnmower");
+			} 
+			else if(tileType == TileTypes.ZOMBIE_SPAWN) {
+				icon = loadIcon("road");
+			} else if(tileType == TileTypes.CONCRETE) {
+				icon = loadIcon("concrete");
+			}
+		}
+		catch(Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 }

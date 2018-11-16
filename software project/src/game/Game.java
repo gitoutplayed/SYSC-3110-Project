@@ -1,12 +1,16 @@
 package game;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+
 import plant.Plant;
 import plant.PlantName;
 import tile.Tile;
+import tile.TileTypes;
 import ui.GameEvent;
 import ui.GameListener;
 import zombie.Zombie;
@@ -83,7 +87,13 @@ public class Game {
 	 */
 	public void endTurn() {
 		GameEvent gameEvent = new GameEvent(this);
-		
+
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not loaded");
+			gameListener.turnEnded(gameEvent);
+			return;
+		}
+
 		if(gameState.isLevelFinished()) {
 			gameEvent.setSuccess(false).setMessage("Level aready finished");
 			gameListener.turnEnded(gameEvent);
@@ -99,7 +109,7 @@ public class Game {
 		if(isLevelDone()) {
 			gameState.levelFinished();
 			levelLoaded = false;
-			
+
 			gameEvent.setSuccess(true).setMessage("Level completed");
 			gameListener.levelFinished(gameEvent);
 			return;
@@ -108,7 +118,7 @@ public class Game {
 		shop.reduceCooldowns();
 
 		gameState.nextTurn();
-		
+
 		gameEvent.setSuccess(true);
 		gameListener.turnEnded(gameEvent);
 	}
@@ -124,17 +134,15 @@ public class Game {
 		if(selectedPlant == null) {
 			return;
 		}
-		
-		Plant newPlant = shop.purchase(selectedPlant, gameState.getSunCounter());
-		
+
 		GameEvent gameEvent = new GameEvent(this);
-		
-		if(gameState.isLevelFinished()) {
-			gameEvent.setSuccess(false).setMessage("Level already finished");
+
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not started");
 			gameListener.plantBought(gameEvent);
 			return;
-		} else if(newPlant == null) {
-			gameEvent.setSuccess(false).setMessage("Cannot purchase the plant (The plant is on cooldown or insuffcient sun counter");
+		} else if(gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level already finished");
 			gameListener.plantBought(gameEvent);
 			return;
 		} else if(row < 0 || row >= GameState.ROW) {
@@ -150,11 +158,19 @@ public class Game {
 			gameListener.plantBought(gameEvent);
 			return;
 		}
-		
+
+		Plant newPlant = shop.purchase(selectedPlant, gameState.getSunCounter());
 		selectedPlant = null;
+		
+		if(newPlant == null) {
+			gameEvent.setSuccess(false).setMessage("Not enough sun counter");
+			gameListener.plantBought(gameEvent);
+			return;
+		}
+
 		gameState.addPlant(newPlant, row, col);
 		gameState.spendSun(newPlant.getPrice());
-		
+
 		gameEvent.setSuccess(true);
 		gameListener.plantBought(gameEvent);
 	}
@@ -168,8 +184,13 @@ public class Game {
 	 */
 	public void shovel(int row, int col) {
 		GameEvent gameEvent = new GameEvent(this);
-		
-		if(gameState.isLevelFinished()) {
+		shovel = false;
+
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not started");
+			gameListener.plantShoveled(gameEvent);
+			return;
+		} else if(gameState.isLevelFinished()) {
 			gameEvent.setSuccess(false).setMessage("Level already finished");
 			gameListener.plantShoveled(gameEvent);
 			return;
@@ -192,7 +213,7 @@ public class Game {
 		}
 
 		tile.removePlant();
-		
+
 		gameEvent.setSuccess(true);
 		gameListener.plantShoveled(gameEvent);
 	}
@@ -213,7 +234,7 @@ public class Game {
 		// check if a lawn mower tile has any zombie
 		Tile[][] grid = gameState.getGrid();
 		for(int row = 0; row < GameState.ROW; row++) {
-			if(grid[row][GameState.LAWN_MOWER].hasZombie() && gameState.isRowCleared(row)) {
+			if(grid[row][GameState.LAWN_MOWER].hasZombie()) {
 				return true;
 			}
 		}
@@ -297,22 +318,22 @@ public class Game {
 	 */
 	private void zombieAction(List<Zombie> zombies, Tile[][] grid, int row, int col) {
 		Iterator<Zombie> zombieIter = zombies.iterator();
+		Tile nextTile = grid[row][col - 1];
 
 		while(zombieIter.hasNext()) {
 			Zombie zombie = zombieIter.next();
 
 			if(zombie.isReadyToMove()) {
 				// If the current row still has the lawn mover then the lawn mower is triggered
-				if(col - 1 == GameState.LAWN_MOWER && !gameState.isRowCleared(row)) {
-					gameState.addClearedRow(row);
+				if(nextTile.getTileType() == TileTypes.LAWNMOWER) {
+					nextTile.setTileType(TileTypes.CONCRETE);
+					nextTile.updateIcon(nextTile.getTileType());
 					for(Tile t : grid[row]) {
 						gameState.zombieDied(t.getResidingZombie().size());
 						t.removePlant();
 						t.clearResidingZombie();
 					}
 				} else {
-					Tile nextTile = grid[row][col - 1];
-
 					// If the next tile contains a plant attack it
 					if(nextTile.hasPlant()) {
 						Plant plant = nextTile.getResidingPlant();
@@ -350,7 +371,7 @@ public class Game {
 			gameState.addZombie(random.nextInt(GameState.ROW));
 		}
 	}
-	
+
 	/**
 	 * Selects a plant in the shop.
 	 * 
@@ -359,7 +380,7 @@ public class Game {
 	public void selectPlant(PlantName plant) {
 		selectedPlant = plant;
 	}
-	
+
 	/**
 	 * Puts the game to shovel mode.
 	 * 
@@ -368,7 +389,7 @@ public class Game {
 	public void selectShovel(boolean shovel) {
 		this.shovel = shovel;
 	}
-	
+
 	/**
 	 * Returns true if the game is shovel mode.
 	 * 
@@ -377,14 +398,9 @@ public class Game {
 	public boolean isShovelSelected() {
 		return shovel;
 	}
-	
-	/**
-	 * Returns the selected plant.
-	 * 
-	 * @return the selected plant
-	 */
-	public PlantName getSelectedPlant() {
-		return selectedPlant;
+
+	public boolean isPlantSelected() {
+		return !(selectedPlant == null);
 	}
 
 	// End Gameplay
@@ -392,7 +408,7 @@ public class Game {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Game info
-	
+
 	/**
 	 * Returns the grid.
 	 * 
@@ -403,11 +419,11 @@ public class Game {
 	}
 
 	/**
-	 * Returns the plants in the shop and their prices
+	 * Returns the plants in the shop and their icons
 	 * 
-	 * @return the plants in the shop and their prices
+	 * @return the plants in the shop and their icon
 	 */
-	public Map<PlantName, Integer> getShopPlants() {
+	public Map<PlantName, ImageIcon> getShopPlants() {
 		return shop.getShopPlants();
 	}
 
@@ -488,6 +504,10 @@ public class Game {
 	 */
 	public boolean isLevelLoaded() {
 		return levelLoaded;
+	}
+
+	public boolean isPlantOnCooldown(PlantName plant) {
+		return shop.isPlantOnCooldown(plant);
 	}
 
 	// End Game info

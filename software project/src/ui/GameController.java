@@ -1,8 +1,11 @@
 package ui;
+
 import java.awt.event.*;
 import javax.swing.*;
 
 import game.Game;
+import game.GameState;
+import tile.Tile;
 
 /**
  * This class represents the GameController.
@@ -14,27 +17,48 @@ public class GameController {
 
 	Game game;
 	GameView gameView;
-	
+
 	/**
 	 * Constructs a new GameController.
 	 */
 	public GameController() {
 		gameView = new GameView();
 		game = new Game(gameView);
-		
+
 		setupListeners();
 	}
-	
+
 	/**
 	 * Attaches the listeners to the buttons
 	 */
 	private void setupListeners() {
+		// Grid listener
+		JButton[][] buttonGrid = gameView.getButtonGrid();
+
+		for(int row = 0; row < GameState.ROW; row++) {
+			for(int col = 0; col < GameState.COL; col++) {
+				buttonGrid[row][col].addActionListener(new GridListener());
+			}
+		}
+
+		// Menu Listener
 		gameView.getStart().addActionListener(new MenuListener());
 		gameView.getLoadNextLevel().addActionListener(new MenuListener());
 		gameView.getLoadLevel().addActionListener(new MenuListener());
 		gameView.getLoadPreviousLevel().addActionListener(new MenuListener());
+
+		// End turn
+		gameView.getEndTurn().addActionListener(new EndTurnListener());
+
+		// Shovel
+		gameView.getShovel().addActionListener(new ShovelListener());
+		
+		// Shop
+		for(ShopButton button : gameView.getShopButtons()) {
+			button.addActionListener(new ShopListener());
+		}
 	}
-	
+
 	/**
 	 * The MenuListener
 	 * 
@@ -45,7 +69,7 @@ public class GameController {
 
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
-			
+
 			if(item == gameView.getStart()) {
 				game.start();
 			} else if(item == gameView.getLoadNextLevel()) {
@@ -55,11 +79,50 @@ public class GameController {
 			} else if(item == gameView.getLoadPreviousLevel()) {
 				JOptionPane.showMessageDialog(gameView, "Will be implemented later when there are more level");
 			}
-		}	
+		}
+	}
+
+	private class EndTurnListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			game.endTurn();
+		}
+	}
+
+	private class ShovelListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			game.selectShovel(!game.isShovelSelected());
+			game.selectPlant(null);
+		}
+	}
+
+	private class GridListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JButton button = (JButton) e.getSource();
+			JButton[][] buttonGrid = gameView.getButtonGrid();
+
+			for(int row = 0; row < GameState.ROW; row++) {
+				for(int col = 0; col < GameState.COL; col++) {
+					if(buttonGrid[row][col] == button) {
+						if(game.isPlantSelected()) {
+							game.buyPlant(row, col);
+						} else if(game.isShovelSelected()) {
+							game.shovel(row, col);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private class ShopListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			ShopButton button = (ShopButton) e.getSource();
+			game.selectPlant(button.getPlant());
+			game.selectShovel(false);
+		}
 	}
 	
 	public static void main(String[] args) {
 		GameController controller = new GameController();
-		
 	}
 }

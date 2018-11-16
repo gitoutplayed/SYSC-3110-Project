@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
+
 import plant.Plant;
 import plant.PlantFactory;
 import plant.PlantName;
@@ -19,6 +21,7 @@ public class Shop {
 	private Map<PlantName, Integer> shop;
 	private Map<PlantName, Integer> cooldowns;
 	private Map<PlantName, Integer> currentCooldowns;
+	private Map<PlantName, ImageIcon> shopIcons;
 	
 	/**
 	 * Creates a new shop.
@@ -27,6 +30,7 @@ public class Shop {
 		shop = new HashMap<PlantName, Integer>();
 		cooldowns = new HashMap<PlantName, Integer>();
 		currentCooldowns = new HashMap<PlantName, Integer>();
+		shopIcons = new HashMap<PlantName, ImageIcon>();
 	}
 	
 	/**
@@ -40,16 +44,17 @@ public class Shop {
 			shop.putIfAbsent(p, plant.getPrice());
 			cooldowns.putIfAbsent(p, plant.getCooldown());
 			currentCooldowns.putIfAbsent(p, 0);
+			shopIcons.putIfAbsent(p, plant.getShopIcon());
 		}
 	}
 	
 	/**
-	 * Returns the plants and their prices as a string.
+	 * Returns the plants and their icons
 	 * 
-	 * @return the plants and their prices
+	 * @return the plants and their icons
 	 */
-	public Map<PlantName, Integer> getShopPlants() {
-		return shop;
+	public Map<PlantName, ImageIcon> getShopPlants() {
+		return shopIcons;
 	}
 	
 	/**
@@ -63,9 +68,7 @@ public class Shop {
 	public Plant purchase(PlantName plant, int sunCounter) {
 		if(sunCounter < shop.get(plant)) {
 			return null;
-		} else if(currentCooldowns.get(plant) > 0) {
-			return null;
-		}
+		} 
 		
 		currentCooldowns.put(plant, cooldowns.get(plant));
 
@@ -82,5 +85,13 @@ public class Shop {
 				currentCooldowns.put(p, cooldown - 1);
 			}
 		}
+	}
+	
+	public boolean isPlantOnCooldown(PlantName plant) {
+		if(plant == null) {
+			return true;
+		}
+		
+		return currentCooldowns.get(plant) > 0;
 	}
 }
