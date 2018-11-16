@@ -10,10 +10,12 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * This class represents the GameView.
+ * This class represents the GameView. The GameView has two main panels: GridPanel and UpperPanel.
+ * GridPanel has the grid and UpperPanel has shop, shovel button and end turn button as well as some
+ * labels that will display information about the game (i.e. turn number, sun counter etc.)
  * 
  * @author Michael Fan 101029934
- * @version Nov 7, 2018
+ * @version Nov 16, 2018
  */
 public class GameView extends JFrame implements GameListener {
 	GridPanel gridPane;
@@ -60,6 +62,7 @@ public class GameView extends JFrame implements GameListener {
 		
 		setJMenuBar(menuBar);
 		
+		// Add the panels
 		gridPane = new GridPanel();
 		upperPane = new UpperPanel();
 
@@ -76,6 +79,10 @@ public class GameView extends JFrame implements GameListener {
 	
 	/**
 	 * Updates the view.
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
 	 */
 	private void updateView(GameEvent e) {
 		Game game = (Game) e.getSource();
@@ -115,7 +122,15 @@ public class GameView extends JFrame implements GameListener {
 		}
 	}
 	
+	/**
+	 * Called when trying to load a level.
+	 * 
+	 *  @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
 	public void levelLoaded(GameEvent e) {
+		// Display the error message when level loading is not successful
 		if(!e.getSuccess()) {
 			showMessage(e.getMessage());
 			return;
@@ -123,8 +138,16 @@ public class GameView extends JFrame implements GameListener {
 		
 		showMessage(e.getMessage());
 	}
-
+	
+	/**
+	 * Called when trying start a game(level).
+	 * 
+	 *  @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
 	public void gameStarted(GameEvent e) {
+		// Display the error message when game start is not successful
 		if(!e.getSuccess()) {
 			showMessage(e.getMessage());
 			return;
@@ -132,11 +155,19 @@ public class GameView extends JFrame implements GameListener {
 		
 		showMessage(e.getMessage());
 		
-		upperPane.loadShop(((Game) e.getSource()).getShopPlants());
+		upperPane.loadShop(((Game) e.getSource()).getShopPlants()); // load plants into the shop
 		updateView(e);
 	}
 
+	/**
+	 * Called when trying to buy a plant.
+	 * 
+	 *  @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
 	public void plantBought(GameEvent e) {
+		// Display the error message when buying plant is not successful
 		if(!e.getSuccess()) {
 			showMessage(e.getMessage());
 			return;
@@ -144,8 +175,16 @@ public class GameView extends JFrame implements GameListener {
 		
 		updateView(e);
 	}
-
+	
+	/**
+	 * Called when trying to shovel a plant.
+	 * 
+	 *  @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
 	public void plantShoveled(GameEvent e) {
+		// Display the error message when shovel is not successful
 		if(!e.getSuccess()) {
 			showMessage(e.getMessage());
 			return;
@@ -154,11 +193,15 @@ public class GameView extends JFrame implements GameListener {
 		updateView(e);
 	}
 	
-	private void showMessage(String message) {
-		JOptionPane.showMessageDialog(this, message);
-	}
-	
+	/**
+	 * Called when trying to end a turn
+	 * 
+	 * @param e GameEvent 
+	 * 
+	 * @see GameEvent
+	 */
 	public void turnEnded(GameEvent e) {
+		// Display the error message when turn ending is not successful
 		if(!e.getSuccess()) {
 			showMessage(e.getMessage());
 			return;
@@ -166,39 +209,95 @@ public class GameView extends JFrame implements GameListener {
 		updateView(e);
 	}
 	
+	/**
+	 * Called when the current level is finished.
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
 	public void levelFinished(GameEvent e) {
 		showMessage(e.getMessage());
 		updateView(e);
 	}
 	
+	/**
+	 * Display the given message in a JOptionPane dialog box. 
+	 * 
+	 * @param message the message to be displayed
+	 */
+	private void showMessage(String message) {
+		JOptionPane.showMessageDialog(this, message);
+	}
+	
+	/**
+	 * Returns the start menu item.
+	 * 
+	 * @return the start menu item
+	 */
 	public JMenuItem getStart() {
 		return start;
 	}
 	
+	/**
+	 * Returns the loadNextLevel menu item.
+	 * 
+	 * @return the loadNextLevel menu item
+	 */
 	public JMenuItem getLoadNextLevel() {
 		return loadNextLevel;
 	}
 	
+	/**
+	 * Returns the loadLevel menu item.
+	 * 
+	 * @return the loadLevel menu item
+	 */
 	public JMenuItem getLoadLevel() {
 		return loadLevel;
 	}
 	
+	/**
+	 * Returns the loadPreviousLevel menu item.
+	 * 
+	 * @return the loadPreviousLevel menu item
+	 */
 	public JMenuItem getLoadPreviousLevel() {
 		return loadPreviousLevel;
 	}
 	
+	/**
+	 * Returns the end turn button.
+	 * 
+	 * @return the end turn button
+	 */
 	public JButton getEndTurn() {
 		return upperPane.getEndTurn();
 	}
 	
+	/**
+	 * Returns the shovel button.
+	 * 
+	 * @return the shovel button
+	 */
 	public JButton getShovel() {
 		return upperPane.getShovel();
 	}
 	
+	/**
+	 * Returns the buttons in the grid.
+	 * 
+	 * @return the buttons in the grid
+	 */
 	public JButton[][] getButtonGrid() {
 		return gridPane.getButtonGrid();
 	}
 	
+	/**
+	 * Returns the buttons in the shop.
+	 * 
+	 * @return the buttons in the shop
+	 */
 	public ArrayList<ShopButton> getShopButtons() {
 		return upperPane.getShopButtons();
 	}
