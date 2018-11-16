@@ -32,6 +32,8 @@ public class GameView extends JFrame implements GameListener {
 	 * Constructs a new game view.
 	 */
 	public GameView() {
+		setTitle("Zombies vs Plants");
+		
 		Container contentPane = getContentPane();
 
 		contentPane.setLayout(new BorderLayout());
