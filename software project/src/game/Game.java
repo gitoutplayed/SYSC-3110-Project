@@ -20,7 +20,7 @@ import zombie.ZombieTypes;
  * This class represents the Game. All gameplay related logic is here.
  * 
  * @author Michael Fan 101029934
- * @version Nov 9, 2018
+ * @version Nov 16, 2018
  */
 
 public class Game {
@@ -39,6 +39,8 @@ public class Game {
 
 	/**
 	 * Creates a new game.
+	 * 
+	 * @param gameListener the game listener (in this case it will be the view)
 	 */
 	public Game(GameListener gameListener) {
 		shop = new Shop();
@@ -109,9 +111,6 @@ public class Game {
 		if(isLevelDone()) {
 			gameState.levelFinished();
 			levelLoaded = false;
-
-			gameEvent.setSuccess(true).setMessage("Level completed");
-			gameListener.levelFinished(gameEvent);
 			return;
 		}
 
@@ -226,8 +225,10 @@ public class Game {
 	 * @return true if the current level is finished or false otherwise
 	 */
 	private boolean isLevelDone() {
-		// check if there are zombies left
+		// check if there are zombies left. win if there are no zombies left
 		if(gameState.getNumberOfZombiesLeft() == 0) {
+			GameEvent gameEvent = new GameEvent(this).setSuccess(true).setMessage("Victory");
+			gameListener.levelFinished(gameEvent);
 			return true;
 		}
 
@@ -235,6 +236,8 @@ public class Game {
 		Tile[][] grid = gameState.getGrid();
 		for(int row = 0; row < GameState.ROW; row++) {
 			if(grid[row][GameState.LAWN_MOWER].hasZombie()) {
+				GameEvent gameEvent = new GameEvent(this).setSuccess(true).setMessage("Defeat");
+				gameListener.levelFinished(gameEvent);
 				return true;
 			}
 		}
@@ -399,6 +402,11 @@ public class Game {
 		return shovel;
 	}
 
+	/**
+	 * Returns true if a plant is selected or false otherwise.
+	 * 
+	 * @return true if a plant is selected or false otherwise
+	 */
 	public boolean isPlantSelected() {
 		return !(selectedPlant == null);
 	}

@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
  * All specific plants must have constant values set for all fields of this class.
  * 
  * @author Souheil Yazji 101007994
- * @version Oct 29th
+ * @version Nov 16th
  *
  */
 public abstract class Plant {
@@ -216,14 +216,33 @@ public abstract class Plant {
 		return cooldown;
 	}
 	
+	/**
+	 * Returns an ImageIcon given the name of the image file.
+	 * 
+	 * @param name the name of the image file
+	 * 
+	 * @return an ImageIcon given the name of the image file
+	 * 
+	 * @throws IOException
+	 */
 	protected ImageIcon loadIcon(String name) throws IOException {
 		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
 	}
 	
+	/**
+	 * Returns the icon of the plant
+	 * 
+	 * @return the icon of the plant
+	 */
 	public ImageIcon getIcon() {
 		return icon;
 	}
 	
+	/**
+	 * Returns the shop icon of the plant
+	 * 
+	 * @return the shop icon of the plant
+	 */
 	public ImageIcon getShopIcon() {
 		return shopIcon;
 	}
