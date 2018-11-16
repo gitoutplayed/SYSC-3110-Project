@@ -73,7 +73,7 @@ public class UpperPanel extends JPanel {
 		// Info panel
 		JPanel infoPane = new JPanel();
 		infoPane.setLayout(new GridLayout(3, 1));
-		int infoPaneWidth = (GameView.WIDTH - ShopPanel.WIDTH - GameView.SQUARE_SIZE - 50) / 2;
+		int infoPaneWidth = (GameView.WIDTH - ShopPanel.WIDTH - GameView.SQUARE_SIZE - 70) / 2;
 		infoPane.setPreferredSize(new Dimension(infoPaneWidth, HEIGHT));
 		infoPane.setBackground(Color.WHITE);
 		endTurn = new JButton("End Turn");
