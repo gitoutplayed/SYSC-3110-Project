@@ -19,7 +19,6 @@ public abstract class Plant {
 	
 	private PlantName name;
 	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y, cooldown;
-	private Ailments ailment;
 	protected ImageIcon icon;
 	protected ImageIcon shopIcon;
 	
@@ -37,7 +36,7 @@ public abstract class Plant {
 	 * @param ailment the plant's ailment inflicter
 	 *  
 	 */
-	public Plant(PlantName name, int price, int health, int damage, int resrc_gen, int atkRange_X, int atkRange_Y, int cooldown, Ailments ailment) {
+	public Plant(PlantName name, int price, int health, int damage, int resrc_gen, int atkRange_X, int atkRange_Y, int cooldown) {
 		this.name = name;
 		this.price = price;
 		this.health = health;
@@ -46,7 +45,6 @@ public abstract class Plant {
 		this.atkRange_X = atkRange_X;
 		this.atkRange_Y = atkRange_Y;
 		this.cooldown = cooldown;
-		this.ailment = ailment;
 	}
 	
 	/**
