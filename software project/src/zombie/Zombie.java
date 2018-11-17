@@ -148,15 +148,6 @@ abstract public class Zombie {
 	}
 
 	/**
-	 * Method to determine if the zombie has move across a tile
-	 * 
-	 * @return true if the zombie's movement counter exceeds it's movement speed
-	 */
-	public boolean isDoneTile() {
-		return this.movementCounter >= this.currentMovementSpeed;
-	}
-
-	/**
 	 * Method to determine if the zombie is affected by a slow effect
 	 * 
 	 * @return true if the value of slowDuration is above 0
@@ -219,10 +210,10 @@ abstract public class Zombie {
 	/**
 	 * Method to check if the zombie is ready to move
 	 * 
-	 * @return true if the movement counter is the same as the movement speed
+	 * @return true if the movement counter is the same or greater as the movement speed
 	 */
 	public boolean isReadyToMove() {
-		return this.movementCounter == this.currentMovementSpeed;
+		return this.movementCounter >= this.currentMovementSpeed;
 	}
 
 	/**
