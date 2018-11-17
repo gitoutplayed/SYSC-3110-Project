@@ -1,3 +1,6 @@
+/**
+ * A test case for class zombie
+ */
 package test;
 
 import junit.framework.TestCase;
