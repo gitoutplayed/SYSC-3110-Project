@@ -194,7 +194,7 @@ public class Tile {
 	 * @throws IOException when the method fails to generate the image
 	 */
 	private ImageIcon loadIcon(String name) throws IOException {
-		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
+		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("tile/" + name + ".png")));
 	}
 	
 	public void setTileType(TileTypes tileType) {

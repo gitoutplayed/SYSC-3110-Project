@@ -41,7 +41,7 @@ public class UpperPanel extends JPanel {
 		sunCounterPane.setBackground(Color.WHITE);
 		JLabel sunIcon = new JLabel();
 		try {
-			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("sun.png")));
+			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("ui/sun.png")));
 			sunIcon.setIcon(icon);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
@@ -63,7 +63,7 @@ public class UpperPanel extends JPanel {
 		shovel = new JButton();
 		shovel.setPreferredSize(new Dimension(GameView.SQUARE_SIZE, GameView.SQUARE_SIZE));
 		try {
-			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("shovel.png")));
+			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("ui/shovel.png")));
 			shovel.setIcon(icon);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());

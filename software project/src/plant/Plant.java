@@ -201,24 +201,6 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * Check if the plant has an ailment
-	 * 
-	 * @return true if the plant has an ailment, otherwie false
-	 */
-	public boolean hasAilment() {
-		return this.ailment != null;
-	}
-	
-	/**
-	 * Getter method to obtain the plant's ailment
-	 * 
-	 * @return ailment the plant's ailment
-	 */
-	public Ailments getAilment() {
-		return ailment;
-	}
-	
-	/**
 	 * Returns an ImageIcon given the name of the image file.
 	 * 
 	 * @param name the name of the image file
@@ -228,7 +210,7 @@ public abstract class Plant {
 	 * @throws IOException
 	 */
 	protected ImageIcon loadIcon(String name) throws IOException {
-		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
+		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("plant/" + name + ".png")));
 	}
 	
 	/**

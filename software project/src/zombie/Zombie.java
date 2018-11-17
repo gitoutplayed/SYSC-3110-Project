@@ -236,6 +236,6 @@ abstract public class Zombie {
 	 * @throws IOException when the method fails to generate the image
 	 */
 	protected ImageIcon loadIcon(String name) throws IOException {
-		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
+		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("zombie/" + name + ".png")));
 	}
 }

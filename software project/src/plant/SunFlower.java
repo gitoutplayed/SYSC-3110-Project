@@ -18,7 +18,7 @@ public class SunFlower extends Plant {
 
 	
 	public SunFlower() {
-		super(PlantName.SunFlower, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN, null);
+		super(PlantName.SunFlower, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN);
 		
 		try {
 			icon = loadIcon("sunflower");

@@ -33,7 +33,6 @@ public class TestPlant extends TestCase{
 		assertTrue("The sunflower should be a ressource generator", sunflower.canResrc_gen());
 		assertFalse("The sunflower should not be able to attack", sunflower.canAttack());
 		assertEquals("The cooldown for purchasing a sunflower should be 1", sunflower.getCooldown(), 1);
-		assertFalse("The sunflower should not have an ailment effect", sunflower.hasAilment());
 	}
 	
 	public void testPeashooter() {
@@ -46,7 +45,6 @@ public class TestPlant extends TestCase{
 		assertFalse("The peashooter not be should be a ressource generator", peashooter.canResrc_gen());
 		assertTrue("The peashooter should be able to attack", peashooter.canAttack());
 		assertEquals("The cooldown for purchasing a peashooter should be 3", peashooter.getCooldown(), 3);
-		assertFalse("The peashooter should not have an ailment effect", peashooter.hasAilment());
 	}
 	
 	public static void main(String[] args) {
