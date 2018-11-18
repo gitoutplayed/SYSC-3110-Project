@@ -8,10 +8,11 @@ import game.GameState;
 import tile.Tile;
 
 /**
- * This class represents the GameController. This class contains the main method.
+ * This class represents the GameController. This class contains the main
+ * method.
  * 
  * @author Michael Fan 101029934
- * @version Nov 16, 2018
+ * @version Nov 17, 2018
  */
 public class GameController {
 
@@ -42,17 +43,19 @@ public class GameController {
 		}
 
 		// Menu listener
-		gameView.getStart().addActionListener(new MenuListener());
 		gameView.getLoadNextLevel().addActionListener(new MenuListener());
 		gameView.getLoadLevel().addActionListener(new MenuListener());
 		gameView.getLoadPreviousLevel().addActionListener(new MenuListener());
+		gameView.getUndo().addActionListener(new MenuListener());
+		gameView.getRedo().addActionListener(new MenuListener());
+		gameView.getRestart().addActionListener(new MenuListener());
 
 		// End turn listener
 		gameView.getEndTurn().addActionListener(new EndTurnListener());
 
 		// Shovel listener
 		gameView.getShovel().addActionListener(new ShovelListener());
-		
+
 		// Shop listener
 		for(ShopButton button : gameView.getShopButtons()) {
 			button.addActionListener(new ShopListener());
@@ -60,8 +63,8 @@ public class GameController {
 	}
 
 	/**
-	 * The MenuListener. This class contains the actionPerformed method that will be called 
-	 * when a meun item is clicked.
+	 * The MenuListener. This class contains the actionPerformed method that will be
+	 * called when a meun item is clicked.
 	 * 
 	 * @author Michael Fan 101029934
 	 * @version Nov 9, 2018
@@ -75,21 +78,25 @@ public class GameController {
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
 
-			if(item == gameView.getStart()) {
-				game.start();
-			} else if(item == gameView.getLoadNextLevel()) {
+			if(item == gameView.getLoadNextLevel()) {
 				game.loadNextLevel();
 			} else if(item == gameView.getLoadLevel()) {
 				JOptionPane.showMessageDialog(gameView, "Will be implemented later when there are more level");
 			} else if(item == gameView.getLoadPreviousLevel()) {
 				JOptionPane.showMessageDialog(gameView, "Will be implemented later when there are more level");
+			} else if(item == gameView.getUndo()) {
+				game.undo();
+			} else if(item == gameView.getRedo()) {
+				game.redo();
+			} else if(item == gameView.getRestart()) {
+				game.restart();
 			}
 		}
 	}
-	
+
 	/**
-	 * The EndTurnListener. This class contains the actionPerformed method that will be called
-	 * when the end turn button is clicked.
+	 * The EndTurnListener. This class contains the actionPerformed method that will
+	 * be called when the end turn button is clicked.
 	 * 
 	 * @author Michael Fan 101029934
 	 * @version Nov 16, 2018
@@ -104,10 +111,10 @@ public class GameController {
 			game.endTurn();
 		}
 	}
-	
+
 	/**
-	 * The ShovelListener. This class contains the actionPerformed method that will be called
-	 * when the shovel button is clicked.
+	 * The ShovelListener. This class contains the actionPerformed method that will
+	 * be called when the shovel button is clicked.
 	 * 
 	 * @author Michael Fan 101029934
 	 * @version Nov 16, 2018
@@ -125,8 +132,8 @@ public class GameController {
 	}
 
 	/**
-	 * The GridListener. This class contains the actionPerformed method that will be called
-	 * when any button in the grid is clicked.
+	 * The GridListener. This class contains the actionPerformed method that will be
+	 * called when any button in the grid is clicked.
 	 * 
 	 * @author Michael Fan 101029934
 	 * @version Nov 16, 2018
@@ -156,8 +163,8 @@ public class GameController {
 	}
 
 	/**
-	 * The ShovelListener. This class contains the actionPerformed method that will be called
-	 * when any button in the shop is clicked.
+	 * The ShovelListener. This class contains the actionPerformed method that will
+	 * be called when any button in the shop is clicked.
 	 * 
 	 * @author Michael Fan 101029934
 	 * @version Nov 16, 2018
@@ -174,7 +181,7 @@ public class GameController {
 			game.selectShovel(false); // unselect shovel when clicked in shop
 		}
 	}
-	
+
 	/**
 	 * The main method.
 	 * 

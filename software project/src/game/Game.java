@@ -24,7 +24,6 @@ import zombie.ZombieTypes;
  */
 
 public class Game {
-	private Shop shop;
 	private LevelManager levelManager;
 	private GameState gameState;
 	private Level currentLevel;
@@ -43,7 +42,6 @@ public class Game {
 	 * @param gameListener the game listener (in this case it will be the view)
 	 */
 	public Game(GameListener gameListener) {
-		shop = new Shop();
 		levelManager = new LevelManager();
 
 		levelLoaded = false;
@@ -57,30 +55,29 @@ public class Game {
 	// Gameplay
 
 	/**
-	 * Starts the current level. Call this method after a level is loaded. Calling
-	 * this method before a level is loaded will have no effect. Calling this method
-	 * when the current level is not done will cause the current level to restart.
+	 * Starts the current level.
 	 */
-	public void start() {
-		GameEvent gameEvent = new GameEvent(this);
-
-		if(!levelLoaded) {
-			gameEvent.setSuccess(false).setMessage("Level not loaded");
-			gameListener.gameStarted(gameEvent);
-			return;
-		}
-
-		if(gameState != null && levelLoaded && !gameState.isLevelFinished()) {
-			gameEvent.setSuccess(true).setMessage("Level will be restarted");
-		} else {
-			gameEvent.setSuccess(true).setMessage("Level Started");
-		}
-
+	private void start() {
 		gameState = new GameState();
 		gameState.addPendingZombies(currentLevel.getZombies());
-		shop.addPlants(currentLevel.getPlants());
-
-		gameListener.gameStarted(gameEvent);
+		gameState.addPlants(currentLevel.getPlants());
+	}
+	
+	/**
+	 * Restarts the current level.
+	 */
+	public void restart() {
+		GameEvent gameEvent = new GameEvent(this);
+		
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not started");
+			gameListener.levelRestarted(gameEvent);
+			return;
+		}
+		
+		start();
+		gameEvent.setSuccess(true).setMessage("Level restarted");
+		gameListener.levelRestarted(gameEvent);
 	}
 
 	/**
@@ -102,6 +99,13 @@ public class Game {
 			return;
 		}
 
+		try {
+			gameState.cacheUndo(gameState);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
 		spawnZombies();
 
 		gainBaseSun();
@@ -114,7 +118,7 @@ public class Game {
 			return;
 		}
 
-		shop.reduceCooldowns();
+		gameState.reduceCooldowns();
 
 		gameState.nextTurn();
 
@@ -158,17 +162,19 @@ public class Game {
 			return;
 		}
 
-		Plant newPlant = shop.purchase(selectedPlant, gameState.getSunCounter());
-		selectedPlant = null;
-		
-		if(newPlant == null) {
+		if(!gameState.canPurchase(selectedPlant, gameState.getSunCounter())) {
 			gameEvent.setSuccess(false).setMessage("Not enough sun counter");
 			gameListener.plantBought(gameEvent);
 			return;
 		}
 
+		gameState.cacheUndo(gameState);
+
+		Plant newPlant = gameState.purchase(selectedPlant);
 		gameState.addPlant(newPlant, row, col);
 		gameState.spendSun(newPlant.getPrice());
+
+		selectedPlant = null;
 
 		gameEvent.setSuccess(true);
 		gameListener.plantBought(gameEvent);
@@ -210,6 +216,8 @@ public class Game {
 			gameListener.plantShoveled(gameEvent);
 			return;
 		}
+
+		gameState.cacheUndo(gameState);
 
 		tile.removePlant();
 
@@ -411,6 +419,66 @@ public class Game {
 		return !(selectedPlant == null);
 	}
 
+	/**
+	 * Undo
+	 */
+	public void undo() {
+		GameEvent gameEvent = new GameEvent(this);
+
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not started");
+			gameListener.gameUndo(gameEvent);
+			return;
+		} else if(gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level not finished");
+			gameListener.gameUndo(gameEvent);
+			return;
+		}
+
+		GameState previousState = gameState.undo();
+
+		if(previousState == null) {
+			gameEvent.setSuccess(false).setMessage("Nothing to undo");
+			gameListener.gameUndo(gameEvent);
+			return;
+		}
+
+		gameState.cacheRedo(gameState);
+		gameState = previousState;
+		gameEvent.setSuccess(true);
+		gameListener.gameUndo(gameEvent);
+	}
+
+	/**
+	 * Redo
+	 */
+	public void redo() {
+		GameEvent gameEvent = new GameEvent(this);
+
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not started");
+			gameListener.gameRedo(gameEvent);
+			return;
+		} else if(gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level not finished");
+			gameListener.gameRedo(gameEvent);
+			return;
+		}
+
+		GameState previousState = gameState.redo();
+
+		if(previousState == null) {
+			gameEvent.setSuccess(false).setMessage("Nothing to redo");
+			gameListener.gameRedo(gameEvent);
+			return;
+		}
+
+		gameState.cacheUndo(gameState);
+		gameState = previousState;
+		gameEvent.setSuccess(true);
+		gameListener.gameRedo(gameEvent);
+	}
+
 	// End Gameplay
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -432,7 +500,7 @@ public class Game {
 	 * @return the plants in the shop and their icon
 	 */
 	public Map<PlantName, ImageIcon> getShopPlants() {
-		return shop.getShopPlants();
+		return gameState.getShopPlants();
 	}
 
 	/**
@@ -513,7 +581,7 @@ public class Game {
 	public boolean isLevelLoaded() {
 		return levelLoaded;
 	}
-	
+
 	/**
 	 * Returns true if the specified plant is on cooldown or false otherwise.
 	 * 
@@ -522,7 +590,7 @@ public class Game {
 	 * @return true if the specified plant is on cooldown or false otherwise
 	 */
 	public boolean isPlantOnCooldown(PlantName plant) {
-		return shop.isPlantOnCooldown(plant);
+		return gameState.isPlantOnCooldown(plant);
 	}
 
 	// End Game info
@@ -538,9 +606,15 @@ public class Game {
 	 * @param levelID the id of the level to load
 	 */
 	public void loadLevel(int levelID) {
-		currentLevel = levelManager.getLevel(levelID - 1);
-
 		GameEvent gameEvent = new GameEvent(this);
+
+		if(levelLoaded && !gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Current level not finished");
+			gameListener.levelLoaded(gameEvent);
+			return;
+		}
+
+		currentLevel = levelManager.getLevel(levelID - 1);
 
 		if(currentLevel == null) {
 			gameEvent.setSuccess(false).setMessage("Level does not exist");
@@ -550,6 +624,7 @@ public class Game {
 
 		levelLoaded = true;
 
+		start();
 		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
 		gameListener.levelLoaded(gameEvent);
 	}
@@ -558,9 +633,15 @@ public class Game {
 	 * Returns true if loaded successfully or false otherwise.
 	 */
 	public void loadNextLevel() {
-		currentLevel = levelManager.getNextLevel();
-
 		GameEvent gameEvent = new GameEvent(this);
+
+		if(levelLoaded && !gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Current level not finished");
+			gameListener.levelLoaded(gameEvent);
+			return;
+		}
+
+		currentLevel = levelManager.getNextLevel();
 
 		if(currentLevel == null) {
 			gameEvent.setSuccess(false).setMessage("Already at the end");
@@ -570,6 +651,7 @@ public class Game {
 
 		levelLoaded = true;
 
+		start();
 		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
 		gameListener.levelLoaded(gameEvent);
 	}
@@ -578,9 +660,15 @@ public class Game {
 	 * Returns true if loaded successfully or false otherwise.
 	 */
 	public void loadPreviousLevel() {
-		currentLevel = levelManager.getPreviousLevel();
-
 		GameEvent gameEvent = new GameEvent(this);
+
+		if(levelLoaded && !gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Current level not finished");
+			gameListener.levelLoaded(gameEvent);
+			return;
+		}
+
+		currentLevel = levelManager.getPreviousLevel();
 
 		if(currentLevel == null) {
 			gameEvent.setSuccess(false).setMessage("This is the first level");
@@ -590,6 +678,7 @@ public class Game {
 
 		levelLoaded = true;
 
+		start();
 		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
 		gameListener.levelLoaded(gameEvent);
 	}

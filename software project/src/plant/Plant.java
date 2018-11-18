@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
  * All specific plants must have constant values set for all fields of this class.
  * 
  * @author Souheil Yazji 101007994
+ * @editor Hoang Bui 101029049
  * @version Nov 16th
  *
  */
@@ -46,12 +47,21 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * Set the name of the plant
+	 * Constructs a new Plant that is a copy of specified Plant.
 	 * 
-	 * @param name ENUM name of the plant to be created
+	 * @param plant the Plant that is to be copied
 	 */
-	public void setName(PlantName name) {
-		this.name = name;
+	public Plant(Plant plant) {
+		name = plant.name;
+		price = plant.price;
+		health = plant.health;
+		damage = plant.damage;
+		resrc_gen = plant.resrc_gen;
+		atkRange_X = plant.atkRange_X;
+		atkRange_Y = plant.atkRange_Y;
+		cooldown = plant.cooldown;
+		icon = plant.icon;
+		shopIcon = plant.shopIcon;
 	}
 	
 	/**
@@ -64,15 +74,6 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * Set the plant's price
-	 * 
-	 * @param price the cost of the plant in Sun points
-	 */
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	
-	/**
 	 * Get the plant's price
 	 * 
 	 * @return price the cost of the plant in Sun points
@@ -82,7 +83,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * set the plant's health
+	 * Set the plant's health
 	 * 
 	 * @param health the health of the plant
 	 */
@@ -91,7 +92,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * get the plant's health
+	 * Get the plant's health
 	 * 
 	 * @return health the health of the plant
 	 */
@@ -100,7 +101,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * set the plant's damage
+	 * Set the plant's damage
 	 * 
 	 * @param damage the plant's damage output per turn
 	 */
@@ -109,7 +110,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * get the plant's damage
+	 * Get the plant's damage
 	 * 
 	 * @return damage the plant's damage output per turn
 	 */
@@ -118,7 +119,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * set the plant's resource generation rate
+	 * Set the plant's resource generation rate
 	 * 
 	 * @param resrc_gen the plant's Sun point generation rate per turn
 	 */
@@ -127,7 +128,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * get the plant's resource generation rate
+	 * Get the plant's resource generation rate
 	 * 
 	 * @return resrc_gen the plant's Sun point generation rate per turn
 	 */
@@ -136,7 +137,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * check if the plant can attack
+	 * Check if the plant can attack
 	 * 
 	 * @return true if damage is greater than 0, false otherwise
 	 */
@@ -145,7 +146,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * check if the plant can generate resource
+	 * Check if the plant can generate resource
 	 * 
 	 * @return true if resrc_gen is greater than 0, false otherwise
 	 */
@@ -154,7 +155,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * used for implementation of area of effect attacks
+	 * Used for implementation of area of effect attacks
 	 * 
 	 * @param atkRange_X the plant's attack range in the X axis
 	 */
@@ -163,7 +164,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * used for implementation of area of effect attacks
+	 * Used for implementation of area of effect attacks
 	 * 
 	 * @param atkRange_Y the plant's attack range in the Y axis
 	 */
@@ -172,7 +173,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * used for implementation of area of effect attacks
+	 * Used for implementation of area of effect attacks
 	 * 
 	 * @return atkRange_X the plant's attack range in the X axis
 	 */
@@ -181,7 +182,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * used for implementation of area of effect attacks
+	 * Used for implementation of area of effect attacks
 	 * 
 	 * @return atkRange_Y the plant's attack range in the Y axis
 	 */
@@ -190,7 +191,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * check if the plant is dead
+	 * Check if the plant is dead
 	 * 
 	 * @return true if the plant's health is less than or equal to 0, false otherwise
 	 */
@@ -199,7 +200,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * calculate the health of the plant upon taking damage
+	 * Calculate the health of the plant upon taking damage
 	 * 
 	 * @param dmg the damage the plant has received
 	 */
@@ -208,7 +209,7 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * get the plant purchase cooldown turn timer
+	 * Get the plant purchase cooldown turn timer
 	 * 
 	 * @return cooldown the plant's purchase cooldown in turns
 	 */
@@ -226,7 +227,7 @@ public abstract class Plant {
 	 * @throws IOException
 	 */
 	protected ImageIcon loadIcon(String name) throws IOException {
-		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource(name + ".png")));
+		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("plant/" + name + ".png")));
 	}
 	
 	/**

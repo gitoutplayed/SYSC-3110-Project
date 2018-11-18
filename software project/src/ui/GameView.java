@@ -1,30 +1,33 @@
 package ui;
+
 import javax.swing.*;
 
 import game.Game;
 import game.GameState;
 import tile.Tile;
-import tile.TileTypes;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class represents the GameView. The GameView has two main panels: GridPanel and UpperPanel.
- * GridPanel has the grid and UpperPanel has shop, shovel button and end turn button as well as some
- * labels that will display information about the game (i.e. turn number, sun counter etc.)
+ * This class represents the GameView. The GameView has two main panels:
+ * GridPanel and UpperPanel. GridPanel has the grid and UpperPanel has shop,
+ * shovel button and end turn button as well as some labels that will display
+ * information about the game (i.e. turn number, sun counter etc.)
  * 
  * @author Michael Fan 101029934
  * @version Nov 16, 2018
  */
 public class GameView extends JFrame implements GameListener {
-	GridPanel gridPane;
-	UpperPanel upperPane;
-	
-	JMenuItem start;
-	JMenuItem loadLevel;
-	JMenuItem loadNextLevel;
-	JMenuItem loadPreviousLevel;
+	private GridPanel gridPane;
+	private UpperPanel upperPane;
+
+	private JMenuItem loadLevel;
+	private JMenuItem loadNextLevel;
+	private JMenuItem loadPreviousLevel;
+	private JMenuItem undo;
+	private JMenuItem redo;
+	private JMenuItem restart;
 
 	public static int SQUARE_SIZE = 80;
 	public static int WIDTH = SQUARE_SIZE * GameState.COL;
@@ -35,40 +38,43 @@ public class GameView extends JFrame implements GameListener {
 	 */
 	public GameView() {
 		setTitle("Zombies vs Plants");
-		
+
 		Container contentPane = getContentPane();
 
 		contentPane.setLayout(new BorderLayout());
-		
+
 		// Sets up the menu
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("Menu");
 		JMenu load = new JMenu("Load");
-		
-		start = new JMenuItem("Start");
+		JMenu edit = new JMenu("Edit");
+
 		loadLevel = new JMenuItem("Load Level");
 		loadNextLevel = new JMenuItem("Load Next Level");
 		loadPreviousLevel = new JMenuItem("Load Previous Level");
-		
-		menu.add(start);
-		
+		undo = new JMenuItem("Undo");
+		redo = new JMenuItem("Redo");
+		restart = new JMenuItem("Restart");
+
 		load.add(loadLevel);
 		load.add(loadNextLevel);
 		load.add(loadPreviousLevel);
-		
-		menu.add(load);
-		
-		menuBar.add(menu);
-		
+
+		edit.add(undo);
+		edit.add(redo);
+		edit.add(restart);
+
+		menuBar.add(load);
+		menuBar.add(edit);
+
 		setJMenuBar(menuBar);
-		
+
 		// Add the panels
 		gridPane = new GridPanel();
 		upperPane = new UpperPanel();
 
 		contentPane.add(gridPane, BorderLayout.CENTER);
 		contentPane.add(upperPane, BorderLayout.NORTH);
-		
+
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -76,7 +82,7 @@ public class GameView extends JFrame implements GameListener {
 		setVisible(true);
 		setLocationRelativeTo(null);
 	}
-	
+
 	/**
 	 * Updates the view.
 	 * 
@@ -86,33 +92,33 @@ public class GameView extends JFrame implements GameListener {
 	 */
 	private void updateView(GameEvent e) {
 		Game game = (Game) e.getSource();
-		Tile[][] grid =game.getGrid();
+		Tile[][] grid = game.getGrid();
 		JButton[][] buttonGrid = gridPane.getButtonGrid();
-		
+
 		for(int row = 0; row < GameState.ROW; row++) {
 			for(int col = 0; col < GameState.COL; col++) {
 				Tile tile = grid[row][col];
-				JButton button = buttonGrid[row][col]; 
-				
+				JButton button = buttonGrid[row][col];
+
 				// Check if the tile has plant
 				if(tile.hasPlant()) {
 					button.setIcon(tile.getResidingPlant().getIcon());
-				} 
+				}
 				// Check if the tile has zombie
 				else if(tile.hasZombie()) {
 					button.setIcon(tile.getFirstZombie().getIcon(tile.getTileType()));
-				} 
+				}
 				// Empty tile
 				else {
 					button.setIcon(tile.getIcon());
 				}
 			}
 		}
-		
+
 		upperPane.setTurnNumber(game.getTurnNumber());
 		upperPane.setZombiesLeft(game.getNumberOfZombiesLeft());
 		upperPane.setSunCtouner(game.getSunCounter());
-		
+
 		for(ShopButton button : upperPane.getShopButtons()) {
 			if(game.isPlantOnCooldown(button.getPlant())) {
 				button.setEnabled(false);
@@ -121,11 +127,29 @@ public class GameView extends JFrame implements GameListener {
 			}
 		}
 	}
-	
+
+	/**
+	 * Called when trying to restart a level.
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void levelRestarted(GameEvent e) {
+		// Display the error message when level restarting is not successful
+		if(!e.getSuccess()) {
+			showMessage(e.getMessage());
+			return;
+		}
+		
+		showMessage(e.getMessage());
+		updateView(e);
+	}
+
 	/**
 	 * Called when trying to load a level.
 	 * 
-	 *  @param e the GameEvent
+	 * @param e the GameEvent
 	 * 
 	 * @see GameEvent
 	 */
@@ -135,26 +159,9 @@ public class GameView extends JFrame implements GameListener {
 			showMessage(e.getMessage());
 			return;
 		}
-		
+
 		showMessage(e.getMessage());
-	}
-	
-	/**
-	 * Called when trying start a game(level).
-	 * 
-	 *  @param e the GameEvent
-	 * 
-	 * @see GameEvent
-	 */
-	public void gameStarted(GameEvent e) {
-		// Display the error message when game start is not successful
-		if(!e.getSuccess()) {
-			showMessage(e.getMessage());
-			return;
-		}
-		
-		showMessage(e.getMessage());
-		
+
 		upperPane.loadShop(((Game) e.getSource()).getShopPlants()); // load plants into the shop
 		updateView(e);
 	}
@@ -162,7 +169,7 @@ public class GameView extends JFrame implements GameListener {
 	/**
 	 * Called when trying to buy a plant.
 	 * 
-	 *  @param e the GameEvent
+	 * @param e the GameEvent
 	 * 
 	 * @see GameEvent
 	 */
@@ -171,15 +178,15 @@ public class GameView extends JFrame implements GameListener {
 		if(!e.getSuccess()) {
 			showMessage(e.getMessage());
 			return;
-		} 
-		
+		}
+
 		updateView(e);
 	}
-	
+
 	/**
 	 * Called when trying to shovel a plant.
 	 * 
-	 *  @param e the GameEvent
+	 * @param e the GameEvent
 	 * 
 	 * @see GameEvent
 	 */
@@ -188,15 +195,15 @@ public class GameView extends JFrame implements GameListener {
 		if(!e.getSuccess()) {
 			showMessage(e.getMessage());
 			return;
-		} 
-		
+		}
+
 		updateView(e);
 	}
-	
+
 	/**
 	 * Called when trying to end a turn
 	 * 
-	 * @param e GameEvent 
+	 * @param e GameEvent
 	 * 
 	 * @see GameEvent
 	 */
@@ -208,7 +215,7 @@ public class GameView extends JFrame implements GameListener {
 		}
 		updateView(e);
 	}
-	
+
 	/**
 	 * Called when the current level is finished.
 	 * 
@@ -220,25 +227,50 @@ public class GameView extends JFrame implements GameListener {
 		showMessage(e.getMessage());
 		updateView(e);
 	}
-	
+
 	/**
-	 * Display the given message in a JOptionPane dialog box. 
+	 * Called when trying to undo
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameUndo(GameEvent e) {
+		// Display the error message when undo is not successful
+		if(!e.getSuccess()) {
+			showMessage(e.getMessage());
+			return;
+		}
+
+		updateView(e);
+	}
+
+	/**
+	 * Called when trying to redo
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameRedo(GameEvent e) {
+		// Display the error message when redo is not successful
+		if(!e.getSuccess()) {
+			showMessage(e.getMessage());
+			return;
+		}
+
+		updateView(e);
+	}
+
+	/**
+	 * Display the given message in a JOptionPane dialog box.
 	 * 
 	 * @param message the message to be displayed
 	 */
 	private void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message);
 	}
-	
-	/**
-	 * Returns the start menu item.
-	 * 
-	 * @return the start menu item
-	 */
-	public JMenuItem getStart() {
-		return start;
-	}
-	
+
 	/**
 	 * Returns the loadNextLevel menu item.
 	 * 
@@ -247,7 +279,7 @@ public class GameView extends JFrame implements GameListener {
 	public JMenuItem getLoadNextLevel() {
 		return loadNextLevel;
 	}
-	
+
 	/**
 	 * Returns the loadLevel menu item.
 	 * 
@@ -256,7 +288,7 @@ public class GameView extends JFrame implements GameListener {
 	public JMenuItem getLoadLevel() {
 		return loadLevel;
 	}
-	
+
 	/**
 	 * Returns the loadPreviousLevel menu item.
 	 * 
@@ -265,7 +297,32 @@ public class GameView extends JFrame implements GameListener {
 	public JMenuItem getLoadPreviousLevel() {
 		return loadPreviousLevel;
 	}
-	
+
+	/**
+	 * Returns the undo menu item
+	 * 
+	 * @return the undo menu item
+	 */
+	public JMenuItem getUndo() {
+		return undo;
+	}
+
+	/**
+	 * Returns the redo menu item
+	 * 
+	 * @return the redo menu item
+	 */
+	public JMenuItem getRedo() {
+		return redo;
+	}
+
+	/**
+	 * Returns the restart menu item
+	 */
+	public JMenuItem getRestart() {
+		return restart;
+	}
+
 	/**
 	 * Returns the end turn button.
 	 * 
@@ -274,7 +331,7 @@ public class GameView extends JFrame implements GameListener {
 	public JButton getEndTurn() {
 		return upperPane.getEndTurn();
 	}
-	
+
 	/**
 	 * Returns the shovel button.
 	 * 
@@ -283,7 +340,7 @@ public class GameView extends JFrame implements GameListener {
 	public JButton getShovel() {
 		return upperPane.getShovel();
 	}
-	
+
 	/**
 	 * Returns the buttons in the grid.
 	 * 
@@ -292,13 +349,13 @@ public class GameView extends JFrame implements GameListener {
 	public JButton[][] getButtonGrid() {
 		return gridPane.getButtonGrid();
 	}
-	
+
 	/**
 	 * Returns the buttons in the shop.
 	 * 
 	 * @return the buttons in the shop
 	 */
-	public ArrayList<ShopButton> getShopButtons() {
+	public List<ShopButton> getShopButtons() {
 		return upperPane.getShopButtons();
 	}
 }

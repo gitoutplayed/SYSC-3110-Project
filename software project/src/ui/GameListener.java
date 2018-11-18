@@ -3,9 +3,18 @@ package ui;
  *  The GameListener interface.
  * 
  * @author Michael Fan 101029934
- * @version Nov 7, 2018
+ * @version Nov 16, 2018
  */
 public interface GameListener {
+	/**
+	 * Called when trying to restart a level.
+	 * 
+	 *  @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void levelRestarted(GameEvent e);
+	
 	/**
 	 * Called when trying to load a level.
 	 * 
@@ -14,15 +23,6 @@ public interface GameListener {
 	 * @see GameEvent
 	 */
 	public void levelLoaded(GameEvent e);
-	
-	/**
-	 * Called when trying start a game(level).
-	 * 
-	 *  @param e the GameEvent
-	 * 
-	 * @see GameEvent
-	 */
-	public void gameStarted(GameEvent e);
 	
 	/**
 	 * Called when trying to buy a plant.
@@ -59,4 +59,22 @@ public interface GameListener {
 	 * @see GameEvent
 	 */
 	public void levelFinished(GameEvent e);
+	
+	/**
+	 * Called when trying to undo
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameUndo(GameEvent e);
+	
+	/**
+	 * Called when trying to redo
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameRedo(GameEvent e);
 }

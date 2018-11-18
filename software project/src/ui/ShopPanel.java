@@ -3,6 +3,7 @@ package ui;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -17,7 +18,7 @@ import plant.PlantName;
  * @version Nov 16, 2018
  */
 public class ShopPanel extends JPanel {
-	private ArrayList<ShopButton> shop;
+	private List<ShopButton> shop;
 	
 	public static int WIDTH = 4 * GameView.SQUARE_SIZE;
 	public static int HEIGHT = GameView.SQUARE_SIZE;
@@ -67,7 +68,7 @@ public class ShopPanel extends JPanel {
 	 * 
 	 * @return all the ShopButtons in the shop
 	 */
-	public ArrayList<ShopButton> getShopButtons() {
+	public List<ShopButton> getShopButtons() {
 		return shop;
 	}
 }

@@ -6,7 +6,7 @@ import javax.swing.*;
 import plant.PlantName;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +41,7 @@ public class UpperPanel extends JPanel {
 		sunCounterPane.setBackground(Color.WHITE);
 		JLabel sunIcon = new JLabel();
 		try {
-			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("sun.png")));
+			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("ui/sun.png")));
 			sunIcon.setIcon(icon);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
@@ -63,7 +63,7 @@ public class UpperPanel extends JPanel {
 		shovel = new JButton();
 		shovel.setPreferredSize(new Dimension(GameView.SQUARE_SIZE, GameView.SQUARE_SIZE));
 		try {
-			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("shovel.png")));
+			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("ui/shovel.png")));
 			shovel.setIcon(icon);
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
@@ -73,7 +73,7 @@ public class UpperPanel extends JPanel {
 		// Info panel
 		JPanel infoPane = new JPanel();
 		infoPane.setLayout(new GridLayout(3, 1));
-		int infoPaneWidth = (GameView.WIDTH - ShopPanel.WIDTH - GameView.SQUARE_SIZE - 70) / 2;
+		int infoPaneWidth = (GameView.WIDTH - ShopPanel.WIDTH - GameView.SQUARE_SIZE - 50) / 2;
 		infoPane.setPreferredSize(new Dimension(infoPaneWidth, HEIGHT));
 		infoPane.setBackground(Color.WHITE);
 		endTurn = new JButton("End Turn");
@@ -135,7 +135,7 @@ public class UpperPanel extends JPanel {
 	 * 
 	 * @return all the buttons in the shop
 	 */
-	public ArrayList<ShopButton> getShopButtons() {
+	public List<ShopButton> getShopButtons() {
 		return shopPane.getShopButtons();
 	}
 	
