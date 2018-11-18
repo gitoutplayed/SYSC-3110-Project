@@ -24,4 +24,17 @@ public class PlantFactory {
 		if(name==PlantName.SunFlower) return new SunFlower();
 		return null;
 	}
+	
+	/**
+	 * Returns a Plant that is a copy of another Plant
+	 */
+	public static Plant createPlantCopy(Plant plant) {
+		if(plant.getName() == PlantName.PeaShooter) {
+			return new PeaShooter(plant);
+		} else if(plant.getName() == PlantName.SunFlower) {
+			return new SunFlower(plant);
+		}
+		
+		return null;
+	}
 }

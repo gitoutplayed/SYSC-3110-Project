@@ -1,10 +1,11 @@
 package game;
+
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.swing.ImageIcon;
-
 import plant.Plant;
 import plant.PlantFactory;
 import plant.PlantName;
@@ -14,7 +15,7 @@ import plant.PlantName;
  * The plants that appear in the shop depends on the level.
  *
  * @author Michael Fan 101029934
- * @version Nov 16, 2018
+ * @version Nov 17, 2018
  */
 
 public class Shop {
@@ -31,6 +32,21 @@ public class Shop {
 		cooldowns = new HashMap<PlantName, Integer>();
 		currentCooldowns = new HashMap<PlantName, Integer>();
 		shopIcons = new HashMap<PlantName, ImageIcon>();
+	}
+	
+	/**
+	 * Constructs a new Shop that is a copy of the specified Shop.
+	 * 
+	 * @param shop the Shop that is to be copied
+	 */
+	public Shop(Shop otherShop) {
+		shop = otherShop.shop;
+		cooldowns = otherShop.cooldowns;
+		shopIcons = otherShop.shopIcons;
+		currentCooldowns = new HashMap<PlantName, Integer>();
+		for(PlantName plant : otherShop.currentCooldowns.keySet()) {
+			currentCooldowns.putIfAbsent(plant, otherShop.currentCooldowns.get(plant));
+		}
 	}
 	
 	/**
@@ -61,18 +77,25 @@ public class Shop {
 	 * Purchase a plant.
 	 * 
 	 * @param plant the plant to be purchased
-	 * @param sunCounter the current amount of sun counter
 	 * 
-	 * @return the purchased plant if purchased successfully or false otherwise
+	 * @return the purchased plant 
 	 */
-	public Plant purchase(PlantName plant, int sunCounter) {
-		if(sunCounter < shop.get(plant)) {
-			return null;
-		} 
-		
+	public Plant purchase(PlantName plant) {
 		currentCooldowns.put(plant, cooldowns.get(plant));
 
 		return PlantFactory.createPlant(plant);
+	}
+	
+	/**
+	 * Returns true if the specified plant can be purchased.
+	 * 
+	 * @param plant the plant to be purchased
+	 * @param sunCounter the current amount of sun counter
+	 * 
+	 * @return true if the specified plant can be purchased
+	 */
+	public boolean canPurchase(PlantName plant, int sunCounter) {
+		return sunCounter >= shop.get(plant);
 	}
 	
 	/**

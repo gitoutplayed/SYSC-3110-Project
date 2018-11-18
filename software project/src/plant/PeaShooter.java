@@ -16,7 +16,9 @@ public class PeaShooter extends Plant{
 	private static final int ATKRANGE_Y = 1;
 	private static final int COOLDOWN = 3;
 	
-		
+	/**
+	 * Constructs a new PeaShooter
+	 */
 	public PeaShooter() {
 		super(PlantName.PeaShooter, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN);
 		
@@ -26,6 +28,13 @@ public class PeaShooter extends Plant{
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
+	}
+	
+	/**
+	 * Constructs a new PeaShooter that is a copy of specified PeaShooter.
+	 */
+	public PeaShooter(Plant plant) {
+		super(plant);
 	}
 	
 }

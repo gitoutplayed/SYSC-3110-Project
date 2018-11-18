@@ -20,15 +20,13 @@ abstract public class Zombie {
 	private int damage;
 	private int health;
 	private int atkRange;
-	private int currentMovementSpeed;
-	private int originalMovementSpeed;
+	private int movementSpeed;
 	private int movementCounter;
-	private int slowDuration;
 	protected ZombieTypes zombieType;
 	protected Map<TileTypes, ImageIcon> icons;
 
 	/**
-	 * Constructor method for class Zombie
+	 * Constructor method for class Zombie.
 	 * 
 	 * @param movementSpeed the zombie's movement speed
 	 * @param damage the zombie's damage
@@ -40,11 +38,24 @@ abstract public class Zombie {
 		this.damage = damage;
 		this.health = health;
 		this.atkRange = atkRange;
-		this.currentMovementSpeed = movementSpeed;
-		this.originalMovementSpeed = movementSpeed;
+		this.movementSpeed = movementSpeed;
 		this.movementCounter = 0;
-		this.slowDuration = 0;
 		this.zombieType = zombieType;
+		icons = new HashMap<TileTypes, ImageIcon>();
+	}
+	
+	/**
+	 * Constructs a Zombie that is a copy of specified Zombie.
+	 * 
+	 * @param zombie the zombie that is to be copied
+	 */
+	public Zombie(Zombie zombie) {
+		damage = zombie.damage;
+		health = zombie.health;
+		atkRange = zombie.atkRange;
+		movementSpeed = zombie.movementSpeed;
+		movementCounter = zombie.movementCounter;
+		zombieType = zombie.zombieType;
 		icons = new HashMap<TileTypes, ImageIcon>();
 	}
 
@@ -108,7 +119,7 @@ abstract public class Zombie {
 	 * @return returns the zombie's current movement speed
 	 */
 	public int getCurrentMovementSpeed() {
-		return this.currentMovementSpeed;
+		return this.movementSpeed;
 	}
 
 	/**
@@ -117,7 +128,7 @@ abstract public class Zombie {
 	 * @param movementSpeed new value for the zombie's current movement speed
 	 */
 	public void setCurrentMovementSpeed(int movementSpeed) {
-		this.currentMovementSpeed = movementSpeed;
+		this.movementSpeed = movementSpeed;
 	}
 
 	/**
@@ -148,27 +159,6 @@ abstract public class Zombie {
 	}
 
 	/**
-	 * Method to determine if the zombie is affected by a slow effect
-	 * 
-	 * @return true if the value of slowDuration is above 0
-	 */
-	public boolean isSlowed() {
-		return this.slowDuration > 0;
-	}
-
-	/**
-	 * Method to decrement the zombie's slow duration
-	 */
-	public void decrementSlowDuration() {
-		if(this.isSlowed()) {
-			slowDuration--;
-			if(!(this.isSlowed())) {
-				this.currentMovementSpeed = this.originalMovementSpeed;
-			}
-		}
-	}
-
-	/**
 	 * Method to increment the zombie's movement counter
 	 */
 	public void incrementMovementCounter() {
@@ -183,19 +173,12 @@ abstract public class Zombie {
 	}
 
 	/**
-	 * Method to adjust the movement counter when entering a new tile
-	 */
-	public void adjustMovementCounter() {
-		this.movementCounter -= this.currentMovementSpeed;
-	}
-
-	/**
 	 * Method to obtain the movement progress as a comparable value
 	 * 
 	 * @return the zombies progress
 	 */
 	public double getZombieProgress() {
-		return ((double) this.movementCounter) / this.currentMovementSpeed;
+		return ((double) this.movementCounter) / this.movementSpeed;
 	}
 
 	/**
@@ -210,10 +193,11 @@ abstract public class Zombie {
 	/**
 	 * Method to check if the zombie is ready to move
 	 * 
-	 * @return true if the movement counter is the same or greater as the movement speed
+	 * @return true if the movement counter is the same or greater as the movement
+	 *         speed
 	 */
 	public boolean isReadyToMove() {
-		return this.movementCounter >= this.currentMovementSpeed;
+		return this.movementCounter == this.movementSpeed;
 	}
 
 	/**

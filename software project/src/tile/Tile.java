@@ -6,23 +6,30 @@
  */
 package tile;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import plant.Plant;
+import plant.PlantFactory;
 import zombie.Zombie;
+import zombie.ZombieFactory;
 
 public class Tile {
 	private Plant residingPlant;
 	private List<Zombie> residingZombie;
 	private TileTypes tileType;
 	private ImageIcon icon;
+	private Map<TileTypes, BufferedImage> images ;
 
 	/**
 	 * Constructor method to create a tile with a specified tile type
@@ -33,8 +40,9 @@ public class Tile {
 		this.residingPlant = null;
 		this.residingZombie = new ArrayList<Zombie>();
 		this.tileType = tileType;
-
-		updateIcon(tileType);
+		
+		loadImages();
+		icon = new ImageIcon(images.get(tileType));
 	}
 
 	/**
@@ -48,6 +56,24 @@ public class Tile {
 		this.residingPlant = residingPlant;
 		this.residingZombie = new ArrayList<Zombie>();
 		this.tileType = tileType;
+	}
+	
+	/**
+	 * Constructs a new Tile that is a copy of specified Tile
+	 * 
+	 * @param tile the tile that is to be copied
+	 */
+	public Tile(Tile tile) {
+		residingPlant = tile.residingPlant == null ? null : PlantFactory.createPlantCopy(tile.residingPlant);
+		
+		residingZombie = new ArrayList<Zombie>();
+		for(Zombie z : tile.residingZombie) {
+			residingZombie.add(ZombieFactory.createZombieCopy(z));
+		}
+		
+		tileType = tile.tileType;
+		images = tile.images;
+		icon = new ImageIcon(images.get(tileType));
 	}
 
 	/**
@@ -186,15 +212,32 @@ public class Tile {
 	public ImageIcon getIcon() {
 		return icon;
 	}
-
+	
+	/**
+	 * Loads the images for the tile
+	 */
+	private void loadImages() {
+		images =  new HashMap<TileTypes, BufferedImage>();
+		
+		try {
+			images.putIfAbsent(TileTypes.CONCRETE, loadImage("concrete"));
+			images.putIfAbsent(TileTypes.GRASS, loadImage("grass"));
+			images.putIfAbsent(TileTypes.LAWNMOWER, loadImage("lawnmower"));
+			images.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadImage("road"));
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Method to generate the tile's image
 	 * @param name the name of the file
-	 * @return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name + ".png"))) a new image icon
+	 * @return BufferedImage
 	 * @throws IOException when the method fails to generate the image
 	 */
-	private ImageIcon loadIcon(String name) throws IOException {
-		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("tile/" + name + ".png")));
+	private BufferedImage loadImage(String name) throws IOException {
+		return ImageIO.read(getClass().getClassLoader().getResource("tile/" + name + ".png"));
 	}
 	
 	public void setTileType(TileTypes tileType) {
@@ -202,21 +245,7 @@ public class Tile {
 	}
 	
 	public void updateIcon(TileTypes tileType) {
-		try {
-			if(tileType == TileTypes.GRASS) {
-				icon = loadIcon("grass");
-			} 
-			else if(tileType == TileTypes.LAWNMOWER) {
-				icon = loadIcon("lawnmower");
-			} 
-			else if(tileType == TileTypes.ZOMBIE_SPAWN) {
-				icon = loadIcon("road");
-			} else if(tileType == TileTypes.CONCRETE) {
-				icon = loadIcon("concrete");
-			}
-		}
-		catch(Exception e) {
-			System.err.println(e.getMessage());
-		}
+		icon = new ImageIcon(images.get(tileType));
+		//icon.setImage(images.get(tileType));
 	}
 }

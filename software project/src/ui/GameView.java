@@ -1,13 +1,13 @@
 package ui;
+
 import javax.swing.*;
 
 import game.Game;
 import game.GameState;
 import tile.Tile;
-import tile.TileTypes;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the GameView. The GameView has two main panels: GridPanel and UpperPanel.
@@ -18,14 +18,15 @@ import java.util.ArrayList;
  * @version Nov 16, 2018
  */
 public class GameView extends JFrame implements GameListener {
-	GridPanel gridPane;
-	UpperPanel upperPane;
+	private GridPanel gridPane;
+	private UpperPanel upperPane;
 	
-	JMenuItem start;
-	JMenuItem loadLevel;
-	JMenuItem loadNextLevel;
-	JMenuItem loadPreviousLevel;
-
+	private JMenuItem loadLevel;
+	private JMenuItem loadNextLevel;
+	private JMenuItem loadPreviousLevel;
+	private JMenuItem undo;
+	private JMenuItem redo;
+	
 	public static int SQUARE_SIZE = 80;
 	public static int WIDTH = SQUARE_SIZE * GameState.COL;
 	public static int HEIGHT = SQUARE_SIZE * GameState.ROW + UpperPanel.HEIGHT;
@@ -42,23 +43,24 @@ public class GameView extends JFrame implements GameListener {
 		
 		// Sets up the menu
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("Menu");
 		JMenu load = new JMenu("Load");
+		JMenu edit = new JMenu("Edit");
 		
-		start = new JMenuItem("Start");
 		loadLevel = new JMenuItem("Load Level");
 		loadNextLevel = new JMenuItem("Load Next Level");
 		loadPreviousLevel = new JMenuItem("Load Previous Level");
-		
-		menu.add(start);
+		undo = new JMenuItem("Undo");
+		redo = new JMenuItem("Redo");
 		
 		load.add(loadLevel);
 		load.add(loadNextLevel);
 		load.add(loadPreviousLevel);
 		
-		menu.add(load);
+		edit.add(undo);
+		edit.add(redo);
 		
-		menuBar.add(menu);
+		menuBar.add(load);
+		menuBar.add(edit);
 		
 		setJMenuBar(menuBar);
 		
@@ -137,23 +139,6 @@ public class GameView extends JFrame implements GameListener {
 		}
 		
 		showMessage(e.getMessage());
-	}
-	
-	/**
-	 * Called when trying start a game(level).
-	 * 
-	 *  @param e the GameEvent
-	 * 
-	 * @see GameEvent
-	 */
-	public void gameStarted(GameEvent e) {
-		// Display the error message when game start is not successful
-		if(!e.getSuccess()) {
-			showMessage(e.getMessage());
-			return;
-		}
-		
-		showMessage(e.getMessage());
 		
 		upperPane.loadShop(((Game) e.getSource()).getShopPlants()); // load plants into the shop
 		updateView(e);
@@ -222,21 +207,44 @@ public class GameView extends JFrame implements GameListener {
 	}
 	
 	/**
+	 * Called when trying to undo
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameUndo(GameEvent e) {
+		if(!e.getSuccess()) {
+			showMessage(e.getMessage());
+			return;
+		}
+		
+		updateView(e);
+	}
+	
+	/**
+	 * Called when trying to redo
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameRedo(GameEvent e) {
+		if(!e.getSuccess()) {
+			showMessage(e.getMessage());
+			return;
+		}
+		
+		updateView(e);
+	}
+	
+	/**
 	 * Display the given message in a JOptionPane dialog box. 
 	 * 
 	 * @param message the message to be displayed
 	 */
 	private void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message);
-	}
-	
-	/**
-	 * Returns the start menu item.
-	 * 
-	 * @return the start menu item
-	 */
-	public JMenuItem getStart() {
-		return start;
 	}
 	
 	/**
@@ -264,6 +272,24 @@ public class GameView extends JFrame implements GameListener {
 	 */
 	public JMenuItem getLoadPreviousLevel() {
 		return loadPreviousLevel;
+	}
+	
+	/**
+	 * Returns the undo menu item
+	 * 
+	 * @return the undo menu item
+	 */
+	public JMenuItem getUndo() {
+		return undo;
+	}
+	
+	/**
+	 * Returns the redo menu item
+	 * 
+	 * @return the redo menu item
+	 */
+	public JMenuItem getRedo() {
+		return redo;
 	}
 	
 	/**
@@ -298,7 +324,7 @@ public class GameView extends JFrame implements GameListener {
 	 * 
 	 * @return the buttons in the shop
 	 */
-	public ArrayList<ShopButton> getShopButtons() {
+	public List<ShopButton> getShopButtons() {
 		return upperPane.getShopButtons();
 	}
 }

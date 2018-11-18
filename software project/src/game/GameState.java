@@ -1,4 +1,5 @@
 package game;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -6,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
+
 import plant.Plant;
+import plant.PlantFactory;
+import plant.PlantName;
 import tile.Tile;
 import tile.TileTypes;
 import zombie.Zombie;
@@ -19,7 +24,7 @@ import zombie.ZombieTypes;
  * zombies and etc.
  * 
  * @author Michael Fan 101029934
- * @version Nov 7, 2018
+ * @version Nov 17, 2018
  */
 
 public class GameState {
@@ -28,9 +33,9 @@ public class GameState {
 	private boolean levelFinished;
 	private int turnNumber;
 	private List<Zombie> pendingZombies;
-	private Set<Integer> clearedRow;
 	private int totalNumberOfZombies;
 	private int numberOfZombiesLeft;
+	private Shop shop;
 
 	public static int ROW = 5;
 	public static int COL = 11;
@@ -40,13 +45,16 @@ public class GameState {
 	public static int LAWN_MOWER = 0;
 	public static int ROAD = 11;
 
+	private static List<GameState> undo;
+	private static List<GameState> redo;
+
 	/**
 	 * Constructs a new GameState.
 	 */
 	public GameState() {
 		grid = new Tile[ROW][COL];
-		for(int row = 0; row < GameState.ROW; row++) {
-			for(int col = 0; col < GameState.COL; col++) {
+		for(int row = 0; row < ROW; row++) {
+			for(int col = 0; col < COL; col++) {
 				TileTypes tileType;
 				if(col == LAWN_MOWER) {
 					tileType = TileTypes.LAWNMOWER;
@@ -66,7 +74,40 @@ public class GameState {
 		totalNumberOfZombies = 0;
 		numberOfZombiesLeft = 0;
 		pendingZombies = new LinkedList<Zombie>();
-		clearedRow = new HashSet<Integer>();
+		undo = new LinkedList<GameState>();
+		redo = new LinkedList<GameState>();
+		shop = new Shop();
+	}
+
+	/**
+	 * Constructs a new GameState that is a copy of the specified GameState
+	 * 
+	 * @param gameState the GameState that is to be copied
+	 */
+	public GameState(GameState gameState) {
+		// Copy the grid
+		grid = new Tile[ROW][COL];
+		for(int row = 0; row < ROW; row++) {
+			for(int col = 0; col < COL; col++) {
+				grid[row][col] = new Tile(gameState.grid[row][col]);
+			}
+		}
+		
+		// Copy game info
+		turnNumber = gameState.turnNumber;
+		sunCounter = gameState.sunCounter;
+		levelFinished = gameState.levelFinished;
+		totalNumberOfZombies = gameState.numberOfZombiesLeft;
+		numberOfZombiesLeft = gameState.numberOfZombiesLeft;
+		
+		// Copy pendingZombies
+		pendingZombies = new LinkedList<Zombie>();
+		for(Zombie z : gameState.pendingZombies) {
+			pendingZombies.add(ZombieFactory.createZombie(z.getZombieType()));
+		}
+		
+		// Copy shop
+		shop = new Shop(gameState.shop);
 	}
 
 	/**
@@ -218,24 +259,111 @@ public class GameState {
 	public int getTotalNumberOfZombies() {
 		return totalNumberOfZombies;
 	}
-
+	
 	/**
-	 * Adds a row that has been cleared.
+	 * Adds plants that are available purchase into the shop.
 	 * 
-	 * @param row that has been cleared
+	 * @param plants the plants that are to be added to the shop
 	 */
-	public void addClearedRow(int row) {
-		clearedRow.add(row);
+	public void addPlants(Set<PlantName> plants) {
+		shop.addPlants(plants);
+	}
+	
+	/**
+	 * Returns the plants and their icons.
+	 * 
+	 * @return the plants and their icons
+	 */
+	public Map<PlantName, ImageIcon> getShopPlants() {
+		return shop.getShopPlants();
+	}
+	
+	/**
+	 * Purchase a plant.
+	 * 
+	 * @param plant the plant to be purchased
+	 * 
+	 * @return the purchased plant
+	 */
+	public Plant purchase(PlantName plant) {
+		return shop.purchase(plant);
+	}
+	
+	/**
+	 * Returns true if the specified plant can be purchased.
+	 * 
+	 * @param plant the plant to be purchased
+	 * @param sunCounter the current amount of sun counter
+	 * 
+	 * @return true if the specified plant can be purchased
+	 */
+	public boolean canPurchase(PlantName plant, int sunCounter) {
+		return shop.canPurchase(plant, sunCounter);
+	}
+	
+	/**
+	 * Reduces the cooldowns for purchasing plants.
+	 */
+	public void reduceCooldowns() {
+		shop.reduceCooldowns();
+	}
+	
+	/**
+	 * Returns true if the specified plant is on cooldown.
+	 * 
+	 * @param plant the plant to check
+	 * 
+	 * @return true if the specified plant is on cooldown
+	 */
+	public boolean isPlantOnCooldown(PlantName plant) {
+		return shop.isPlantOnCooldown(plant);
 	}
 
 	/**
-	 * Returns true if the specified row has been cleared or false otherwise.
+	 * Caches GameState for undo
 	 * 
-	 * @param row the row to check
-	 * 
-	 * @return true if the specified row has been cleared or false otherwise
+	 * @param gameState the GameState to cache
 	 */
-	public boolean isRowCleared(int row) {
-		return clearedRow.contains(row);
+	public void cacheUndo(GameState gameState) {
+		undo.add(new GameState(gameState));
+	}
+	
+	/**
+	 * Returns the last GameState 
+	 * 
+	 * @returnn the last GameState 
+	 */
+	public GameState undo() {
+		int last = undo.size() - 1;
+		if(last < 0) {
+			return null;
+		}
+		GameState lastChange = undo.get(last);
+		undo.remove(last);
+		return lastChange;
+	}
+	
+	/**
+	 * Caches GameState for redo
+	 * 
+	 * @param gameState the GameState to cache
+	 */
+	public void cacheRedo(GameState gameState) {
+		redo.add(new GameState(gameState));
+	}
+	
+	/**
+	 * Returns the last undo
+	 * 
+	 * @returnn the last undo
+	 */
+	public GameState redo() {
+		int last = redo.size() - 1;
+		if(last < 0) {
+			return null;
+		}
+		GameState lastChange = redo.get(last);
+		redo.remove(last);
+		return lastChange;
 	}
 }

@@ -27,4 +27,11 @@ public class SunFlower extends Plant {
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Constructs a new SunFlower that is a copy of specified SunFlower.
+	 */
+	public SunFlower(Plant plant) {
+		super(plant);
+	}
 }

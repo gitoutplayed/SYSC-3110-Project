@@ -16,15 +16,6 @@ public interface GameListener {
 	public void levelLoaded(GameEvent e);
 	
 	/**
-	 * Called when trying start a game(level).
-	 * 
-	 *  @param e the GameEvent
-	 * 
-	 * @see GameEvent
-	 */
-	public void gameStarted(GameEvent e);
-	
-	/**
 	 * Called when trying to buy a plant.
 	 * 
 	 *  @param e the GameEvent
@@ -59,4 +50,22 @@ public interface GameListener {
 	 * @see GameEvent
 	 */
 	public void levelFinished(GameEvent e);
+	
+	/**
+	 * Called when trying to undo
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameUndo(GameEvent e);
+	
+	/**
+	 * Called when trying to redo
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameRedo(GameEvent e);
 }

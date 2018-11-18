@@ -6,7 +6,7 @@ import javax.swing.*;
 import plant.PlantName;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -135,7 +135,7 @@ public class UpperPanel extends JPanel {
 	 * 
 	 * @return all the buttons in the shop
 	 */
-	public ArrayList<ShopButton> getShopButtons() {
+	public List<ShopButton> getShopButtons() {
 		return shopPane.getShopButtons();
 	}
 	

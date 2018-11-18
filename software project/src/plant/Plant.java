@@ -33,7 +33,6 @@ public abstract class Plant {
 	 * @param atkRange_X the plant's attack range in the X axis
 	 * @param atkRange_Y the plant's attack range in the Y axis
 	 * @param cooldown the plant's purchase cooldown in turns
-	 * @param ailment the plant's ailment inflicter
 	 *  
 	 */
 	public Plant(PlantName name, int price, int health, int damage, int resrc_gen, int atkRange_X, int atkRange_Y, int cooldown) {
@@ -45,6 +44,24 @@ public abstract class Plant {
 		this.atkRange_X = atkRange_X;
 		this.atkRange_Y = atkRange_Y;
 		this.cooldown = cooldown;
+	}
+	
+	/**
+	 * Constructs a new Plant that is a copy of specified Plant.
+	 * 
+	 * @param plant the Plant that is to be copied
+	 */
+	public Plant(Plant plant) {
+		name = plant.name;
+		price = plant.price;
+		health = plant.health;
+		damage = plant.damage;
+		resrc_gen = plant.resrc_gen;
+		atkRange_X = plant.atkRange_X;
+		atkRange_Y = plant.atkRange_Y;
+		cooldown = plant.cooldown;
+		icon = plant.icon;
+		shopIcon = plant.shopIcon;
 	}
 	
 	/**
