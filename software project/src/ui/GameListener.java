@@ -3,9 +3,18 @@ package ui;
  *  The GameListener interface.
  * 
  * @author Michael Fan 101029934
- * @version Nov 7, 2018
+ * @version Nov 16, 2018
  */
 public interface GameListener {
+	/**
+	 * Called when trying to restart a level.
+	 * 
+	 *  @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void levelRestarted(GameEvent e);
+	
 	/**
 	 * Called when trying to load a level.
 	 * 

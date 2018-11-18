@@ -62,6 +62,23 @@ public class Game {
 		gameState.addPendingZombies(currentLevel.getZombies());
 		gameState.addPlants(currentLevel.getPlants());
 	}
+	
+	/**
+	 * Restarts the current level.
+	 */
+	public void restart() {
+		GameEvent gameEvent = new GameEvent(this);
+		
+		if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not started");
+			gameListener.levelRestarted(gameEvent);
+			return;
+		}
+		
+		start();
+		gameEvent.setSuccess(true).setMessage("Level restarted");
+		gameListener.levelRestarted(gameEvent);
+	}
 
 	/**
 	 * When a turn ends all the actions will take place. If the level is finished
@@ -591,7 +608,7 @@ public class Game {
 	public void loadLevel(int levelID) {
 		GameEvent gameEvent = new GameEvent(this);
 
-		if(!gameState.isLevelFinished()) {
+		if(levelLoaded && !gameState.isLevelFinished()) {
 			gameEvent.setSuccess(false).setMessage("Current level not finished");
 			gameListener.levelLoaded(gameEvent);
 			return;
@@ -618,7 +635,7 @@ public class Game {
 	public void loadNextLevel() {
 		GameEvent gameEvent = new GameEvent(this);
 
-		if(!gameState.isLevelFinished()) {
+		if(levelLoaded && !gameState.isLevelFinished()) {
 			gameEvent.setSuccess(false).setMessage("Current level not finished");
 			gameListener.levelLoaded(gameEvent);
 			return;
@@ -645,7 +662,7 @@ public class Game {
 	public void loadPreviousLevel() {
 		GameEvent gameEvent = new GameEvent(this);
 
-		if(!gameState.isLevelFinished()) {
+		if(levelLoaded && !gameState.isLevelFinished()) {
 			gameEvent.setSuccess(false).setMessage("Current level not finished");
 			gameListener.levelLoaded(gameEvent);
 			return;

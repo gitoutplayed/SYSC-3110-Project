@@ -48,6 +48,7 @@ public class GameController {
 		gameView.getLoadPreviousLevel().addActionListener(new MenuListener());
 		gameView.getUndo().addActionListener(new MenuListener());
 		gameView.getRedo().addActionListener(new MenuListener());
+		gameView.getRestart().addActionListener(new MenuListener());
 
 		// End turn listener
 		gameView.getEndTurn().addActionListener(new EndTurnListener());
@@ -87,6 +88,8 @@ public class GameController {
 				game.undo();
 			} else if(item == gameView.getRedo()) {
 				game.redo();
+			} else if(item == gameView.getRestart()) {
+				game.restart();
 			}
 		}
 	}
