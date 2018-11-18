@@ -4,10 +4,9 @@
 
 ### Authors: Michael Fan, Hoang Bui, Souheil Yazji, Tamer Ibrahim
 
-# Milestone 2
+# Milestone 3
 
 ## Rest of Deliverables
-* Milestone 3
 * Milestone 4
 
 ## Changes Made Since the Previous Deliverable
