@@ -18,10 +18,10 @@ public class ZombieFactory {
 			return new Walker();
 		}
 		else if(zombieType == ZombieTypes.CONEHAT) {
-			return new Walker();
+			return new ConeHat();
 		}
 		else if(zombieType == ZombieTypes.BUCKETHAT) {
-			return new Walker();
+			return new BucketHat();
 		}
 		return null;
 	}
