@@ -17,6 +17,12 @@ public class ZombieFactory {
 		if(zombieType == ZombieTypes.WALKER) {
 			return new Walker();
 		}
+		if (zombieType== ZombieTypes.CONEHAT) {
+			return new ConeHat();
+		}
+		if (zombieType== ZombieTypes.BUCKETHEAD) {
+			return new BucketHead();
+		}
 		return null;
 	}
 	
@@ -30,6 +36,12 @@ public class ZombieFactory {
 	public static Zombie createZombieCopy(Zombie zombie) {
 		if(zombie.getZombieType() == ZombieTypes.WALKER) {
 			return new Walker();
+		}
+		if(zombie.getZomvieType()==ZombieTypes.CONEHAT) {
+			return new ConeHat();
+		}
+		if(zombie.getZombieType()==ZombieTypes=BUCKETHEAD) {
+			return new BucketHead();
 		}
 		
 		return null;
