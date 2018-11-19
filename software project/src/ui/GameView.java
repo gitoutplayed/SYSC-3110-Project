@@ -102,7 +102,7 @@ public class GameView extends JFrame implements GameListener {
 
 				// Check if the tile has plant
 				if(tile.hasPlant()) {
-					button.setIcon(tile.getResidingPlant().getIcon());
+					button.setIcon(tile.getResidingPlant().getIcon(tile.getTileType()));
 				}
 				// Check if the tile has zombie
 				else if(tile.hasZombie()) {

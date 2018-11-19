@@ -23,9 +23,8 @@ abstract public class Zombie {
 	private int atkRange;
 	private int movementSpeed;
 	private int movementCounter;
-	private ImageIcon icon;
-	protected ZombieTypes zombieType;
-	protected Map<TileTypes, BufferedImage> images;
+	protected ImageIcon icon;
+	private ZombieTypes zombieType;
 
 	/**
 	 * Constructor method for class Zombie.
@@ -43,7 +42,6 @@ abstract public class Zombie {
 		this.movementSpeed = movementSpeed;
 		this.movementCounter = 0;
 		this.zombieType = zombieType;
-		images = new HashMap<TileTypes, BufferedImage>();
 		icon = new ImageIcon();
 	}
 	
@@ -59,7 +57,6 @@ abstract public class Zombie {
 		movementSpeed = zombie.movementSpeed;
 		movementCounter = zombie.movementCounter;
 		zombieType = zombie.zombieType;
-		images = zombie.images;
 		icon = new ImageIcon();
 	}
 
@@ -211,10 +208,7 @@ abstract public class Zombie {
 	 * 
 	 * @return icon the tile's image
 	 */
-	public ImageIcon getIcon(TileTypes tileType) {
-		icon.setImage(images.get(tileType));
-		return icon;
-	}
+	public abstract ImageIcon getIcon(TileTypes tileType);
 
 	/**
 	 * Method to generate the zombie's image

@@ -29,7 +29,7 @@ public class Tile {
 	private List<Zombie> residingZombie;
 	private TileTypes tileType;
 	private ImageIcon icon;
-	private Map<TileTypes, BufferedImage> images ;
+	private static Map<TileTypes, BufferedImage> images;
 
 	/**
 	 * Constructor method to create a tile with a specified tile type
@@ -40,7 +40,7 @@ public class Tile {
 		this.residingPlant = null;
 		this.residingZombie = new ArrayList<Zombie>();
 		this.tileType = tileType;
-		
+
 		loadImages();
 		icon = new ImageIcon(images.get(tileType));
 	}
@@ -57,7 +57,7 @@ public class Tile {
 		this.residingZombie = new ArrayList<Zombie>();
 		this.tileType = tileType;
 	}
-	
+
 	/**
 	 * Constructs a new Tile that is a copy of specified Tile
 	 * 
@@ -65,14 +65,13 @@ public class Tile {
 	 */
 	public Tile(Tile tile) {
 		residingPlant = tile.residingPlant == null ? null : PlantFactory.createPlantCopy(tile.residingPlant);
-		
+
 		residingZombie = new ArrayList<Zombie>();
 		for(Zombie z : tile.residingZombie) {
 			residingZombie.add(ZombieFactory.createZombieCopy(z));
 		}
-		
+
 		tileType = tile.tileType;
-		images = tile.images;
 		icon = new ImageIcon(images.get(tileType));
 	}
 
@@ -207,31 +206,35 @@ public class Tile {
 
 	/**
 	 * Method to get the tile's image
+	 * 
 	 * @return icon the tile's image
 	 */
 	public ImageIcon getIcon() {
 		return icon;
 	}
-	
+
 	/**
 	 * Loads the images for the tile
 	 */
 	private void loadImages() {
-		images =  new HashMap<TileTypes, BufferedImage>();
-		
-		try {
-			images.putIfAbsent(TileTypes.CONCRETE, loadImage("concrete"));
-			images.putIfAbsent(TileTypes.GRASS, loadImage("grass"));
-			images.putIfAbsent(TileTypes.LAWNMOWER, loadImage("lawnmower"));
-			images.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadImage("road"));
-		}
-		catch(IOException e) {
-			e.printStackTrace();
+		if(images == null) {
+			images = new HashMap<TileTypes, BufferedImage>();
+
+			try {
+				images.putIfAbsent(TileTypes.CONCRETE, loadImage("concrete"));
+				images.putIfAbsent(TileTypes.GRASS, loadImage("grass"));
+				images.putIfAbsent(TileTypes.LAWNMOWER, loadImage("lawnmower"));
+				images.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadImage("road"));
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	
+
 	/**
 	 * Method to generate the tile's image
+	 * 
 	 * @param name the name of the file
 	 * @return BufferedImage
 	 * @throws IOException when the method fails to generate the image
@@ -239,11 +242,11 @@ public class Tile {
 	private BufferedImage loadImage(String name) throws IOException {
 		return ImageIO.read(getClass().getClassLoader().getResource("tile/" + name + ".png"));
 	}
-	
+
 	public void setTileType(TileTypes tileType) {
 		this.tileType = tileType;
 	}
-	
+
 	public void updateIcon(TileTypes tileType) {
 		icon.setImage(images.get(tileType));
 	}

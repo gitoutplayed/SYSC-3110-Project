@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import plant.Plant;
 import plant.PlantFactory;
 import plant.PlantName;
+import tile.TileTypes;
 
 /**
  * This class represents the Shop. The shop manages the purchasing of plants. 
@@ -60,7 +61,7 @@ public class Shop {
 			shop.putIfAbsent(p, plant.getPrice());
 			cooldowns.putIfAbsent(p, plant.getCooldown());
 			currentCooldowns.putIfAbsent(p, 0);
-			shopIcons.putIfAbsent(p, plant.getShopIcon());
+			shopIcons.putIfAbsent(p, plant.getIcon(TileTypes.SHOP));
 		}
 	}
 	
