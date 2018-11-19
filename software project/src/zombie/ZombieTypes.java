@@ -2,9 +2,9 @@ package zombie;
 /**
  * Enum file to hold all zombie types
  * @author Hoang Bui 101029049
- * @version 1
+ * @version 2
  */
 
 public enum ZombieTypes {
-	WALKER, CONEHAT, BUCKETHEAD;
+	WALKER, CONEHAT, BUCKETHAT;
 }
