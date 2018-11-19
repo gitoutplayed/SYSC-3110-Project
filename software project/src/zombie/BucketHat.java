@@ -10,29 +10,28 @@ import javax.swing.ImageIcon;
 import tile.TileTypes;
 
 /**
- * Class for cone hat zombie
+ * Class for bucket head zombie
  * 
  * @author Tamer Ibrahim 101032919
  * @editor Hoang Bui 101029049
  * @version 19, November 
  */
-public class ConeHat extends Zombie {
+public class BucketHat extends Zombie {
 	private static Map<TileTypes, BufferedImage> images;
 	
 	/**
-	 * Constructs a new coneHat Zombie.
+	 * Constructs a new bucket hat zombie
 	 */
-	public ConeHat() {
-		super(4, 20, 50, 1, ZombieTypes.CONEHAT);
+	public BucketHat() {
+		super(5, 30, 100, 1, ZombieTypes.BUCKETHAT);
 		loadImages();
 	}
 	
-	
 	/**
-	 * Constructs a cone hat zombie that is a copy of specified cone hat zombie
+	 * Constructs a bucket hat zombie that is a copy of specified bucket hat zombie.
 	 * @param zombie the zombie to copy
 	 */
-	public ConeHat(Zombie zombie) {
+	public BucketHat(Zombie zombie) {
 		super(zombie);
 	}
 
@@ -56,9 +55,9 @@ public class ConeHat extends Zombie {
 			images = new HashMap<TileTypes, BufferedImage>();
 
 			try {
-				images.putIfAbsent(TileTypes.GRASS, loadImage("coneGrass"));
-				images.putIfAbsent(TileTypes.CONCRETE, loadImage("coneConcrete"));
-				images.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadImage("coneRoad"));
+				images.putIfAbsent(TileTypes.GRASS, loadImage("bucketGrass"));
+				images.putIfAbsent(TileTypes.CONCRETE, loadImage("bucketConcrete"));
+				images.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadImage("bucketRoad"));
 			}
 			catch(IOException e) {
 				System.err.println(e.getMessage());
