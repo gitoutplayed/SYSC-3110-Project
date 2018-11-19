@@ -126,6 +126,8 @@ public class GameView extends JFrame implements GameListener {
 				button.setEnabled(true);
 			}
 		}
+		
+		repaint();
 	}
 
 	/**

@@ -18,9 +18,9 @@ public class Walker extends Zombie {
 		super(3, 10, 30, 1, ZombieTypes.WALKER);
 		
 		try {
-			icons.putIfAbsent(TileTypes.GRASS, loadIcon("zombieGrass"));
-			icons.putIfAbsent(TileTypes.CONCRETE, loadIcon("zombieConcrete"));
-			icons.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadIcon("zombieRoad"));
+			images.putIfAbsent(TileTypes.GRASS, loadImage("zombieGrass"));
+			images.putIfAbsent(TileTypes.CONCRETE, loadImage("zombieConcrete"));
+			images.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadImage("zombieRoad"));
 		}
 		catch(IOException e) {
 			System.err.println(e.getMessage());
@@ -32,14 +32,5 @@ public class Walker extends Zombie {
 	 */
 	public Walker(Zombie zombie) {
 		super(zombie);
-		
-		try {
-			icons.putIfAbsent(TileTypes.GRASS, loadIcon("zombieGrass"));
-			icons.putIfAbsent(TileTypes.CONCRETE, loadIcon("zombieConcrete"));
-			icons.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadIcon("zombieRoad"));
-		}
-		catch(IOException e) {
-			System.err.println(e.getMessage());
-		}
 	}
 }

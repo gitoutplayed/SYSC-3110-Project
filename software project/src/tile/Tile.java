@@ -245,7 +245,6 @@ public class Tile {
 	}
 	
 	public void updateIcon(TileTypes tileType) {
-		icon = new ImageIcon(images.get(tileType));
-		//icon.setImage(images.get(tileType));
+		icon.setImage(images.get(tileType));
 	}
 }
