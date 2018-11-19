@@ -212,6 +212,7 @@ public class GameController {
 		public void actionPerformed(ActionEvent e) {
 			gameView.getPopup().hide();
 			gameView.clearPopupPanel();
+			gameView.disposePopup();
 		}
 	}
 

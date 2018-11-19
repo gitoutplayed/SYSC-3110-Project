@@ -13,7 +13,7 @@ import zombie.ZombieTypes;
  *  spawn rate(how fast are zombies spawning) and spawn amonut(how many per spawn).
  * 
  * @author Michael Fan 101029934
- * @version Oct 25, 2018
+ * @version Nov 19, 2018
  */
 
 public class Level {

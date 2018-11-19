@@ -128,7 +128,6 @@ public class GameState {
 	 */
 	public void addPendingZombies(Map<ZombieTypes, Integer> zombies) {
 		for(ZombieTypes z : zombies.keySet()) {
-			System.out.println(z);
 			for(int i = 0; i < zombies.get(z); i++) {
 				pendingZombies.add(ZombieFactory.createZombie(z));
 			}

@@ -406,6 +406,13 @@ public class GameView extends JFrame implements GameListener {
 	}
 	
 	/**
+	 * Dispose the popup.
+	 */
+	public void disposePopup() {
+		popup = null;
+	}
+	
+	/**
 	 * Clear the content in the PopupPanel
 	 */
 	public void clearPopupPanel() {
