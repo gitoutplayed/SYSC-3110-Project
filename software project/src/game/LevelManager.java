@@ -113,9 +113,7 @@ public class LevelManager {
 		//Add values into lists
 		plants.add(PlantName.PeaShooter);
 		plants.add(PlantName.SunFlower);
-		//zombies.put(ZombieTypes.WALKER, 10);
-		zombies.put(ZombieTypes.WALKER, 20);
-		zombies.put(ZombieTypes.CONEHAT, 25);
+		zombies.put(ZombieTypes.WALKER, 10);
 		
 		//Create level 1
 		createLevel(levelCounter, plants, zombies, 25, 2, 1);
@@ -130,7 +128,6 @@ public class LevelManager {
 		//Create level 3
 		levelCounter++;
 		zombies.put(ZombieTypes.WALKER, 30);
-		zombies.put(ZombieTypes.BUCKETHAT, 20);
 		zombies.put(ZombieTypes.BUCKETHAT, 20);
 		zombies.put(ZombieTypes.CONEHAT, 25);
 		
