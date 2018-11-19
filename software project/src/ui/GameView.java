@@ -5,6 +5,8 @@ import javax.swing.*;
 import game.Game;
 import game.GameState;
 import tile.Tile;
+import tile.TileTypes;
+import zombie.Zombie;
 
 import java.awt.*;
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.List;
 public class GameView extends JFrame implements GameListener {
 	private GridPanel gridPane;
 	private UpperPanel upperPane;
+	private Popup popup;
+	private PopupPanel popupPane;
 
 	private JMenuItem loadLevel;
 	private JMenuItem loadNextLevel;
@@ -81,6 +85,9 @@ public class GameView extends JFrame implements GameListener {
 		pack();
 		setVisible(true);
 		setLocationRelativeTo(null);
+		
+		// PopupPanel
+		popupPane = new PopupPanel();
 	}
 
 	/**
@@ -126,7 +133,7 @@ public class GameView extends JFrame implements GameListener {
 				button.setEnabled(true);
 			}
 		}
-		
+
 		repaint();
 	}
 
@@ -143,7 +150,7 @@ public class GameView extends JFrame implements GameListener {
 			showMessage(e.getMessage());
 			return;
 		}
-		
+
 		updateView(e);
 		showMessage(e.getMessage());
 	}
@@ -161,10 +168,10 @@ public class GameView extends JFrame implements GameListener {
 			showMessage(e.getMessage());
 			return;
 		}
-		
+
 		upperPane.loadShop(((Game) e.getSource()).getShopPlants()); // load plants into the shop
 		updateView(e);
-		
+
 		showMessage(e.getMessage());
 	}
 
@@ -359,5 +366,49 @@ public class GameView extends JFrame implements GameListener {
 	 */
 	public List<ShopButton> getShopButtons() {
 		return upperPane.getShopButtons();
+	}
+	
+	/**
+	 * Returns the popup. Always call this method after setupPopup is called.
+	 * 
+	 * @return the popup
+	 */
+	public Popup getPopup() {
+		return popup;
+	}
+	
+	/**
+	 * Returns the popup button.
+	 * 
+	 * @return the popup button
+	 */
+	public JButton getPopupButton() {
+		return popupPane.getPopupButton();
+	}
+	
+	/**
+	 * Add zombies to the popup 
+	 * 
+	 * @param zombies the zombies to add to the popup 
+	 */
+	public void addZombiesToPopup(List<Zombie> zombies, TileTypes tileType) {
+		popupPane.addZombiesToPopup(zombies, tileType);
+	}
+	
+	/**
+	 * Displays popup.
+	 */
+	public void setupPopup() {
+		int x = GameView.WIDTH / 2 + (4 * GameView.SQUARE_SIZE) / 2 - 100;
+		int y = (GameView.HEIGHT + UpperPanel.HEIGHT) / 2 + 2 * GameView.SQUARE_SIZE - 100;
+		PopupFactory popupFactory = new PopupFactory();
+		popup = popupFactory.getPopup(this, popupPane, x, y);
+	}
+	
+	/**
+	 * Clear the content in the PopupPanel
+	 */
+	public void clearPopupPanel() {
+		popupPane.clearPopupPanel();
 	}
 }

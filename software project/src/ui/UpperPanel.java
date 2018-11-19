@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents the UpperPanel. The UpperPanel has shop, shovel button and end turn button as well as some
- * labels that will display information about the game (i.e. turn number, sun counter etc.)
+ * This class represents the UpperPanel. The UpperPanel has shop, shovel button
+ * and end turn button as well as some labels that will display information
+ * about the game (i.e. turn number, sun counter etc.)
  * 
  * @author Michael Fan 101029934
  * @version Nov 16, 2018
@@ -25,14 +26,14 @@ public class UpperPanel extends JPanel {
 	private ShopPanel shopPane;
 
 	public static int HEIGHT = GameView.SQUARE_SIZE;
-	
+
 	/**
 	 * Constructs a new UpperPanel.
 	 */
 	public UpperPanel() {
 		setPreferredSize(new Dimension(GameView.WIDTH, HEIGHT));
 		setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
-		
+
 		// Sun counter panel
 		JPanel sunCounterPane = new JPanel();
 		int sunCounterPaneWidth = (GameView.WIDTH - ShopPanel.WIDTH - GameView.SQUARE_SIZE) / 2;
@@ -43,7 +44,8 @@ public class UpperPanel extends JPanel {
 		try {
 			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("ui/sun.png")));
 			sunIcon.setIcon(icon);
-		} catch(Exception e) {
+		}
+		catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
 		sunCounter = new JLabel("Sun Counter: ");
@@ -52,24 +54,26 @@ public class UpperPanel extends JPanel {
 		sunCounterPane.add(sunIcon);
 		sunCounterPane.add(sunCounter);
 		add(sunCounterPane);
-		
+
 		// Shop Panel
 		shopPane = new ShopPanel();
-		JScrollPane scrollPane = new JScrollPane(shopPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollPane = new JScrollPane(shopPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setPreferredSize(new Dimension(ShopPanel.WIDTH + 18, HEIGHT));
 		add(scrollPane);
-		
+
 		// Shovel button
 		shovel = new JButton();
 		shovel.setPreferredSize(new Dimension(GameView.SQUARE_SIZE, GameView.SQUARE_SIZE));
 		try {
 			ImageIcon icon = new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("ui/shovel.png")));
 			shovel.setIcon(icon);
-		} catch(Exception e) {
+		}
+		catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
 		add(shovel);
-		
+
 		// Info panel
 		JPanel infoPane = new JPanel();
 		infoPane.setLayout(new GridLayout(3, 1));
@@ -93,7 +97,7 @@ public class UpperPanel extends JPanel {
 	public JButton getEndTurn() {
 		return endTurn;
 	}
-	
+
 	/**
 	 * Returns the shop button.
 	 * 
@@ -111,7 +115,7 @@ public class UpperPanel extends JPanel {
 	public void setTurnNumber(int turnNumber) {
 		this.turnNumber.setText("  Turn #: " + turnNumber);
 	}
-	
+
 	/**
 	 * Display the number of zombies left..
 	 * 
@@ -120,7 +124,7 @@ public class UpperPanel extends JPanel {
 	public void setZombiesLeft(int zombiesLeft) {
 		this.zombiesLeft.setText("  Zombies Left: " + zombiesLeft);
 	}
-	
+
 	/**
 	 * Display the sun counter.
 	 * 
@@ -129,7 +133,7 @@ public class UpperPanel extends JPanel {
 	public void setSunCtouner(int sunCounter) {
 		this.sunCounter.setText("Sun Counter: " + sunCounter);
 	}
-	
+
 	/**
 	 * Returns all the buttons in the shop.
 	 * 
@@ -138,7 +142,7 @@ public class UpperPanel extends JPanel {
 	public List<ShopButton> getShopButtons() {
 		return shopPane.getShopButtons();
 	}
-	
+
 	/**
 	 * Load plants into the shop.
 	 * 
