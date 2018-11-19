@@ -6,5 +6,5 @@ package zombie;
  */
 
 public enum ZombieTypes {
-	WALKER;
+	WALKER, CONEHAT, BUCKETHEAD;
 }
