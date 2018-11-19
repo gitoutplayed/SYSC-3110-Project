@@ -69,13 +69,14 @@ public class Game {
 	public void restart() {
 		GameEvent gameEvent = new GameEvent(this);
 		
-		if(!levelLoaded) {
+		if(!levelLoaded && !gameState.isLevelFinished()) {
 			gameEvent.setSuccess(false).setMessage("Level not started");
 			gameListener.levelRestarted(gameEvent);
 			return;
 		}
 		
 		start();
+		levelLoaded = true;
 		gameEvent.setSuccess(true).setMessage("Level restarted");
 		gameListener.levelRestarted(gameEvent);
 	}

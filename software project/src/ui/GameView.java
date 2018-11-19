@@ -144,8 +144,8 @@ public class GameView extends JFrame implements GameListener {
 			return;
 		}
 		
-		showMessage(e.getMessage());
 		updateView(e);
+		showMessage(e.getMessage());
 	}
 
 	/**
@@ -161,11 +161,11 @@ public class GameView extends JFrame implements GameListener {
 			showMessage(e.getMessage());
 			return;
 		}
-
-		showMessage(e.getMessage());
-
+		
 		upperPane.loadShop(((Game) e.getSource()).getShopPlants()); // load plants into the shop
 		updateView(e);
+		
+		showMessage(e.getMessage());
 	}
 
 	/**
