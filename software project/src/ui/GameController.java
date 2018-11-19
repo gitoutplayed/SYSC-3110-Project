@@ -163,7 +163,7 @@ public class GameController {
 
 						// Display all the zombies on a tile
 						if(game.isLevelLoaded()) {
-							if(game.getGrid()[row][col].hasZombie()) {
+							if(game.getGrid()[row][col].hasZombie() && gameView.getPopup() == null) {
 								Tile tile = game.getGrid()[row][col];
 								gameView.setupPopup();
 								gameView.addZombiesToPopup(tile.getResidingZombie(), tile.getTileType());

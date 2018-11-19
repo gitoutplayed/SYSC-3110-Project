@@ -1,7 +1,11 @@
 package game;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import plant.PlantName;
 import zombie.ZombieTypes;
@@ -103,35 +107,34 @@ public class LevelManager {
 	public void createLevels() {
 		//Create variables
 		int levelCounter = 1;
-		ArrayList<PlantName> plants = new ArrayList<PlantName>();
-		ArrayList<ZombieTypes> zombies = new ArrayList<ZombieTypes>();
-		ArrayList<Integer> numZombies = new ArrayList<Integer>();
+		Set<PlantName> plants = new HashSet<PlantName>();
+		Map<ZombieTypes, Integer> zombies = new HashMap<ZombieTypes, Integer>();
 		
 		//Add values into lists
 		plants.add(PlantName.PeaShooter);
 		plants.add(PlantName.SunFlower);
-		zombies.add(ZombieTypes.WALKER);
-		numZombies.add(10);
+		//zombies.put(ZombieTypes.WALKER, 10);
+		zombies.put(ZombieTypes.WALKER, 20);
+		zombies.put(ZombieTypes.CONEHAT, 25);
 		
 		//Create level 1
-		createLevelsHelper(levelCounter, plants, zombies, numZombies, 25, 2, 1);
+		createLevel(levelCounter, plants, zombies, 25, 2, 1);
 		
 		//Create level 2
 		levelCounter++;
-		zombies.add(ZombieTypes.CONEHAT);
-		numZombies.set(0, 25);
-		numZombies.add(20);
+		zombies.put(ZombieTypes.WALKER, 20);
+		zombies.put(ZombieTypes.CONEHAT, 25);
 		
-		createLevelsHelper(levelCounter, plants, zombies, numZombies, 25, 4, 3);
+		createLevel(levelCounter, plants, zombies,  25, 4, 3);
 		
 		//Create level 3
 		levelCounter++;
-		zombies.add(ZombieTypes.BUCKETHAT);
-		numZombies.set(0, 30);
-		numZombies.set(1, 25);
-		numZombies.add(20);
+		zombies.put(ZombieTypes.WALKER, 30);
+		zombies.put(ZombieTypes.BUCKETHAT, 20);
+		zombies.put(ZombieTypes.BUCKETHAT, 20);
+		zombies.put(ZombieTypes.CONEHAT, 25);
 		
-		createLevelsHelper(levelCounter, plants, zombies, numZombies, 25, 5, 3);
+		createLevel(levelCounter, plants, zombies, 25, 5, 3);
 		
 //		Level level = new Level(1);
 //		level.addPlant(PlantName.PeaShooter);
@@ -147,19 +150,15 @@ public class LevelManager {
 	/**
 	 * 
 	 */
-	private void createLevelsHelper(int levelCounter, ArrayList<PlantName> plants, ArrayList<ZombieTypes> zombies, ArrayList<Integer> zombieNum, int baseSunGain, int spawnRate, int spawnAmount) {
+	private void createLevel(int levelCounter, Set<PlantName> plants, Map<ZombieTypes, Integer> zombies, int baseSunGain, int spawnRate, int spawnAmount) {
 		//Create new level
 		Level level = new Level(levelCounter);
 		
 		//add plants
-		for(PlantName plant : plants) {
-			level.addPlant(plant);
-		}	
+		level.addPlant(plants);
 		
 		//add zombies
-		for(int i = 0; i < zombies.size(); i++) {
-			level.addZombie(zombies.get(i), zombieNum.get(i));
-		}
+		level.addZombie(zombies);
 		
 		//add spawn and generation values
 		level.setBaseSunGain(baseSunGain);

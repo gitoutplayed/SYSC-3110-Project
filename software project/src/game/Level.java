@@ -38,20 +38,19 @@ public class Level {
 	/**
 	 * Adds a plant that is available to purchase in this level.
 	 * 
-	 * @param plant the plant that is available to purchase in this level
+	 * @param plants the plants that are available to purchase in this level
 	 */
-	public void addPlant(PlantName plant) {
-		plants.add(plant);
+	public void addPlant(Set<PlantName> plants) {
+		this.plants = plants;
 	}
 
 	/**
-	 * Adds a zombie that will appear in this level.
+	 * Add the zombies that will appear in this level.
 	 * 
-	 * @param zombie the zombie that will appear in this level
-	 * @param amount the amout that will appear
+	 * @param zombies the zombie that will appear in this level and the amout that will appear
 	 */
-	public void addZombie(ZombieTypes zombie, int amount) {
-		zombies.putIfAbsent(zombie, amount);
+	public void addZombie(Map<ZombieTypes, Integer> zombies) {
+		this.zombies = zombies;
 	}
 
 	/**

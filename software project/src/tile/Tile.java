@@ -170,10 +170,7 @@ public class Tile {
 	 * @return true if there is a plant, false if there isn't
 	 */
 	public boolean hasPlant() {
-		if(this.residingPlant != null) {
-			return true;
-		}
-		return false;
+		return !(residingPlant == null);
 	}
 
 	/**
@@ -182,10 +179,7 @@ public class Tile {
 	 * @return true if there is a zombie or more, false if there are none
 	 */
 	public boolean hasZombie() {
-		if(!(this.residingZombie.isEmpty())) {
-			return true;
-		}
-		return false;
+		return !(residingZombie.isEmpty());
 	}
 
 	/**
