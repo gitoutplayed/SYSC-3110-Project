@@ -63,7 +63,7 @@ public abstract class Plant {
 		atkRange_X = plant.atkRange_X;
 		atkRange_Y = plant.atkRange_Y;
 		cooldown = plant.cooldown;
-		icon = new ImageIcon();
+		icon = plant.icon;
 	}
 	
 	/**

@@ -110,7 +110,7 @@ public class GameView extends JFrame implements GameListener {
 				}
 				// Empty tile
 				else {
-					button.setIcon(tile.getIcon());
+					button.setIcon(tile.getIcon(tile.getTileType()));
 				}
 			}
 		}
@@ -226,8 +226,8 @@ public class GameView extends JFrame implements GameListener {
 	 * @see GameEvent
 	 */
 	public void levelFinished(GameEvent e) {
-		showMessage(e.getMessage());
 		updateView(e);
+		showMessage(e.getMessage());
 	}
 
 	/**

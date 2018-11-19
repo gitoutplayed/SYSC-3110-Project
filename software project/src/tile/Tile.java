@@ -209,7 +209,8 @@ public class Tile {
 	 * 
 	 * @return icon the tile's image
 	 */
-	public ImageIcon getIcon() {
+	public ImageIcon getIcon(TileTypes tileType) {
+		icon.setImage(images.get(tileType));
 		return icon;
 	}
 
@@ -245,9 +246,5 @@ public class Tile {
 
 	public void setTileType(TileTypes tileType) {
 		this.tileType = tileType;
-	}
-
-	public void updateIcon(TileTypes tileType) {
-		icon.setImage(images.get(tileType));
 	}
 }

@@ -338,7 +338,6 @@ public class Game {
 				// If the current row still has the lawn mover then the lawn mower is triggered
 				if(nextTile.getTileType() == TileTypes.LAWNMOWER) {
 					nextTile.setTileType(TileTypes.CONCRETE);
-					nextTile.updateIcon(nextTile.getTileType());
 					for(Tile t : grid[row]) {
 						gameState.zombieDied(t.getResidingZombie().size());
 						t.removePlant();

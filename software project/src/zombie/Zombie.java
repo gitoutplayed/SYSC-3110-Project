@@ -57,7 +57,7 @@ abstract public class Zombie {
 		movementSpeed = zombie.movementSpeed;
 		movementCounter = zombie.movementCounter;
 		zombieType = zombie.zombieType;
-		icon = new ImageIcon();
+		icon = zombie.icon;
 	}
 
 	/**
