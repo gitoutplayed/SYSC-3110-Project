@@ -1,9 +1,12 @@
 package plant;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+
+import tile.TileTypes;
 
 /**
  * This abstract class defines the overall Plant object. 
@@ -20,7 +23,6 @@ public abstract class Plant {
 	private PlantName name;
 	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y, cooldown;
 	protected ImageIcon icon;
-	protected ImageIcon shopIcon;
 	
 	/**
 	 * Plant's constructor method
@@ -44,6 +46,7 @@ public abstract class Plant {
 		this.atkRange_X = atkRange_X;
 		this.atkRange_Y = atkRange_Y;
 		this.cooldown = cooldown;
+		icon = new ImageIcon();
 	}
 	
 	/**
@@ -61,7 +64,6 @@ public abstract class Plant {
 		atkRange_Y = plant.atkRange_Y;
 		cooldown = plant.cooldown;
 		icon = plant.icon;
-		shopIcon = plant.shopIcon;
 	}
 	
 	/**
@@ -218,33 +220,29 @@ public abstract class Plant {
 	}
 	
 	/**
-	 * Returns an ImageIcon given the name of the image file.
+	 * Returns an image given the name of the image file.
 	 * 
 	 * @param name the name of the image file
 	 * 
-	 * @return an ImageIcon given the name of the image file
+	 * @return an image given the name of the image file
 	 * 
 	 * @throws IOException
 	 */
-	protected ImageIcon loadIcon(String name) throws IOException {
-		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("plant/" + name + ".png")));
+	protected BufferedImage loadImage(String name) throws IOException {
+		return ImageIO.read(getClass().getClassLoader().getResource("plant/" + name + ".png"));
 	}
 	
 	/**
-	 * Returns the icon of the plant
+	 * Returns the icon of the plant given the type of the tile.
+	 * 
+	 * @param tileType the type of the tile
 	 * 
 	 * @return the icon of the plant
 	 */
-	public ImageIcon getIcon() {
-		return icon;
-	}
+	public abstract ImageIcon getIcon(TileTypes tileType);
 	
 	/**
-	 * Returns the shop icon of the plant
-	 * 
-	 * @return the shop icon of the plant
+	 * Loads the images for the plant
 	 */
-	public ImageIcon getShopIcon() {
-		return shopIcon;
-	}
+	protected abstract void loadImages();
 }

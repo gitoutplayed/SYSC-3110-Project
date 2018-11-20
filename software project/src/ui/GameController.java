@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.PopupMenuListener;
 
 import game.Game;
 import game.GameState;
@@ -60,6 +61,9 @@ public class GameController {
 		for(ShopButton button : gameView.getShopButtons()) {
 			button.addActionListener(new ShopListener());
 		}
+
+		// Popup listener
+		gameView.getPopupButton().addActionListener(new PopupListener());
 	}
 
 	/**
@@ -156,6 +160,16 @@ public class GameController {
 						} else if(game.isShovelSelected()) {
 							game.shovel(row, col);
 						}
+
+						// Display all the zombies on a tile
+						if(game.isLevelLoaded()) {
+							if(game.getGrid()[row][col].hasZombie() && gameView.getPopup() == null) {
+								Tile tile = game.getGrid()[row][col];
+								gameView.setupPopup();
+								gameView.addZombiesToPopup(tile.getResidingZombie(), tile.getTileType());
+								gameView.getPopup().show();
+							}
+						}
 					}
 				}
 			}
@@ -179,6 +193,26 @@ public class GameController {
 			ShopButton button = (ShopButton) e.getSource();
 			game.selectPlant(button.getPlant());
 			game.selectShovel(false); // unselect shovel when clicked in shop
+		}
+	}
+
+	/**
+	 * The PopupListener. This class contains the actionPerformed method that will
+	 * be called when the button on the PopupPanel is clicked.
+	 * 
+	 * @author Michael Fan 101029934
+	 * @version Nov 19, 2018
+	 */
+	private class PopupListener implements ActionListener {
+		/**
+		 * The action that is performed when the button on the PopupPanel is clicked.
+		 * 
+		 * @param e the ActionEvent
+		 */
+		public void actionPerformed(ActionEvent e) {
+			gameView.getPopup().hide();
+			gameView.clearPopupPanel();
+			gameView.disposePopup();
 		}
 	}
 

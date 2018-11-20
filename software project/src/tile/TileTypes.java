@@ -6,5 +6,5 @@ package tile;
  */
 
 public enum TileTypes {
-	GRASS, ZOMBIE_SPAWN, LAWNMOWER, CONCRETE;
+	GRASS, ZOMBIE_SPAWN, LAWNMOWER, CONCRETE, SHOP;
 }

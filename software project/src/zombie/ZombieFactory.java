@@ -17,6 +17,18 @@ public class ZombieFactory {
 		if(zombieType == ZombieTypes.WALKER) {
 			return new Walker();
 		}
+		else if(zombieType == ZombieTypes.CONEHAT) {
+			return new ConeHat();
+		}
+		else if(zombieType == ZombieTypes.BUCKETHAT) {
+			return new BucketHat();
+		}
+		else if(zombieType == ZombieTypes.FOOTBALL) {
+			return new Football();
+		}
+		else if(zombieType == ZombieTypes.NEWSPAPER) {
+			return new Newspaper();
+		}
 		return null;
 	}
 	
@@ -31,7 +43,18 @@ public class ZombieFactory {
 		if(zombie.getZombieType() == ZombieTypes.WALKER) {
 			return new Walker();
 		}
-		
+		else if(zombie.getZombieType() == ZombieTypes.CONEHAT) {
+			return new ConeHat();
+		}
+		else if(zombie.getZombieType() == ZombieTypes.BUCKETHAT) {
+			return new BucketHat();
+		}
+		else if(zombie.getZombieType() == ZombieTypes.FOOTBALL) {
+			return new Football();
+		}
+		else if(zombie.getZombieType() == ZombieTypes.NEWSPAPER) {
+			return new Newspaper();
+		}
 		return null;
 	}
 }

@@ -143,6 +143,10 @@ public class GameState {
 	 * @param row the row where the zombie will be added
 	 */
 	public void addZombie(int row) {
+		if(pendingZombies.size() == 0) {
+			return;
+		}
+		
 		grid[row][ZOMBIE_SPAWN].addZombie(pendingZombies.get(0));
 		pendingZombies.remove(0);
 	}

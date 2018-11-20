@@ -1,5 +1,6 @@
 package zombie;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,8 +23,8 @@ abstract public class Zombie {
 	private int atkRange;
 	private int movementSpeed;
 	private int movementCounter;
-	protected ZombieTypes zombieType;
-	protected Map<TileTypes, ImageIcon> icons;
+	protected ImageIcon icon;
+	private ZombieTypes zombieType;
 
 	/**
 	 * Constructor method for class Zombie.
@@ -41,7 +42,7 @@ abstract public class Zombie {
 		this.movementSpeed = movementSpeed;
 		this.movementCounter = 0;
 		this.zombieType = zombieType;
-		icons = new HashMap<TileTypes, ImageIcon>();
+		icon = new ImageIcon();
 	}
 	
 	/**
@@ -56,7 +57,7 @@ abstract public class Zombie {
 		movementSpeed = zombie.movementSpeed;
 		movementCounter = zombie.movementCounter;
 		zombieType = zombie.zombieType;
-		icons = new HashMap<TileTypes, ImageIcon>();
+		icon = zombie.icon;
 	}
 
 	/**
@@ -201,25 +202,22 @@ abstract public class Zombie {
 	}
 
 	/**
-	 * Return an icon given the type of the tile
+	 * Return an icon of the zombie given the type of the tile
 	 * 
 	 * @param tileType the type of the tile that the zombie is on
 	 * 
 	 * @return icon the tile's image
 	 */
-	public ImageIcon getIcon(TileTypes tileType) {
-		return icons.get(tileType);
-	}
+	public abstract ImageIcon getIcon(TileTypes tileType);
 
 	/**
-	 * Method to generate the tile's image
+	 * Method to generate the zombie's image
 	 * 
 	 * @param name the name of the file
-	 * @return new ImageIcon(ImageIO.read(new File("..\\..\\images\\" + name +
-	 *         ".png"))) a new image icon
+	 * @return the image of the zombie
 	 * @throws IOException when the method fails to generate the image
 	 */
-	protected ImageIcon loadIcon(String name) throws IOException {
-		return new ImageIcon(ImageIO.read(getClass().getClassLoader().getResource("zombie/" + name + ".png")));
+	protected BufferedImage loadImage(String name) throws IOException {
+		return ImageIO.read(getClass().getClassLoader().getResource("zombie/" + name + ".png"));
 	}
 }
