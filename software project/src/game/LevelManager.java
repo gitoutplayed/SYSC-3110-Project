@@ -129,7 +129,6 @@ public class LevelManager {
 		levelCounter++;
 		zombies.put(ZombieTypes.WALKER, 30);
 		zombies.put(ZombieTypes.BUCKETHAT, 20);
-		zombies.put(ZombieTypes.BUCKETHAT, 20);
 		zombies.put(ZombieTypes.CONEHAT, 25);
 		
 		createLevel(levelCounter, plants, zombies, 25, 5, 3);
