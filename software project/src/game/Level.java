@@ -41,7 +41,7 @@ public class Level {
 	 * @param plants the plants that are available to purchase in this level
 	 */
 	public void addPlant(Set<PlantName> plants) {
-		this.plants = plants;
+		this.plants.addAll(plants);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class Level {
 	 * @param zombies the zombie that will appear in this level and the amout that will appear
 	 */
 	public void addZombie(Map<ZombieTypes, Integer> zombies) {
-		this.zombies = zombies;
+		this.zombies.putAll(zombies);
 	}
 
 	/**
