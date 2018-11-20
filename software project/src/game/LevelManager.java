@@ -60,7 +60,7 @@ public class LevelManager {
 	 * @return the previous level
 	 */
 	public Level getPreviousLevel() {
-		if(currentLevel == 0) {
+		if(currentLevel == -1) {
 			return null;
 		}
 
@@ -172,4 +172,19 @@ public class LevelManager {
 		
 		levels.add(level);
 	}
+	
+	/**
+	 * Returns a list of all the level IDs of the predefined levels.
+	 * 
+	 * @return a list of all the level IDs of the predefined levels
+	 */
+	public List<Integer> getAllPredefinedLevelID() {
+		List<Integer> id = new ArrayList<Integer>();
+		
+		for(Level level : levels) {
+			id.add(level.getLevelID());
+		}
+		
+		return id;
+	} 
 }

@@ -64,6 +64,10 @@ public class GameController {
 
 		// Popup listener
 		gameView.getPopupButton().addActionListener(new PopupListener());
+
+		// LevelChooser listener
+		gameView.getCloseButton().addActionListener(new LevelChooserListener());
+		gameView.getLoadButton().addActionListener(new LevelChooserListener());
 	}
 
 	/**
@@ -85,9 +89,17 @@ public class GameController {
 			if(item == gameView.getLoadNextLevel()) {
 				game.loadNextLevel();
 			} else if(item == gameView.getLoadLevel()) {
-				JOptionPane.showMessageDialog(gameView, "Will be implemented later when there are more level");
+				if(game.isLevelLoaded() && !game.isLevelFinished()) {
+					game.loadLevel(1); // this is just to trigger the error message
+					return;
+				}
+				
+				if(gameView.getPopup() == null) {
+					gameView.setupPopup(gameView.getLevelChooserPanel());
+					gameView.getPopup().show();
+				}
 			} else if(item == gameView.getLoadPreviousLevel()) {
-				JOptionPane.showMessageDialog(gameView, "Will be implemented later when there are more level");
+				game.loadPreviousLevel();
 			} else if(item == gameView.getUndo()) {
 				game.undo();
 			} else if(item == gameView.getRedo()) {
@@ -165,7 +177,7 @@ public class GameController {
 						if(game.isLevelLoaded()) {
 							if(game.getGrid()[row][col].hasZombie() && gameView.getPopup() == null) {
 								Tile tile = game.getGrid()[row][col];
-								gameView.setupPopup();
+								gameView.setupPopup(gameView.getPopupPanel());
 								gameView.addZombiesToPopup(tile.getResidingZombie(), tile.getTileType());
 								gameView.getPopup().show();
 							}
@@ -210,10 +222,35 @@ public class GameController {
 		 * @param e the ActionEvent
 		 */
 		public void actionPerformed(ActionEvent e) {
-			gameView.getPopup().hide();
-			gameView.clearPopupPanel();
 			gameView.disposePopup();
+			gameView.clearPopupPanel();
 		}
+	}
+
+	/**
+	 * The LevelChooserListener. This class contains the actionPreformed method that
+	 * will be called when the buttons on the LevelChooserPanel are clicked
+	 * 
+	 * @author Michael Fan 101029934
+	 * @version Nov 19, 2018
+	 */
+	private class LevelChooserListener implements ActionListener {
+		/**
+		 * The action that is performed when the buttons on the LevelChooserPanel are
+		 * clicked.
+		 * 
+		 * @param e the ActionEvent
+		 */
+		public void actionPerformed(ActionEvent e) {
+			JButton button = (JButton) e.getSource();
+			if(button == gameView.getCloseButton()) {
+				gameView.disposePopup();
+			} else if(button == gameView.getLoadButton()) {
+				int levelID = gameView.getPredefinedLevelsList().getSelectedValue();
+				gameView.disposePopup();
+				game.loadLevel(levelID);
+			}
+		} 
 	}
 
 	/**

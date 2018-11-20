@@ -7,6 +7,15 @@ package ui;
  */
 public interface GameListener {
 	/**
+	 * Called when a Game object is created
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameCreated(GameEvent e);
+	
+	/**
 	 * Called when trying to restart a level.
 	 * 
 	 *  @param e the GameEvent

@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,8 @@ public class Game {
 		shovel = false;
 
 		this.gameListener = gameListener;
+		
+		gameListener.gameCreated(new GameEvent(this));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -590,6 +593,15 @@ public class Game {
 	public boolean isPlantOnCooldown(PlantName plant) {
 		return gameState.isPlantOnCooldown(plant);
 	}
+	
+	/**
+	 * Returns the level number.
+	 * 
+	 * @return the level number
+	 */
+	public int getLevelNumber() {
+		return currentLevel.getLevelID();
+	}
 
 	// End Game info
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -680,6 +692,15 @@ public class Game {
 		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
 		gameListener.levelLoaded(gameEvent);
 	}
+	
+	/**
+	 * Returns a list of all the level IDs of the predefined levels.
+	 * 
+	 * @return a list of all the level IDs of the predefined levels
+	 */
+	public List<Integer> getAllPredefinedLevelID() {
+		return levelManager.getAllPredefinedLevelID();
+	} 
 
 	// End Level loading
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
