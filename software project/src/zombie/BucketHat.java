@@ -23,7 +23,7 @@ public class BucketHat extends Zombie {
 	 * Constructs a new bucket hat zombie
 	 */
 	public BucketHat() {
-		super(5, 30, 100, 1, ZombieTypes.BUCKETHAT);
+		super(5, 100, 120, 1, ZombieTypes.BUCKETHAT);
 		loadImages();
 	}
 	

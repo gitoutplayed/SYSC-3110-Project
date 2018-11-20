@@ -22,7 +22,7 @@ public class Walker extends Zombie {
 	 * Constructs a new Walker.
 	 */
 	public Walker() {
-		super(3, 10, 30, 1, ZombieTypes.WALKER);
+		super(3, 30, 50, 1, ZombieTypes.WALKER);
 		loadImages();
 	}
 

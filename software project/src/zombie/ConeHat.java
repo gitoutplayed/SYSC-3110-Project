@@ -23,7 +23,7 @@ public class ConeHat extends Zombie {
 	 * Constructs a new coneHat Zombie.
 	 */
 	public ConeHat() {
-		super(4, 20, 50, 1, ZombieTypes.CONEHAT);
+		super(4, 50, 80, 1, ZombieTypes.CONEHAT);
 		loadImages();
 	}
 	
