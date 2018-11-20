@@ -62,19 +62,19 @@ public class Game {
 		gameState.addPendingZombies(currentLevel.getZombies());
 		gameState.addPlants(currentLevel.getPlants());
 	}
-	
+
 	/**
 	 * Restarts the current level.
 	 */
 	public void restart() {
 		GameEvent gameEvent = new GameEvent(this);
-		
+
 		if(!levelLoaded && !gameState.isLevelFinished()) {
 			gameEvent.setSuccess(false).setMessage("Level not started");
 			gameListener.levelRestarted(gameEvent);
 			return;
 		}
-		
+
 		start();
 		levelLoaded = true;
 		gameEvent.setSuccess(true).setMessage("Level restarted");
@@ -345,21 +345,20 @@ public class Game {
 						t.clearResidingZombie();
 					}
 				} else {
-					// If the next tile contains a plant attack it
 					if(nextTile.hasPlant()) {
 						Plant plant = nextTile.getResidingPlant();
-
+						
 						plant.takeDmg(zombie.getDamage());
 
-						if(plant.isDead()) {
-							nextTile.removePlant();
+						if(!plant.isDead()) {
+							return;
 						}
+						
+						nextTile.removePlant();
 					}
-					// If the next tile does not have plant then move to it
-					else {
-						nextTile.addZombie(zombie);
-						zombieIter.remove();
-					}
+
+					nextTile.addZombie(zombie);
+					zombieIter.remove();
 				}
 				zombie.resetMovementCounter();
 			} else {
@@ -374,10 +373,8 @@ public class Game {
 	private void spawnZombies() {
 		if(gameState.getTurnNumber() % currentLevel.getSpawnRate() != 0) {
 			return;
-		} else if(gameState.getNumberOfZombiesPending() == 0) {
-			return;
-		}
-
+		} 
+		
 		for(int i = 0; i < currentLevel.getSpawnAmount(); i++) {
 			gameState.addZombie(random.nextInt(GameState.ROW));
 		}
