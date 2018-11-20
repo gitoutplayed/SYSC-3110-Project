@@ -21,7 +21,7 @@ public class Football extends Zombie {
 	 * Constructs a new football zombie
 	 */
 	public Football() {
-		super(1, 20, 75, 1, ZombieTypes.FOOTBALL);
+		super(1, 30, 100, 1, ZombieTypes.FOOTBALL);
 		loadImages();
 	}
 

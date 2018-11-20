@@ -21,7 +21,7 @@ public class Newspaper extends Zombie {
 	 * Constructs a new newspaper zombie
 	 */
 	public Newspaper() {
-		super(2, 40, 100, 1, ZombieTypes.NEWSPAPER);
+		super(2, 50, 150, 1, ZombieTypes.NEWSPAPER);
 		loadImages();
 	}
 

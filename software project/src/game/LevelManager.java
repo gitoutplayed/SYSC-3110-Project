@@ -123,15 +123,33 @@ public class LevelManager {
 		zombies.put(ZombieTypes.WALKER, 20);
 		zombies.put(ZombieTypes.CONEHAT, 25);
 		
-		createLevel(levelCounter, plants, zombies,  25, 4, 3);
+		createLevel(levelCounter, plants, zombies,  25, 4, 4);
 		
 		//Create level 3
 		levelCounter++;
 		zombies.put(ZombieTypes.WALKER, 30);
+		zombies.put(ZombieTypes.CONEHAT, 30);
 		zombies.put(ZombieTypes.BUCKETHAT, 20);
-		zombies.put(ZombieTypes.CONEHAT, 25);
 		
-		createLevel(levelCounter, plants, zombies, 25, 5, 3);
+		createLevel(levelCounter, plants, zombies, 25, 5, 4);
+		
+		//Create level 4
+		levelCounter++;
+		zombies.put(ZombieTypes.WALKER, 40);
+		zombies.put(ZombieTypes.CONEHAT, 30);
+		zombies.put(ZombieTypes.BUCKETHAT, 25);
+		zombies.put(ZombieTypes.FOOTBALL, 15);
+		createLevel(levelCounter, plants, zombies, 25, 5, 4);
+		
+		//Create level 5
+		levelCounter++;
+		zombies.put(ZombieTypes.WALKER, 50);
+		zombies.put(ZombieTypes.CONEHAT, 35);
+		zombies.put(ZombieTypes.BUCKETHAT, 25);
+		zombies.put(ZombieTypes.FOOTBALL, 15);
+		zombies.put(ZombieTypes.NEWSPAPER, 15);
+		createLevel(levelCounter, plants, zombies, 25, 5, 4);
+		
 	}
 	
 	/**
