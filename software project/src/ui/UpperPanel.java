@@ -21,6 +21,7 @@ public class UpperPanel extends JPanel {
 	private JButton endTurn;
 	private JLabel turnNumber;
 	private JLabel zombiesLeft;
+	private JLabel levelNumber;
 	private JButton shovel;
 	private JLabel sunCounter;
 	private ShopPanel shopPane;
@@ -76,16 +77,22 @@ public class UpperPanel extends JPanel {
 
 		// Info panel
 		JPanel infoPane = new JPanel();
-		infoPane.setLayout(new GridLayout(3, 1));
+		infoPane.setLayout(new GridLayout(2, 1));
 		int infoPaneWidth = (GameView.WIDTH - ShopPanel.WIDTH - GameView.SQUARE_SIZE - 50) / 2;
 		infoPane.setPreferredSize(new Dimension(infoPaneWidth, HEIGHT));
 		infoPane.setBackground(Color.WHITE);
+		JPanel labelPane = new JPanel();
+		labelPane.setLayout(new GridLayout(2, 2));
+		labelPane.setBackground(Color.WHITE);
 		endTurn = new JButton("End Turn");
 		turnNumber = new JLabel("  Turn #: ");
+		levelNumber = new JLabel("  Level #: ");
 		zombiesLeft = new JLabel("  Zombies Left: ");
+		labelPane.add(turnNumber);
+		labelPane.add(levelNumber);
+		labelPane.add(zombiesLeft);
 		infoPane.add(endTurn);
-		infoPane.add(turnNumber);
-		infoPane.add(zombiesLeft);
+		infoPane.add(labelPane);
 		add(infoPane);
 	}
 
@@ -132,6 +139,15 @@ public class UpperPanel extends JPanel {
 	 */
 	public void setSunCtouner(int sunCounter) {
 		this.sunCounter.setText("Sun Counter: " + sunCounter);
+	}
+	
+	/**
+	 * Display the level number.
+	 * 
+	 * @param levelNumber the level number
+	 */
+	public void setLevelNumber(int levelNumber) {
+		this.levelNumber.setText("  Level #: " + levelNumber);
 	}
 
 	/**

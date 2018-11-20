@@ -25,6 +25,7 @@ public class GameView extends JFrame implements GameListener {
 	private UpperPanel upperPane;
 	private Popup popup;
 	private PopupPanel popupPane;
+	private LevelChooserPanel levelChooserPanel;
 
 	private JMenuItem loadLevel;
 	private JMenuItem loadNextLevel;
@@ -88,6 +89,7 @@ public class GameView extends JFrame implements GameListener {
 		
 		// PopupPanel
 		popupPane = new PopupPanel();
+		levelChooserPanel = new LevelChooserPanel();
 	}
 
 	/**
@@ -123,6 +125,7 @@ public class GameView extends JFrame implements GameListener {
 		}
 
 		upperPane.setTurnNumber(game.getTurnNumber());
+		upperPane.setLevelNumber(game.getLevelNumber());
 		upperPane.setZombiesLeft(game.getNumberOfZombiesLeft());
 		upperPane.setSunCtouner(game.getSunCounter());
 
@@ -270,6 +273,19 @@ public class GameView extends JFrame implements GameListener {
 
 		updateView(e);
 	}
+	
+	/**
+	 * Called when a Game object is created.
+	 * 
+	 * @param e GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameCreated(GameEvent e) {
+		Game game = (Game) e.getSource();
+		
+		levelChooserPanel.addPredefinedLevels(game.getAllPredefinedLevelID());
+	}
 
 	/**
 	 * Display the given message in a JOptionPane dialog box.
@@ -396,19 +412,23 @@ public class GameView extends JFrame implements GameListener {
 	}
 	
 	/**
-	 * Displays popup.
+	 * Displays popup.with specified panel.
+	 * 
+	 * @param panel the specified panel to be displayed in a popup
 	 */
-	public void setupPopup() {
+	public void setupPopup(JPanel panel) {
 		int x = GameView.WIDTH / 2 + (4 * GameView.SQUARE_SIZE) / 2 - 100;
-		int y = (GameView.HEIGHT + UpperPanel.HEIGHT) / 2 + 2 * GameView.SQUARE_SIZE - 100;
+		int y = (GameView.HEIGHT + UpperPanel.HEIGHT) / 2 + 2 * GameView.SQUARE_SIZE - 120;
+		
 		PopupFactory popupFactory = new PopupFactory();
-		popup = popupFactory.getPopup(this, popupPane, x, y);
+		popup = popupFactory.getPopup(this, panel, x, y);
 	}
 	
 	/**
 	 * Dispose the popup.
 	 */
 	public void disposePopup() {
+		popup.hide();
 		popup = null;
 	}
 	
@@ -417,5 +437,59 @@ public class GameView extends JFrame implements GameListener {
 	 */
 	public void clearPopupPanel() {
 		popupPane.clearPopupPanel();
+	}
+	
+	/**
+	 * Returns the PopupPanel.
+	 * 
+	 * @return the PopupPanel
+	 */
+	public JPanel getPopupPanel() {
+		return popupPane;
+	}
+	
+	/**
+	 * Returns the LevelChooserPanel
+	 * 
+	 * @return the LevelChooserPanel
+	 */
+	public JPanel getLevelChooserPanel() {
+		return levelChooserPanel;
+	}
+	
+	/**
+	 * Returns the load button.
+	 * 
+	 * @return the close button
+	 */
+	public JButton getLoadButton() {
+		return levelChooserPanel.getLoadButton();
+	}
+	
+	/**
+	 * Returns the close button.
+	 * 
+	 * @return the close button
+	 */
+	public JButton getCloseButton() {
+		return levelChooserPanel.getCloseButton();
+	}
+	
+	/**
+	 * Returns the predefined levels list.
+	 * 
+	 * @return the predefined levels list
+	 */
+	public JList<Integer> getPredefinedLevelsList() {
+		return levelChooserPanel.getPredefinedLevelsList();
+	}
+	
+	/**
+	 * Returns the custom levels list.
+	 * 
+	 * @return the custom levels list
+	 */
+	public JList<Integer> getCustomLevelsList() {
+		return levelChooserPanel.getCustomLevelsList();
 	}
 }
