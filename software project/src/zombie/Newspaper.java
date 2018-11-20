@@ -4,32 +4,31 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.ImageIcon;
-
 import tile.TileTypes;
 
 /**
- * Class for walker zombie
+ * Class for Newspaper zombie
  * 
  * @author Hoang Bui 1010129049
- * @version 17, November 2018
+ * @version 19, November 2018
  */
-public class Walker extends Zombie {
+
+public class Newspaper extends Zombie {
 	private static Map<TileTypes, BufferedImage> images;
 
 	/**
-	 * Constructs a new Walker
+	 * Constructs a new newspaper zombie
 	 */
-	public Walker() {
-		super(3, 30, 50, 1, ZombieTypes.WALKER);
+	public Newspaper() {
+		super(2, 40, 100, 1, ZombieTypes.NEWSPAPER);
 		loadImages();
 	}
 
 	/**
-	 * Constructs a Walker that is a copy of specified Walker.
+	 * Constructs a newspaper zombie that is a copy of specified football zombie
 	 */
-	public Walker(Zombie zombie) {
+	public Newspaper(Zombie zombie) {
 		super(zombie);
 	}
 
@@ -53,9 +52,9 @@ public class Walker extends Zombie {
 			images = new HashMap<TileTypes, BufferedImage>();
 
 			try {
-				images.putIfAbsent(TileTypes.GRASS, loadImage("zombieGrass"));
-				images.putIfAbsent(TileTypes.CONCRETE, loadImage("zombieConcrete"));
-				images.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadImage("zombieRoad"));
+				images.putIfAbsent(TileTypes.GRASS, loadImage("newspaperGrass"));
+				images.putIfAbsent(TileTypes.CONCRETE, loadImage("newspaperConcrete"));
+				images.putIfAbsent(TileTypes.ZOMBIE_SPAWN, loadImage("newspaperRoad"));
 			}
 			catch(IOException e) {
 				System.err.println(e.getMessage());

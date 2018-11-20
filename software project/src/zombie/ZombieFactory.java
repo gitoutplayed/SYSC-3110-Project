@@ -23,6 +23,12 @@ public class ZombieFactory {
 		else if(zombieType == ZombieTypes.BUCKETHAT) {
 			return new BucketHat();
 		}
+		else if(zombieType == ZombieTypes.FOOTBALL) {
+			return new Football();
+		}
+		else if(zombieType == ZombieTypes.NEWSPAPER) {
+			return new Newspaper();
+		}
 		return null;
 	}
 	
@@ -42,6 +48,12 @@ public class ZombieFactory {
 		}
 		else if(zombie.getZombieType() == ZombieTypes.BUCKETHAT) {
 			return new BucketHat();
+		}
+		else if(zombie.getZombieType() == ZombieTypes.FOOTBALL) {
+			return new Football();
+		}
+		else if(zombie.getZombieType() == ZombieTypes.NEWSPAPER) {
+			return new Newspaper();
 		}
 		return null;
 	}
