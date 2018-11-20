@@ -344,6 +344,7 @@ public class Game {
 						t.removePlant();
 						t.clearResidingZombie();
 					}
+					break;
 				} else {
 					if(nextTile.hasPlant()) {
 						Plant plant = nextTile.getResidingPlant();
