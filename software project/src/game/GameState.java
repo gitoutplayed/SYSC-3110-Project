@@ -370,4 +370,11 @@ public class GameState {
 		redo.remove(last);
 		return lastChange;
 	}
+	
+	/**
+	 * Clears the redo stack
+	 */
+	public void clearRedo() {
+		redo.clear();
+	}
 }
