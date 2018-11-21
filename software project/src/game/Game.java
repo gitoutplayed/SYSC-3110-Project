@@ -103,13 +103,9 @@ public class Game {
 			return;
 		}
 
-		try {
-			gameState.cacheUndo(gameState);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-
+		gameState.cacheUndo(gameState);
+		gameState.clearRedo();
+		
 		spawnZombies();
 
 		gainBaseSun();
@@ -173,6 +169,7 @@ public class Game {
 		}
 
 		gameState.cacheUndo(gameState);
+		gameState.clearRedo();
 
 		Plant newPlant = gameState.purchase(selectedPlant);
 		gameState.addPlant(newPlant, row, col);
@@ -220,8 +217,9 @@ public class Game {
 			gameListener.plantShoveled(gameEvent);
 			return;
 		}
-
+		
 		gameState.cacheUndo(gameState);
+		gameState.clearRedo();
 
 		tile.removePlant();
 
