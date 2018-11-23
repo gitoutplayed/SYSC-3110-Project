@@ -51,7 +51,7 @@ public class Game {
 		shovel = false;
 
 		this.gameListener = gameListener;
-		
+
 		gameListener.gameCreated(new GameEvent(this));
 	}
 
@@ -267,12 +267,12 @@ public class Game {
 		for(int row = 0; row < GameState.ROW; row++) {
 			for(int col = 0; col < GameState.COL; col++) {
 				Tile tile = grid[row][col];
-				// The tile holds a plant
+				 // The tile holds a plant
 				if(tile.hasPlant()) {
 					plantAction(tile.getResidingPlant(), grid, row, col);
 				}
 				// The tile holds a zombie
-				else if(tile.hasZombie()) {
+				if(tile.hasZombie()) {
 					zombieAction(tile.getResidingZombie(), grid, row, col);
 				}
 			}
@@ -286,7 +286,6 @@ public class Game {
 		gameState.gainSun(currentLevel.getBaseSunGain());
 	}
 
-
 	/**
 	 * Performs plant action. This includes generates resources and attack zombies.
 	 * 
@@ -296,23 +295,18 @@ public class Game {
 	 * @param col row column of the plant that is performing the action
 	 */
 	private void plantAction(Plant plant, Tile[][] grid, int row, int col) {
-		
+
 		// Get resource if the plant generates resource
 		if(plant.canResrc_gen()) {
 			gameState.gainSun(plant.getResrc_gen());
-		} 
-		
-		// if mine, Attack then remove the mine
-		else if(plant.getName()==PlantName.PotatoMine) {
-			attack_mine(plant, grid, row, col);
-		} 
-		
+		}
+
 		// Attack Normally if not a mine
-		else {
+		else if(plant.canAttack()) {
 			attack_X(plant, grid, row, col);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param plant
@@ -341,30 +335,18 @@ public class Game {
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param grid
 	 * @param row
 	 * @param col
 	 */
-	private void attack_mine(Plant plant, Tile[][] grid, int row, int col) {
-		Tile tile = grid[row][col+1];
-		if (tile.hasZombie()) {
-			List<Zombie> zombiesOnTile = tile.getResidingZombie();
-			List<Zombie> deadZs = new ArrayList<Zombie>();
-			for(Zombie z : zombiesOnTile) {
-				z.takeDamage(plant.getDamage());
-				
-				if(z.isDead()) {
-					deadZs.add(z);
-					tile.removeZombie(z);
-					gameState.zombieDied();
-				}
-			} zombiesOnTile.removeAll(deadZs);
-		plant.takeDmg(plant.getHealth());
-		grid[row][col].removePlant();
+	private void attack_mine(Plant plant, List<Zombie> zombies) {
+		for(Zombie zombie : zombies) {
+			zombie.takeDamage(plant.getDamage());
 		}
+		plant.takeDmg(plant.getHealth());
 	}
 
 	/**
@@ -382,7 +364,7 @@ public class Game {
 		while(zombieIter.hasNext()) {
 			Zombie zombie = zombieIter.next();
 
-			if(zombie.isReadyToMove()) {
+			if(zombie.isReadyToMove() && !zombie.isDead()) {
 				// If the current row still has the lawn mover then the lawn mower is triggered
 				if(nextTile.getTileType() == TileTypes.LAWNMOWER) {
 					nextTile.setTileType(TileTypes.CONCRETE);
@@ -395,22 +377,34 @@ public class Game {
 				} else {
 					if(nextTile.hasPlant()) {
 						Plant plant = nextTile.getResidingPlant();
-						
-						plant.takeDmg(zombie.getDamage());
 
+						// Potato Mine
+						if(plant.getName() == PlantName.PotatoMine) {
+							attack_mine(plant, zombies);
+						} else {
+							plant.takeDmg(zombie.getDamage());
+						}
+						
 						if(!plant.isDead()) {
 							return;
 						}
 						
 						nextTile.removePlant();
 					}
-
 					nextTile.addZombie(zombie);
 					zombieIter.remove();
 				}
 				zombie.resetMovementCounter();
 			} else {
 				zombie.incrementMovementCounter();
+			}
+		}
+		
+		Iterator<Zombie> zombieIterClean = zombies.iterator();
+		while(zombieIterClean.hasNext()) {
+			if(zombieIterClean.next().isDead()) {
+				zombieIterClean.remove();
+				gameState.zombieDied();
 			}
 		}
 	}
@@ -421,8 +415,8 @@ public class Game {
 	private void spawnZombies() {
 		if(gameState.getTurnNumber() % currentLevel.getSpawnRate() != 0) {
 			return;
-		} 
-		
+		}
+
 		for(int i = 0; i < currentLevel.getSpawnAmount(); i++) {
 			gameState.addZombie(random.nextInt(GameState.ROW));
 		}
@@ -637,7 +631,7 @@ public class Game {
 	public boolean isPlantOnCooldown(PlantName plant) {
 		return gameState.isPlantOnCooldown(plant);
 	}
-	
+
 	/**
 	 * Returns the level number.
 	 * 
@@ -736,7 +730,7 @@ public class Game {
 		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
 		gameListener.levelLoaded(gameEvent);
 	}
-	
+
 	/**
 	 * Returns a list of all the level IDs of the predefined levels.
 	 * 
@@ -744,7 +738,7 @@ public class Game {
 	 */
 	public List<Integer> getAllPredefinedLevelID() {
 		return levelManager.getAllPredefinedLevelID();
-	} 
+	}
 
 	// End Level loading
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
