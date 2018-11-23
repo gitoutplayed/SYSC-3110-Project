@@ -246,6 +246,10 @@ public class GameController {
 			if(button == gameView.getCloseButton()) {
 				gameView.disposePopup();
 			} else if(button == gameView.getLoadButton()) {
+				// Do nothing if no level is selected
+				if(gameView.getPredefinedLevelsList().getSelectedIndex() < 0) {
+					return;
+				}
 				int levelID = gameView.getPredefinedLevelsList().getSelectedValue();
 				gameView.disposePopup();
 				game.loadLevel(levelID);
