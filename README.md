@@ -20,6 +20,7 @@
 * Implemented Undo and Redo 
 
 ## Known Issues
+* No known issues
 
 ## Roadmap
 
