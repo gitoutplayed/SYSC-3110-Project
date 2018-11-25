@@ -13,20 +13,17 @@
 * Added new levels
 * Added new plants
 * Added new zombies
-* Added level selecter
-* added new events to determine number of zombies on a tile
+* Added level selecter (Added class LevelChooserPanel)
+* Added new events to determine number of zombies on a tile (Added class PopupPanel)
 * Added JUnit test for zombies
 * Added JUnit test for plants
-* Implement Undo and Redo 
+* Implemented Undo and Redo 
 
 ## Known Issues
 
 ## Roadmap
-* Implement Save and Load
-* Custom level design
 
 ### Game
-* Allow unlimited undo and redo
 * Allow save and load 
 * In-game Level builder
 
@@ -38,6 +35,3 @@
 
 ### Plants
 * The plants each have their unique difference between eachother base on their stats. They provide different uses to the player for a variety of gameplay.
-
-### Controller and View
-* The GUI is implemented in the GameView class and the controller will is implemented in the GameController class.
