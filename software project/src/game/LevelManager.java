@@ -113,8 +113,6 @@ public class LevelManager {
 		//Add values into lists
 		plants.add(PlantName.PeaShooter);
 		plants.add(PlantName.SunFlower);
-		plants.add(PlantName.Wallnut);
-		plants.add(PlantName.Repeater);
 		zombies.put(ZombieTypes.WALKER, 10);
 		
 		//Create level 1
@@ -132,6 +130,7 @@ public class LevelManager {
 		zombies.put(ZombieTypes.WALKER, 30);
 		zombies.put(ZombieTypes.CONEHAT, 30);
 		zombies.put(ZombieTypes.BUCKETHAT, 20);
+		plants.add(PlantName.Wallnut);
 		
 		createLevel(levelCounter, plants, zombies, 25, 5, 4);
 		
@@ -141,6 +140,8 @@ public class LevelManager {
 		zombies.put(ZombieTypes.CONEHAT, 30);
 		zombies.put(ZombieTypes.BUCKETHAT, 25);
 		zombies.put(ZombieTypes.FOOTBALL, 15);
+		plants.add(PlantName.DuelSunflower);
+		
 		createLevel(levelCounter, plants, zombies, 25, 5, 4);
 		
 		//Create level 5
@@ -150,6 +151,8 @@ public class LevelManager {
 		zombies.put(ZombieTypes.BUCKETHAT, 25);
 		zombies.put(ZombieTypes.FOOTBALL, 15);
 		zombies.put(ZombieTypes.NEWSPAPER, 15);
+		plants.add(PlantName.Repeater);
+		
 		createLevel(levelCounter, plants, zombies, 25, 5, 4);
 		
 	}

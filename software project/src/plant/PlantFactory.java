@@ -24,6 +24,7 @@ public class PlantFactory {
 		if(name==PlantName.SunFlower) return new SunFlower();
 		if(name==PlantName.Wallnut) return new Wallnut();
 		if(name==PlantName.Repeater) return new Repeater();
+		if(name==PlantName.DuelSunflower) return new DuelSunflower();
 		return null;
 	}
 	
@@ -39,6 +40,8 @@ public class PlantFactory {
 			return new Wallnut(plant);
 		} else if(plant.getName() == PlantName.Repeater) {
 			return new Repeater(plant);
+		}else if(plant.getName() == PlantName.DuelSunflower) {
+			return new DuelSunflower(plant);
 		}
 		return null;
 	}

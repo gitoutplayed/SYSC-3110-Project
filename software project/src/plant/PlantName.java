@@ -6,5 +6,5 @@ package plant;
  * 
  */
 public enum PlantName {
-	PeaShooter, SunFlower, Wallnut, Repeater 
+	PeaShooter, SunFlower, Wallnut, Repeater, DuelSunflower
 }

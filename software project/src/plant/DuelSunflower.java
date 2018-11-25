@@ -4,39 +4,35 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.ImageIcon;
-
 import tile.TileTypes;
 
 /**
- * This class defines a Wallnut's fields for instantiation.
+ * This class defines a Duel SunFlower's fields for instantiation.
  * 
- * @author Souheil Yazji 101007994
- * @version Nov 18th
- *
+ * @author Hoang Bui, 101029049
+ * @version Nov 25th
  */
-public class Wallnut extends Plant {
-	
-	private static final int PRICE = 25;
-	private static final int HEALTH = 100;
+public class DuelSunflower extends Plant{
+	private static final int PRICE = 200;
+	private static final int HEALTH = 40;
 	private static final int DAMAGE = 0;
-	private static final int RESRC_GEN = 0;
+	private static final int RESRC_GEN = 50;
 	private static final int ATKRANGE_X = 0;
 	private static final int ATKRANGE_Y = 0;
-	private static final int COOLDOWN = 7;
+	private static final int COOLDOWN = 5;
 
 	private static Map<TileTypes, BufferedImage> images;
 	
-	public Wallnut() {
-		super(PlantName.Wallnut, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN);
+	public DuelSunflower() {
+		super(PlantName.DuelSunflower, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN);
 		loadImages();
 	}
 	
 	/**
-	 * Constructs a new Wallnut that is a copy of specified Wallnut.
+	 * Constructs a new SunFlower that is a copy of specified SunFlower.
 	 */
-	public Wallnut(Plant plant) {
+	public DuelSunflower(Plant plant) {
 		super(plant);
 	}
 	
@@ -48,8 +44,8 @@ public class Wallnut extends Plant {
 			images = new HashMap<TileTypes, BufferedImage>();
 
 			try {
-				images.putIfAbsent(TileTypes.GRASS,  loadImage("wallnut"));
-				images.putIfAbsent(TileTypes.SHOP,  loadImage("wallnutShop"));
+				images.putIfAbsent(TileTypes.GRASS,   loadImage("duelSunflower"));
+				images.putIfAbsent(TileTypes.SHOP,  loadImage("duelSunflowerShop"));
 			}
 			catch(IOException e) {
 				System.err.println(e.getMessage());

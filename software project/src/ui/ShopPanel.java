@@ -15,14 +15,15 @@ import plant.PlantName;
  * This class represents the ShopPanel. 
  * 
  * @author Michael Fan 101029934
+ * @editor Hoang Bui 101029049
  * @version Nov 16, 2018
  */
 public class ShopPanel extends JPanel {
 	private List<ShopButton> shop;
 	
-	public static int WIDTH = 4 * GameView.SQUARE_SIZE;
+	public static int WIDTH = 5 * GameView.SQUARE_SIZE;
 	public static int HEIGHT = GameView.SQUARE_SIZE;
-	public static int SIZE = 4;
+	public static int SIZE = 5;
 	
 	/**
 	 * Constructs a new ShopPanel
