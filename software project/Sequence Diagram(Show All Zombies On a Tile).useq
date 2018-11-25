@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.2" icons="false" automaticImage="PNG" generate-combined-fragments="true">  
+  <object id="1" language="java" name="ui.GameController.GridListener" project="Software Project" 
+    file="/Software Project/src/ui/GameController.java" binary="false" label="gridListener" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="2">      
+      <position height="997" width="0" x="0" y="144"/>    
+    </execution>    
+    <execution id="4">      
+      <position height="934" width="0" x="0" y="186"/>    
+    </execution>  
+  </object>  
+  <object id="29" language="java" name="java.util.EventObject" project="Software Project" 
+    file="C:/Program Files/Java/jre1.8.0_181/lib/rt.jar" binary="true" label="e" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="6">      
+      <position height="21" width="0" x="0" y="217"/>    
+    </execution>  
+  </object>  
+  <object id="30" language="java" name="ui.GameView" project="Software Project" 
+    file="/Software Project/src/ui/GameView.java" binary="false" label="gameView" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="8">      
+      <position height="21" width="0" x="0" y="259"/>    
+    </execution>    
+    <execution id="16">      
+      <position height="105" width="0" x="0" y="700"/>    
+    </execution>    
+    <execution id="18">      
+      <position height="21" width="0" x="0" y="826"/>    
+    </execution>    
+    <execution id="20">      
+      <position height="63" width="0" x="0" y="868"/>    
+    </execution>    
+    <execution id="26">      
+      <position height="21" width="0" x="0" y="1036"/>    
+    </execution>  
+  </object>  
+  <object id="37" language="java" name="ui.PopupPanel" project="Software Project" 
+    file="/Software Project/src/ui/PopupPanel.java" binary="false" label="popupPane" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="36">      
+      <position height="21" width="0" x="0" y="889"/>    
+    </execution>  
+  </object>  
+  <object id="38" language="java" name="javax.swing.PopupFactory" project="Software Project" 
+    file="C:/Program Files/Java/jre1.8.0_181/lib/rt.jar" binary="true" label="popupFactory" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="32">      
+      <position height="21" width="0" x="0" y="721"/>    
+    </execution>    
+    <execution id="34">      
+      <position height="21" width="0" x="0" y="763"/>    
+    </execution>  
+  </object>  
+  <object id="39" language="java" name="game.Game" project="Software Project" 
+    file="/Software Project/src/game/Game.java" binary="false" label="game" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="10">      
+      <position height="21" width="0" x="0" y="423"/>    
+    </execution>    
+    <execution id="12">      
+      <position height="21" width="0" x="0" y="530"/>    
+    </execution>    
+    <execution id="14">      
+      <position height="21" width="0" x="0" y="658"/>    
+    </execution>  
+  </object>  
+  <object id="40" language="java" name="tile.Tile" project="Software Project" 
+    file="/Software Project/src/tile/Tile.java" binary="false" label="tile" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="22">      
+      <position height="21" width="0" x="0" y="952"/>    
+    </execution>    
+    <execution id="24">      
+      <position height="21" width="0" x="0" y="994"/>    
+    </execution>  
+  </object>  
+  <object id="41" language="java" name="javax.swing.Popup" project="Software Project" 
+    file="C:/Program Files/Java/jre1.8.0_181/lib/rt.jar" binary="true" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="28">      
+      <position height="21" width="0" x="0" y="1078"/>    
+    </execution>  
+  </object>  
+  <combined-fragment id="42" interaction-operator="LOOP">    
+    <interaction-operand id="43" constraint="for:row &lt; GameState.ROW">      
+      <fragment refId="44"/>    
+    </interaction-operand>    
+    <combined-fragment id="44" interaction-operator="LOOP">      
+      <interaction-operand id="45" constraint="for:col &lt; GameState.COL">        
+        <fragment refId="46"/>      
+      </interaction-operand>      
+      <combined-fragment id="46" interaction-operator="OPT">        
+        <interaction-operand id="47" constraint="buttonGrid[row][col] == button">          
+          <fragment refId="48"/>          
+          <fragment refId="49"/>        
+        </interaction-operand>        
+        <combined-fragment id="49" interaction-operator="ALT">          
+          <interaction-operand id="50" constraint="game.isPlantSelected()">            
+            <fragment refId="9"/>          
+          </interaction-operand>          
+          <interaction-operand id="51" constraint="else">            
+            <fragment refId="52"/>          
+          </interaction-operand>          
+          <combined-fragment id="52" interaction-operator="OPT">            
+            <interaction-operand id="53" constraint="game.isShovelSelected()">              
+              <fragment refId="11"/>            
+            </interaction-operand>          
+          </combined-fragment>        
+        </combined-fragment>        
+        <combined-fragment id="48" interaction-operator="OPT">          
+          <interaction-operand id="54" constraint="game.isLevelLoaded()">            
+            <fragment refId="55"/>          
+          </interaction-operand>          
+          <combined-fragment id="55" interaction-operator="OPT">            
+            <interaction-operand id="56" 
+              constraint="game.getGrid()[row][col].hasZombie() &amp;&amp; gameView.getPopup() == null">              
+              <fragment refId="31"/>              
+              <fragment refId="13"/>              
+              <fragment refId="19"/>              
+              <fragment refId="33"/>              
+              <fragment refId="21"/>              
+              <fragment refId="15"/>              
+              <fragment refId="27"/>              
+              <fragment refId="17"/>              
+              <fragment refId="23"/>              
+              <fragment refId="25"/>              
+              <fragment refId="35"/>            
+            </interaction-operand>          
+          </combined-fragment>        
+        </combined-fragment>      
+      </combined-fragment>    
+    </combined-fragment>  
+  </combined-fragment>  
+  <message id="3" operation="actionPerformed(java.awt.event.ActionEvent):void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" operation="getSource():java.lang.Object" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="7" operation="getButtonGrid():javax.swing.JButton[][]" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="8"/>  
+  </message>  
+  <message id="9" operation="buyPlant(int,int):void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="10"/>  
+  </message>  
+  <message id="11" operation="shovel(int,int):void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="12"/>  
+  </message>  
+  <message id="13" operation="getGrid():tile.Tile[][]" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="14"/>  
+  </message>  
+  <message id="15" operation="setupPopup(javax.swing.JPanel):void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="16"/>  
+  </message>  
+  <message id="17" operation="getPopupPanel():javax.swing.JPanel" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="18"/>  
+  </message>  
+  <message id="19" operation="addZombiesToPopup(java.util.List&lt;zombie.Zombie&gt;,tile.TileTypes):void" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="20"/>  
+  </message>  
+  <message id="21" operation="getResidingZombie():java.util.List&lt;Zombie&gt;" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="22"/>  
+  </message>  
+  <message id="23" operation="getTileType():tile.TileTypes" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="24"/>  
+  </message>  
+  <message id="25" operation="getPopup():javax.swing.Popup" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="26"/>  
+  </message>  
+  <message id="27" operation="show():void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="28"/>  
+  </message>  
+  <message id="31" operation="PopupFactory()" asynchronous="false">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="32"/>  
+  </message>  
+  <message id="33" operation="getPopup(java.awt.Component,java.awt.Component,int,int):javax.swing.Popup" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="34"/>  
+  </message>  
+  <message id="35" operation="addZombiesToPopup(java.util.List&lt;zombie.Zombie&gt;,tile.TileTypes):void" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="36"/>  
+  </message>
+</sequence-diagram>

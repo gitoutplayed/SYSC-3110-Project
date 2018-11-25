@@ -38,7 +38,7 @@ public class Shop {
 	/**
 	 * Constructs a new Shop that is a copy of the specified Shop.
 	 * 
-	 * @param shop the Shop that is to be copied
+	 * @param otherShop the Shop that is to be copied
 	 */
 	public Shop(Shop otherShop) {
 		shop = otherShop.shop;

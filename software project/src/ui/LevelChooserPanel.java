@@ -77,7 +77,7 @@ public class LevelChooserPanel extends JPanel {
 	/**
 	 * Adds a list of predefined levels.
 	 * 
-	 * @param the predefined levels
+	 * @param predefinedLevels the predefined levels
 	 */
 	public void addPredefinedLevels(List<Integer> predefinedLevels) {
 		DefaultListModel<Integer> list = new DefaultListModel<Integer>();

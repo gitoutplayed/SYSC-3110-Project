@@ -27,6 +27,8 @@ public class Newspaper extends Zombie {
 
 	/**
 	 * Constructs a newspaper zombie that is a copy of specified football zombie
+	 * 
+	 * @param zombie the newspaper zombie that is to be copied
 	 */
 	public Newspaper(Zombie zombie) {
 		super(zombie);

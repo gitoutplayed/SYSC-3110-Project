@@ -28,6 +28,8 @@ public class Walker extends Zombie {
 
 	/**
 	 * Constructs a Walker that is a copy of specified Walker.
+	 * 
+	 * @param zombie the Walker that is to be copied
 	 */
 	public Walker(Zombie zombie) {
 		super(zombie);

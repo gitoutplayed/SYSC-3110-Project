@@ -199,7 +199,9 @@ public class Tile {
 	}
 
 	/**
-	 * Method to get the tile's image
+	 * Method to get the tile's image.
+	 * 
+	 * @param tileType the type of the tile
 	 * 
 	 * @return icon the tile's image
 	 */

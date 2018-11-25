@@ -38,6 +38,8 @@ public class PeaShooter extends Plant{
 	
 	/**
 	 * Constructs a new PeaShooter that is a copy of specified PeaShooter.
+	 * 
+	 * @param plant the PeaShooter that is to be copied
 	 */
 	public PeaShooter(Plant plant) {
 		super(plant);

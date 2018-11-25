@@ -13,7 +13,7 @@ import tile.TileTypes;
  * Class for bucket head zombie
  * 
  * @author Tamer Ibrahim 101032919
- * @editor Hoang Bui 101029049
+ * @author Hoang Bui 101029049
  * @version 19, November 
  */
 public class BucketHat extends Zombie {

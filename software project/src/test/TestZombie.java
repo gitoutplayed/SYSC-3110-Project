@@ -1,6 +1,3 @@
-/**
- * A test case for class zombie
- */
 package test;
 
 import junit.framework.TestCase;
@@ -11,6 +8,11 @@ import zombie.Newspaper;
 import zombie.Walker;
 import zombie.ZombieTypes;
 
+/**
+ * A test class to test the zombies.
+ * @author Hoang Bui, 101029049
+ * @version 1
+ */
 public class TestZombie extends TestCase {
 	private Walker walker;
 	private BucketHat bucketHat;

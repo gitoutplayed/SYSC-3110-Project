@@ -15,8 +15,8 @@ import zombie.ZombieTypes;
  * loading. 
  * 
  * @author Michael Fan 101029934
- * @editor Hoang Bui 101029049
- * @version Oct 25, 2018
+ * @author Hoang Bui 101029049
+ * @version Nov 25, 2018
  */
 
 public class LevelManager {
@@ -130,6 +130,7 @@ public class LevelManager {
 		zombies.put(ZombieTypes.WALKER, 30);
 		zombies.put(ZombieTypes.CONEHAT, 30);
 		zombies.put(ZombieTypes.BUCKETHAT, 20);
+		plants.add(PlantName.Wallnut);
 		
 		createLevel(levelCounter, plants, zombies, 25, 5, 4);
 		
@@ -139,6 +140,8 @@ public class LevelManager {
 		zombies.put(ZombieTypes.CONEHAT, 30);
 		zombies.put(ZombieTypes.BUCKETHAT, 25);
 		zombies.put(ZombieTypes.FOOTBALL, 15);
+		plants.add(PlantName.DuelSunflower);
+		
 		createLevel(levelCounter, plants, zombies, 25, 5, 4);
 		
 		//Create level 5
@@ -148,6 +151,8 @@ public class LevelManager {
 		zombies.put(ZombieTypes.BUCKETHAT, 25);
 		zombies.put(ZombieTypes.FOOTBALL, 15);
 		zombies.put(ZombieTypes.NEWSPAPER, 15);
+		plants.add(PlantName.Repeater);
+		
 		createLevel(levelCounter, plants, zombies, 25, 5, 4);
 		
 	}

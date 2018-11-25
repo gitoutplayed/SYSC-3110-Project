@@ -335,7 +335,7 @@ public class GameState {
 	/**
 	 * Returns the last GameState 
 	 * 
-	 * @returnn the last GameState 
+	 * @return the last GameState 
 	 */
 	public GameState undo() {
 		int last = undo.size() - 1;
@@ -359,7 +359,7 @@ public class GameState {
 	/**
 	 * Returns the last undo
 	 * 
-	 * @returnn the last undo
+	 * @return the last undo
 	 */
 	public GameState redo() {
 		int last = redo.size() - 1;

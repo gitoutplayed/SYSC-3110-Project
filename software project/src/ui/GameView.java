@@ -342,7 +342,9 @@ public class GameView extends JFrame implements GameListener {
 	}
 
 	/**
-	 * Returns the restart menu item
+	 * Returns the restart menu item.
+	 * 
+	 * @return the restart menu item
 	 */
 	public JMenuItem getRestart() {
 		return restart;
@@ -403,9 +405,10 @@ public class GameView extends JFrame implements GameListener {
 	}
 	
 	/**
-	 * Add zombies to the popup 
+	 * Add zombies to the popup.
 	 * 
 	 * @param zombies the zombies to add to the popup 
+	 * @param tileType the type of the tile
 	 */
 	public void addZombiesToPopup(List<Zombie> zombies, TileTypes tileType) {
 		popupPane.addZombiesToPopup(zombies, tileType);
