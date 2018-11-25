@@ -13,7 +13,6 @@ import tile.Tile;
  * method.
  * 
  * @author Michael Fan 101029934
- * @editor Souheil Yazji 101007994
  * @version Nov 17, 2018
  */
 public class GameController {
@@ -67,8 +66,8 @@ public class GameController {
 		gameView.getPopupButton().addActionListener(new PopupListener());
 
 		// LevelChooser listener
-		gameView.getCloseButton().addActionListener(new LevelChooserListener());
-		gameView.getLoadButton().addActionListener(new LevelChooserListener());
+		gameView.getCloseButton().addActionListener(new PopupListener());
+		gameView.getLoadButton().addActionListener(new PopupListener());
 	}
 
 	/**
@@ -211,47 +210,37 @@ public class GameController {
 
 	/**
 	 * The PopupListener. This class contains the actionPerformed method that will
-	 * be called when the button on the PopupPanel is clicked.
+	 * be called when any button on the popup panel is clicked.
 	 * 
 	 * @author Michael Fan 101029934
-	 * @version Nov 19, 2018
+	 * @version Nov 25, 2018
 	 */
 	private class PopupListener implements ActionListener {
 		/**
-		 * The action that is performed when the button on the PopupPanel is clicked.
-		 * 
-		 * @param e the ActionEvent
-		 */
-		public void actionPerformed(ActionEvent e) {
-			gameView.disposePopup();
-			gameView.clearPopupPanel();
-		}
-	}
-
-	/**
-	 * The LevelChooserListener. This class contains the actionPreformed method that
-	 * will be called when the buttons on the LevelChooserPanel are clicked
-	 * 
-	 * @author Michael Fan 101029934
-	 * @version Nov 19, 2018
-	 */
-	private class LevelChooserListener implements ActionListener {
-		/**
-		 * The action that is performed when the buttons on the LevelChooserPanel are
-		 * clicked.
+		 * The action that is performed when any button on the popup panel is clicked.
 		 * 
 		 * @param e the ActionEvent
 		 */
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
-			if(button == gameView.getCloseButton()) {
-				gameView.disposePopup();
-			} else if(button == gameView.getLoadButton()) {
+			
+			// PopupPanel
+			if(button == gameView.getPopupButton()) {
+				gameView.clearPopupPanel();
+			}
+			
+			// LevelChooserPanel
+			if(button == gameView.getLoadButton()) {
+				// Do nothing if no level is selected
+				if(gameView.getPredefinedLevelsList().getSelectedIndex() < 0) {
+					return;
+				}
 				int levelID = gameView.getPredefinedLevelsList().getSelectedValue();
-				gameView.disposePopup();
 				game.loadLevel(levelID);
 			}
-		} 
+			
+			gameView.disposePopup();
+		}
 	}
 
 	/**

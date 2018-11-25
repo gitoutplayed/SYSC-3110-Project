@@ -22,7 +22,7 @@ public class ShopPanel extends JPanel {
 	
 	public static int WIDTH = 4 * GameView.SQUARE_SIZE;
 	public static int HEIGHT = GameView.SQUARE_SIZE;
-	public static int SIZE = 4; //
+	public static int SIZE = 4;
 	
 	/**
 	 * Constructs a new ShopPanel

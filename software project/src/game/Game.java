@@ -21,7 +21,6 @@ import zombie.ZombieTypes;
  * This class represents the Game. All gameplay related logic is here.
  * 
  * @author Michael Fan 101029934
- * @editor Souheil Yazji 101007994
  * @version Nov 16, 2018
  */
 
@@ -51,7 +50,7 @@ public class Game {
 		shovel = false;
 
 		this.gameListener = gameListener;
-
+		
 		gameListener.gameCreated(new GameEvent(this));
 	}
 
@@ -104,13 +103,9 @@ public class Game {
 			return;
 		}
 
-		try {
-			gameState.cacheUndo(gameState);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-
+		gameState.cacheUndo(gameState);
+		gameState.clearRedo();
+		
 		spawnZombies();
 
 		gainBaseSun();
@@ -174,6 +169,7 @@ public class Game {
 		}
 
 		gameState.cacheUndo(gameState);
+		gameState.clearRedo();
 
 		Plant newPlant = gameState.purchase(selectedPlant);
 		gameState.addPlant(newPlant, row, col);
@@ -221,8 +217,9 @@ public class Game {
 			gameListener.plantShoveled(gameEvent);
 			return;
 		}
-
+		
 		gameState.cacheUndo(gameState);
+		gameState.clearRedo();
 
 		tile.removePlant();
 
@@ -267,12 +264,12 @@ public class Game {
 		for(int row = 0; row < GameState.ROW; row++) {
 			for(int col = 0; col < GameState.COL; col++) {
 				Tile tile = grid[row][col];
-				 // The tile holds a plant
+				// The tile holds a plant
 				if(tile.hasPlant()) {
 					plantAction(tile.getResidingPlant(), grid, row, col);
 				}
 				// The tile holds a zombie
-				if(tile.hasZombie()) {
+				else if(tile.hasZombie()) {
 					zombieAction(tile.getResidingZombie(), grid, row, col);
 				}
 			}
@@ -295,44 +292,31 @@ public class Game {
 	 * @param col row column of the plant that is performing the action
 	 */
 	private void plantAction(Plant plant, Tile[][] grid, int row, int col) {
-
 		// Get resource if the plant generates resource
 		if(plant.canResrc_gen()) {
 			gameState.gainSun(plant.getResrc_gen());
-		}
-
-		// Attack Normally if not a mine
+		} // Attack if if can attack
 		else if(plant.canAttack()) {
-			attack_X(plant, grid, row, col);
-		}
-	}
-
-	/**
-	 * Processes attacks in the X-axis.
-	 * 
-	 * @param plant the plant that is performing the action
-	 * @param grid the grid of the current level
-	 * @param row the row of the plant that is performing the action
-	 * @param col row column of the plant that is performing the action
-	 */
-	private void attack_X(Plant plant, Tile[][] grid, int row, int col) {
-		// Attacking horizontally
-		for(int x = 1; x <= plant.getAtkRange_X(); x++) {
-			if(x + col > GameState.LAST) {
-				break;
-			}
-
-			Tile tile = grid[row][col + x];
-			// If the tile contains a zombie then the zombie will take damage
-			if(tile.hasZombie()) {
-				Zombie firstZombie = tile.getFirstZombie();
-				firstZombie.takeDamage(plant.getDamage());
-
-				if(firstZombie.isDead()) {
-					tile.removeZombie(firstZombie);
-					gameState.zombieDied();
+			// Attacking horizontally
+			for(int x = 1; x <= plant.getAtkRange_X(); x++) {
+				if(x + col > GameState.LAST) {
+					break;
 				}
-				break;
+
+				Tile tile = grid[row][col + x];
+
+				// If the tile contains a zombie then the zombie will take damage
+				if(tile.hasZombie()) {
+					Zombie firstZombie = tile.getFirstZombie();
+					firstZombie.takeDamage(plant.getDamage());
+
+					if(firstZombie.isDead()) {
+						tile.removeZombie(firstZombie);
+						gameState.zombieDied();
+					}
+
+					break;
+				}
 			}
 		}
 	}
@@ -351,9 +335,8 @@ public class Game {
 
 		while(zombieIter.hasNext()) {
 			Zombie zombie = zombieIter.next();
-			boolean zstatus = zombie.isDead();
 
-			if(zombie.isReadyToMove() && !zstatus) {
+			if(zombie.isReadyToMove()) {
 				// If the current row still has the lawn mover then the lawn mower is triggered
 				if(nextTile.getTileType() == TileTypes.LAWNMOWER) {
 					nextTile.setTileType(TileTypes.CONCRETE);
@@ -366,29 +349,22 @@ public class Game {
 				} else {
 					if(nextTile.hasPlant()) {
 						Plant plant = nextTile.getResidingPlant();
-						plant.takeDmg(zombie.getDamage());
 						
+						plant.takeDmg(zombie.getDamage());
+
 						if(!plant.isDead()) {
 							return;
 						}
+						
 						nextTile.removePlant();
 					}
-					if (!zstatus) {
-						nextTile.addZombie(zombie);
-					}
+
+					nextTile.addZombie(zombie);
 					zombieIter.remove();
 				}
 				zombie.resetMovementCounter();
 			} else {
 				zombie.incrementMovementCounter();
-			}
-		}
-		
-		Iterator<Zombie> zombieIterClean = zombies.iterator();
-		while(zombieIterClean.hasNext()) {
-			if(zombieIterClean.next().isDead()) {
-				zombieIterClean.remove();
-				gameState.zombieDied();
 			}
 		}
 	}
@@ -399,8 +375,8 @@ public class Game {
 	private void spawnZombies() {
 		if(gameState.getTurnNumber() % currentLevel.getSpawnRate() != 0) {
 			return;
-		}
-
+		} 
+		
 		for(int i = 0; i < currentLevel.getSpawnAmount(); i++) {
 			gameState.addZombie(random.nextInt(GameState.ROW));
 		}
@@ -615,7 +591,7 @@ public class Game {
 	public boolean isPlantOnCooldown(PlantName plant) {
 		return gameState.isPlantOnCooldown(plant);
 	}
-
+	
 	/**
 	 * Returns the level number.
 	 * 
@@ -714,7 +690,7 @@ public class Game {
 		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
 		gameListener.levelLoaded(gameEvent);
 	}
-
+	
 	/**
 	 * Returns a list of all the level IDs of the predefined levels.
 	 * 
@@ -722,7 +698,7 @@ public class Game {
 	 */
 	public List<Integer> getAllPredefinedLevelID() {
 		return levelManager.getAllPredefinedLevelID();
-	}
+	} 
 
 	// End Level loading
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
