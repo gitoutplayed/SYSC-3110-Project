@@ -13,6 +13,7 @@ import tile.Tile;
  * method.
  * 
  * @author Michael Fan 101029934
+ * @editor Souheil Yazji 101007994
  * @version Nov 17, 2018
  */
 public class GameController {
@@ -246,10 +247,6 @@ public class GameController {
 			if(button == gameView.getCloseButton()) {
 				gameView.disposePopup();
 			} else if(button == gameView.getLoadButton()) {
-				// Do nothing if no level is selected
-				if(gameView.getPredefinedLevelsList().getSelectedIndex() < 0) {
-					return;
-				}
 				int levelID = gameView.getPredefinedLevelsList().getSelectedValue();
 				gameView.disposePopup();
 				game.loadLevel(levelID);

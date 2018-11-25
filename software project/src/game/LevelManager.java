@@ -16,6 +16,7 @@ import zombie.ZombieTypes;
  * 
  * @author Michael Fan 101029934
  * @editor Hoang Bui 101029049
+ * @editor Souheil Yazji 101007994
  * @version Oct 25, 2018
  */
 
@@ -113,6 +114,8 @@ public class LevelManager {
 		//Add values into lists
 		plants.add(PlantName.PeaShooter);
 		plants.add(PlantName.SunFlower);
+		plants.add(PlantName.Wallnut);
+		plants.add(PlantName.Repeater);
 		zombies.put(ZombieTypes.WALKER, 10);
 		
 		//Create level 1
@@ -122,7 +125,7 @@ public class LevelManager {
 		levelCounter++;
 		zombies.put(ZombieTypes.WALKER, 20);
 		zombies.put(ZombieTypes.CONEHAT, 25);
-		
+		 
 		createLevel(levelCounter, plants, zombies,  25, 2, 4);
 		
 		//Create level 3
@@ -154,6 +157,12 @@ public class LevelManager {
 	
 	/**
 	 * 
+	 * @param levelCounter
+	 * @param plants
+	 * @param zombies
+	 * @param baseSunGain
+	 * @param spawnRate
+	 * @param spawnAmount
 	 */
 	private void createLevel(int levelCounter, Set<PlantName> plants, Map<ZombieTypes, Integer> zombies, int baseSunGain, int spawnRate, int spawnAmount) {
 		//Create new level

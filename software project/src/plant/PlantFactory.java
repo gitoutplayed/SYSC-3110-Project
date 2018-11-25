@@ -3,7 +3,7 @@ package plant;
  * This class creates a "factory" for creating plants.
  * 
  * @author Souheil Yazji 101007994
- * @version Oct 29th
+ * @version Nov 20th
  *
  */
 public class PlantFactory {
@@ -22,6 +22,8 @@ public class PlantFactory {
 	public static Plant createPlant(PlantName name) {
 		if(name==PlantName.PeaShooter) return new PeaShooter();
 		if(name==PlantName.SunFlower) return new SunFlower();
+		if(name==PlantName.Wallnut) return new Wallnut();
+		if(name==PlantName.Repeater) return new Repeater();
 		return null;
 	}
 	
@@ -33,8 +35,11 @@ public class PlantFactory {
 			return new PeaShooter(plant);
 		} else if(plant.getName() == PlantName.SunFlower) {
 			return new SunFlower(plant);
+		} else if(plant.getName() == PlantName.Wallnut) { 
+			return new Wallnut(plant);
+		} else if(plant.getName() == PlantName.Repeater) {
+			return new Repeater(plant);
 		}
-		
 		return null;
 	}
 }
