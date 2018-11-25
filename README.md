@@ -28,4 +28,4 @@
 * In-game Level builder
 
 ### GameController and GameView
-* In-game Level builder
+* GUI for the in-game Level builder
