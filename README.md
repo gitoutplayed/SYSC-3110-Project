@@ -11,8 +11,8 @@
 
 ## Changes Made Since the Previous Deliverable
 * Added new levels
-* Added new plants
-* Added new zombies
+* Added new plants (Added classes DuelSunFlower, Repeater, Wallnut)
+* Added new zombies (Added classes BucketHat, ConeHat, Football, Newspaper)
 * Added level selecter (Added class LevelChooserPanel)
 * Added new events to determine number of zombies on a tile (Added class PopupPanel)
 * Added JUnit test for zombies
@@ -27,11 +27,5 @@
 * Allow save and load 
 * In-game Level builder
 
-### Zombies
-* There are 5 zombies, each unique in their movementspeed, damage, and health. The number of zombies per level is predetermined, but are generated randomly on the map.
-
-### Tiles
-* There are 3 tiles: road (zombie spawn), grass (where to plant new palnts and zombies travel through), and concrete (zombies' end goal). The tiles can be clicked on to determine the number of zombies on the selected tile.
-
-### Plants
-* The plants each have their unique difference between eachother base on their stats. They provide different uses to the player for a variety of gameplay.
+### GameController and GameView
+* In-game Level builder
