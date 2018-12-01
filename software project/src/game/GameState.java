@@ -27,7 +27,7 @@ import zombie.ZombieTypes;
  * @version Nov 17, 2018
  */
 
-public class GameState {
+public class GameState implements java.io.Serializable {
 	private Tile[][] grid;
 	private int sunCounter;
 	private boolean levelFinished;
@@ -36,6 +36,7 @@ public class GameState {
 	private int totalNumberOfZombies;
 	private int numberOfZombiesLeft;
 	private Shop shop;
+	private Level currentLevel;
 
 	public static int ROW = 5;
 	public static int COL = 11;
@@ -99,6 +100,7 @@ public class GameState {
 		levelFinished = gameState.levelFinished;
 		totalNumberOfZombies = gameState.numberOfZombiesLeft;
 		numberOfZombiesLeft = gameState.numberOfZombiesLeft;
+		currentLevel = gameState.currentLevel;
 		
 		// Copy pendingZombies
 		pendingZombies = new LinkedList<Zombie>();
@@ -335,7 +337,7 @@ public class GameState {
 	/**
 	 * Returns the last GameState 
 	 * 
-	 * @returnn the last GameState 
+	 * @return the last GameState 
 	 */
 	public GameState undo() {
 		int last = undo.size() - 1;
@@ -359,7 +361,7 @@ public class GameState {
 	/**
 	 * Returns the last undo
 	 * 
-	 * @returnn the last undo
+	 * @return the last undo
 	 */
 	public GameState redo() {
 		int last = redo.size() - 1;
@@ -376,5 +378,36 @@ public class GameState {
 	 */
 	public void clearRedo() {
 		redo.clear();
+	}
+	
+	/**
+	 * Sets the current level.
+	 * 
+	 * @param currentLevel the current level
+	 */
+	public void setCurrentLevel(Level currentLevel) {
+		this.currentLevel = currentLevel;
+	}
+	
+	/**
+	 * Returns the current level
+	 * 
+	 * @return the current level
+	 */
+	public Level getCurrentLevel() {
+		return currentLevel;
+	}
+	
+	/**
+	 * Recovers all the images 
+	 */
+	public void recoverImages() {
+		Tile tile = new Tile(TileTypes.GRASS);
+		for(PlantName plant : currentLevel.getPlants()) {
+			PlantFactory.createPlant(plant);
+		}
+		for(ZombieTypes zombie : currentLevel.getAvailableZombies()) {
+			ZombieFactory.createZombie(zombie);
+		}
 	}
 }

@@ -28,6 +28,9 @@ public class SunFlower extends Plant {
 
 	private static Map<TileTypes, BufferedImage> images;
 	
+	/**
+	 * Constructs a new SunFlower.
+	 */
 	public SunFlower() {
 		super(PlantName.SunFlower, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN);
 		loadImages();
@@ -35,6 +38,8 @@ public class SunFlower extends Plant {
 	
 	/**
 	 * Constructs a new SunFlower that is a copy of specified SunFlower.
+	 * 
+	 * @param plant the SunFlower that is to be copied
 	 */
 	public SunFlower(Plant plant) {
 		super(plant);

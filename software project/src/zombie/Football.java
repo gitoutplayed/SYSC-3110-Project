@@ -27,6 +27,8 @@ public class Football extends Zombie {
 
 	/**
 	 * Constructs a football zombie that is a copy of specified football zombie
+	 * 
+	 * @param zombie the football zombie that is to be copied
 	 */
 	public Football(Zombie zombie) {
 		super(zombie);

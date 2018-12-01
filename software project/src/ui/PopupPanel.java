@@ -60,6 +60,7 @@ public class PopupPanel extends JPanel {
 	 * Add zombies to the popup
 	 * 
 	 * @param zombies the zombies to add to the popup
+	 * @param tileType the type of the tile
 	 */
 	public void addZombiesToPopup(List<Zombie> zombies, TileTypes tileType) {
 		for(Zombie zombie : zombies) {

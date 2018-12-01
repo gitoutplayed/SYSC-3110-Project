@@ -29,7 +29,10 @@ public class PlantFactory {
 	}
 	
 	/**
-	 * Returns a Plant that is a copy of another Plant
+	 * Returns a Plant that is a copy of another Plant.
+	 * 
+	 * @param plant the plant that is to be copied
+	 * @return returns null by default if passed a name that's not included in the ENUM PlantName, otherwise returns the respective plant.
 	 */
 	public static Plant createPlantCopy(Plant plant) {
 		if(plant.getName() == PlantName.PeaShooter) {

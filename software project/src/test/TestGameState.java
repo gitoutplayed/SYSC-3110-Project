@@ -1,9 +1,3 @@
-/**
- * A test class to test the game state
- * @author Hoang Bui, 101029049
- * @version 1
- */
-
 package test;
 
 import java.util.HashMap;
@@ -13,6 +7,11 @@ import game.GameState;
 import junit.framework.TestCase;
 import zombie.ZombieTypes;
 
+/**
+ * A test class to test the game state
+ * @author Hoang Bui, 101029049
+ * @version 1
+ */
 public class TestGameState extends TestCase {
 	private GameState gameState;
 

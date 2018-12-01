@@ -15,11 +15,11 @@ import zombie.ZombieTypes;
  * loading. 
  * 
  * @author Michael Fan 101029934
- * @editor Hoang Bui 101029049
+ * @author Hoang Bui 101029049
  * @version Nov 25, 2018
  */
 
-public class LevelManager {
+public class LevelManager implements java.io.Serializable {
 	private List<Level> levels;
 	private int currentLevel;
 
@@ -176,6 +176,15 @@ public class LevelManager {
 		level.setSpawnAmount(spawnAmount);
 		
 		levels.add(level);
+	}
+	
+	/**
+	 * Sets the level ID of the current level.
+	 * 
+	 * @param levelID the level ID of the current level
+	 */
+	public void setLevelID(int levelID) {
+		currentLevel = levelID;
 	}
 	
 	/**

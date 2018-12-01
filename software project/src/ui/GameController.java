@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
 import javax.swing.event.PopupMenuListener;
 
@@ -50,6 +52,8 @@ public class GameController {
 		gameView.getUndo().addActionListener(new MenuListener());
 		gameView.getRedo().addActionListener(new MenuListener());
 		gameView.getRestart().addActionListener(new MenuListener());
+		gameView.getLoadSave().addActionListener(new MenuListener());
+		gameView.getSave().addActionListener(new MenuListener());
 
 		// End turn listener
 		gameView.getEndTurn().addActionListener(new EndTurnListener());
@@ -106,6 +110,10 @@ public class GameController {
 				game.redo();
 			} else if(item == gameView.getRestart()) {
 				game.restart();
+			} else if(item == gameView.getLoadSave()) {
+				game.loadSave(load());
+			} else if(item == gameView.getSave()) {
+				game.save(save());
 			}
 		}
 	}
@@ -242,7 +250,37 @@ public class GameController {
 			gameView.disposePopup();
 		}
 	}
-
+	
+	/**
+	 * Opens up the save file chooser
+	 */
+	private File save() {
+		JFileChooser fileChooser = new JFileChooser();
+		
+		int option = fileChooser.showSaveDialog(gameView);
+		
+		if(option == JFileChooser.APPROVE_OPTION) {
+			return fileChooser.getSelectedFile();
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Opens up the load file chooser
+	 */
+	private File load() {
+JFileChooser fileChooser = new JFileChooser();
+		
+		int option = fileChooser.showOpenDialog(gameView);
+		
+		if(option == JFileChooser.APPROVE_OPTION) {
+			return fileChooser.getSelectedFile();
+		} else {
+			return null;
+		}
+	}
+	
 	/**
 	 * The main method.
 	 * 

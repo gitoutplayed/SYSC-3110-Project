@@ -24,13 +24,18 @@ public class DuelSunflower extends Plant{
 
 	private static Map<TileTypes, BufferedImage> images;
 	
+	/**
+	 * Constructs a new DuelSunFlower.
+	 */
 	public DuelSunflower() {
 		super(PlantName.DuelSunflower, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN);
 		loadImages();
 	}
 	
 	/**
-	 * Constructs a new SunFlower that is a copy of specified SunFlower.
+	 * Constructs a new DuelSunFlower that is a copy of specified DuelSunFlower.
+	 * 
+	 * @param plant the DuelSunflower that is to be copied
 	 */
 	public DuelSunflower(Plant plant) {
 		super(plant);

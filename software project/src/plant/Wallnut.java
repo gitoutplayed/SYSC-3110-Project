@@ -28,6 +28,9 @@ public class Wallnut extends Plant {
 
 	private static Map<TileTypes, BufferedImage> images;
 	
+	/**
+	 * Constructs a new Wallnut
+	 */
 	public Wallnut() {
 		super(PlantName.Wallnut, PRICE, HEALTH, DAMAGE, RESRC_GEN, ATKRANGE_X, ATKRANGE_Y, COOLDOWN);
 		loadImages();
@@ -35,6 +38,8 @@ public class Wallnut extends Plant {
 	
 	/**
 	 * Constructs a new Wallnut that is a copy of specified Wallnut.
+	 * 
+	 * @param plant the Wallnut that is to be copied
 	 */
 	public Wallnut(Plant plant) {
 		super(plant);

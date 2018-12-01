@@ -15,7 +15,7 @@ import plant.PlantName;
  * This class represents the ShopPanel. 
  * 
  * @author Michael Fan 101029934
- * @editor Hoang Bui 101029049
+ * @author Hoang Bui 101029049
  * @version Nov 16, 2018
  */
 public class ShopPanel extends JPanel {

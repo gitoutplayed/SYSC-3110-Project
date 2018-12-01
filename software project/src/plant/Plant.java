@@ -14,11 +14,11 @@ import tile.TileTypes;
  * All specific plants must have constant values set for all fields of this class.
  * 
  * @author Souheil Yazji 101007994
- * @editor Hoang Bui 101029049
+ * @author Hoang Bui 101029049
  * @version Nov 16th
  *
  */
-public abstract class Plant {
+public abstract class Plant implements java.io.Serializable {
 	
 	private PlantName name;
 	private int health, price, damage, resrc_gen, atkRange_X, atkRange_Y, cooldown;

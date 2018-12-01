@@ -37,6 +37,8 @@ public class Repeater extends Plant{
 	
 	/**
 	 * Constructs a new Repeater that is a copy of specified Repeater.
+	 * 
+	 * @param plant the Repeater that is to be copied
 	 */
 	public Repeater(Plant plant) {
 		super(plant);

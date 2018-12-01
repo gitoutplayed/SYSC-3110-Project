@@ -33,6 +33,8 @@ public class GameView extends JFrame implements GameListener {
 	private JMenuItem undo;
 	private JMenuItem redo;
 	private JMenuItem restart;
+	private JMenuItem save;
+	private JMenuItem loadSave;
 
 	public static int SQUARE_SIZE = 80;
 	public static int WIDTH = SQUARE_SIZE * GameState.COL;
@@ -59,10 +61,14 @@ public class GameView extends JFrame implements GameListener {
 		undo = new JMenuItem("Undo");
 		redo = new JMenuItem("Redo");
 		restart = new JMenuItem("Restart");
+		loadSave = new JMenuItem("Load Save");
+		save = new JMenuItem("Save");
 
 		load.add(loadLevel);
 		load.add(loadNextLevel);
 		load.add(loadPreviousLevel);
+		load.add(loadSave);
+		load.add(save);
 
 		edit.add(undo);
 		edit.add(redo);
@@ -286,6 +292,35 @@ public class GameView extends JFrame implements GameListener {
 		
 		levelChooserPanel.addPredefinedLevels(game.getAllPredefinedLevelID());
 	}
+	
+	/**
+	 * Called when trying to save.
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameSaved(GameEvent e) {
+		showMessage(e.getMessage());
+	}
+	
+	/**
+	 * Called when trying load a save
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void saveLoaded(GameEvent e) {
+		if(!e.getSuccess()) {
+			showMessage(e.getMessage());
+			return;
+		}
+		
+		upperPane.loadShop(((Game) e.getSource()).getShopPlants()); // load plants into the shop
+		updateView(e);
+		showMessage(e.getMessage());
+	}
 
 	/**
 	 * Display the given message in a JOptionPane dialog box.
@@ -342,10 +377,30 @@ public class GameView extends JFrame implements GameListener {
 	}
 
 	/**
-	 * Returns the restart menu item
+	 * Returns the restart menu item.
+	 * 
+	 * @return the restart menu item
 	 */
 	public JMenuItem getRestart() {
 		return restart;
+	}
+
+	/**
+	 * Returns the load save menu item.
+	 * 
+	 * @return the load save menu item
+	 */
+	public JMenuItem getLoadSave() {
+		return loadSave;
+	}
+	
+	/**
+	 * Returns the save menu item.
+	 * 
+	 * @return the save menu item
+	 */
+	public JMenuItem getSave() {
+		return save;
 	}
 
 	/**
@@ -403,9 +458,10 @@ public class GameView extends JFrame implements GameListener {
 	}
 	
 	/**
-	 * Add zombies to the popup 
+	 * Add zombies to the popup.
 	 * 
 	 * @param zombies the zombies to add to the popup 
+	 * @param tileType the type of the tile
 	 */
 	public void addZombiesToPopup(List<Zombie> zombies, TileTypes tileType) {
 		popupPane.addZombiesToPopup(zombies, tileType);

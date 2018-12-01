@@ -8,6 +8,11 @@ import plant.Repeater;
 import plant.SunFlower;
 import plant.Wallnut;
 
+/**
+ * A test class to test the plants.
+ * @author Hoang Bui, 101029049
+ * @version 1
+ */
 public class TestPlant extends TestCase{
 	private SunFlower sunflower;
 	private PeaShooter peashooter;

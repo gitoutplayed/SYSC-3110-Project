@@ -7,6 +7,24 @@ package ui;
  */
 public interface GameListener {
 	/**
+	 * Called when trying to save.
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void gameSaved(GameEvent e);
+	
+	/**
+	 * Called when trying load a save
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void saveLoaded(GameEvent e);
+	
+	/**
 	 * Called when a Game object is created
 	 * 
 	 * @param e the GameEvent

@@ -19,7 +19,7 @@ import tile.TileTypes;
  * @version Nov 17, 2018
  */
 
-public class Shop {
+public class Shop implements java.io.Serializable {
 	private Map<PlantName, Integer> shop;
 	private Map<PlantName, Integer> cooldowns;
 	private Map<PlantName, Integer> currentCooldowns;
@@ -38,7 +38,7 @@ public class Shop {
 	/**
 	 * Constructs a new Shop that is a copy of the specified Shop.
 	 * 
-	 * @param shop the Shop that is to be copied
+	 * @param otherShop the Shop that is to be copied
 	 */
 	public Shop(Shop otherShop) {
 		shop = otherShop.shop;

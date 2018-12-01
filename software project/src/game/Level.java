@@ -16,7 +16,7 @@ import zombie.ZombieTypes;
  * @version Nov 19, 2018
  */
 
-public class Level {
+public class Level implements java.io.Serializable {
 	private Set<PlantName> plants;
 	private Map<ZombieTypes, Integer> zombies;
 	private int baseSunGain;

@@ -17,7 +17,7 @@ import tile.TileTypes;
  * @author Hoang Bui 1010129049
  * @version 4, November 16 2018
  */
-abstract public class Zombie {
+abstract public class Zombie implements java.io.Serializable {
 	private int damage;
 	private int health;
 	private int atkRange;

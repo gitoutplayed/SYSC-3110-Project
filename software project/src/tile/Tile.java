@@ -24,7 +24,7 @@ import plant.PlantFactory;
 import zombie.Zombie;
 import zombie.ZombieFactory;
 
-public class Tile {
+public class Tile implements java.io.Serializable {
 	private Plant residingPlant;
 	private List<Zombie> residingZombie;
 	private TileTypes tileType;
@@ -199,7 +199,9 @@ public class Tile {
 	}
 
 	/**
-	 * Method to get the tile's image
+	 * Method to get the tile's image.
+	 * 
+	 * @param tileType the type of the tile
 	 * 
 	 * @return icon the tile's image
 	 */

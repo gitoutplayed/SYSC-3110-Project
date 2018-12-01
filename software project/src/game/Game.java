@@ -1,5 +1,10 @@
 package game;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +26,7 @@ import zombie.ZombieTypes;
  * This class represents the Game. All gameplay related logic is here.
  * 
  * @author Michael Fan 101029934
- * @version Nov 16, 2018
+ * @version Dec 1, 2018
  */
 
 public class Game {
@@ -50,7 +55,7 @@ public class Game {
 		shovel = false;
 
 		this.gameListener = gameListener;
-		
+
 		gameListener.gameCreated(new GameEvent(this));
 	}
 
@@ -64,6 +69,7 @@ public class Game {
 		gameState = new GameState();
 		gameState.addPendingZombies(currentLevel.getZombies());
 		gameState.addPlants(currentLevel.getPlants());
+		gameState.setCurrentLevel(currentLevel);
 	}
 
 	/**
@@ -105,7 +111,7 @@ public class Game {
 
 		gameState.cacheUndo(gameState);
 		gameState.clearRedo();
-		
+
 		spawnZombies();
 
 		gainBaseSun();
@@ -217,7 +223,7 @@ public class Game {
 			gameListener.plantShoveled(gameEvent);
 			return;
 		}
-		
+
 		gameState.cacheUndo(gameState);
 		gameState.clearRedo();
 
@@ -349,13 +355,13 @@ public class Game {
 				} else {
 					if(nextTile.hasPlant()) {
 						Plant plant = nextTile.getResidingPlant();
-						
+
 						plant.takeDmg(zombie.getDamage());
 
 						if(!plant.isDead()) {
 							return;
 						}
-						
+
 						nextTile.removePlant();
 					}
 
@@ -375,8 +381,8 @@ public class Game {
 	private void spawnZombies() {
 		if(gameState.getTurnNumber() % currentLevel.getSpawnRate() != 0) {
 			return;
-		} 
-		
+		}
+
 		for(int i = 0; i < currentLevel.getSpawnAmount(); i++) {
 			gameState.addZombie(random.nextInt(GameState.ROW));
 		}
@@ -591,7 +597,7 @@ public class Game {
 	public boolean isPlantOnCooldown(PlantName plant) {
 		return gameState.isPlantOnCooldown(plant);
 	}
-	
+
 	/**
 	 * Returns the level number.
 	 * 
@@ -690,7 +696,7 @@ public class Game {
 		gameEvent.setSuccess(true).setMessage("Level loaded successfully");
 		gameListener.levelLoaded(gameEvent);
 	}
-	
+
 	/**
 	 * Returns a list of all the level IDs of the predefined levels.
 	 * 
@@ -698,7 +704,96 @@ public class Game {
 	 */
 	public List<Integer> getAllPredefinedLevelID() {
 		return levelManager.getAllPredefinedLevelID();
-	} 
+	}
+
+	/**
+	 * Saves the game to a ser file.
+	 * 
+	 * @param save the file to save the game in
+	 */
+	public void save(File save) {
+		GameEvent gameEvent = new GameEvent(this);
+
+		if(save == null) {
+			gameEvent.setSuccess(false).setMessage("Game not saved");
+			gameListener.gameSaved(gameEvent);
+			return;
+		} else if(!levelLoaded) {
+			gameEvent.setSuccess(false).setMessage("Level not loaded");
+			gameListener.gameSaved(gameEvent);
+			return;
+		} else if(gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level finished already");
+			gameListener.gameSaved(gameEvent);
+			return;
+		}
+		
+		try {
+			FileOutputStream fileOut = new FileOutputStream(save.getAbsolutePath() + ".ser");
+			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+
+			objectOut.writeObject(gameState);
+
+			fileOut.close();
+			objectOut.close();
+
+			gameEvent.setSuccess(true).setMessage("Game saved");
+			gameListener.gameSaved(gameEvent);
+		} catch(Exception e) {
+			e.printStackTrace(System.out);
+		} 
+	}
+
+	/**
+	 * Loads a save.
+	 * 
+	 * @param save the save to load
+	 */
+	public void loadSave(File save) {
+		GameEvent gameEvent = new GameEvent(this);
+		
+		if(levelLoaded && !gameState.isLevelFinished()) {
+			gameEvent.setSuccess(false).setMessage("Level not finished");
+			gameListener.saveLoaded(gameEvent);
+			return;
+		} else if(save == null) {
+			gameEvent.setSuccess(false).setMessage("No save loaded");
+			gameListener.saveLoaded(gameEvent);
+			return;
+		} else if(save.getName().substring(save.getName().lastIndexOf('.'), save.getName().length()).equalsIgnoreCase("ser")) {
+			gameEvent.setSuccess(false).setMessage("File extension not .ser");
+			gameListener.saveLoaded(gameEvent);
+			return;
+		}
+
+		try {
+			FileInputStream fileIn = new FileInputStream(save.getAbsolutePath());
+			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+			
+			Object obj = objectIn.readObject();
+			
+			fileIn.close();
+			objectIn.close();
+			
+			// Return if the deserialized object is not an instance of GameSate 
+			if(!(obj instanceof GameState)) {
+				gameEvent.setSuccess(false).setMessage("Invalid save file");
+				gameListener.saveLoaded(gameEvent);
+				return;
+			}
+			
+			gameState = (GameState) obj;
+			currentLevel = gameState.getCurrentLevel();
+			levelManager.setLevelID(currentLevel.getLevelID() - 1);
+			levelLoaded = true;
+			gameState.recoverImages();
+			
+			gameEvent.setSuccess(true).setMessage("Save loaded");
+			gameListener.saveLoaded(gameEvent);
+		} catch(Exception e) {
+			e.printStackTrace(System.out);
+		}
+	}
 
 	// End Level loading
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
