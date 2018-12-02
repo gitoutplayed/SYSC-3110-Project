@@ -25,7 +25,8 @@ public class GameView extends JFrame implements GameListener {
 	private UpperPanel upperPane;
 	private Popup popup;
 	private PopupPanel popupPane;
-	private LevelChooserPanel levelChooserPanel;
+	private LevelChooserPanel levelChooserPane;
+	private LevelBuilderPanel levelBuilderPane;
 
 	private JMenuItem loadLevel;
 	private JMenuItem loadNextLevel;
@@ -35,6 +36,8 @@ public class GameView extends JFrame implements GameListener {
 	private JMenuItem restart;
 	private JMenuItem save;
 	private JMenuItem loadSave;
+	private JMenuItem buildLevel;
+	private JMenuItem loadCustomLevel;
 
 	public static int SQUARE_SIZE = 80;
 	public static int WIDTH = SQUARE_SIZE * GameState.COL;
@@ -54,6 +57,7 @@ public class GameView extends JFrame implements GameListener {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu load = new JMenu("Load");
 		JMenu edit = new JMenu("Edit");
+		JMenu levelBuilding = new JMenu("Level Building");
 
 		loadLevel = new JMenuItem("Load Level");
 		loadNextLevel = new JMenuItem("Load Next Level");
@@ -63,19 +67,25 @@ public class GameView extends JFrame implements GameListener {
 		restart = new JMenuItem("Restart");
 		loadSave = new JMenuItem("Load Save");
 		save = new JMenuItem("Save");
+		buildLevel = new JMenuItem("Build Level");
+		loadCustomLevel = new JMenuItem("Load Custom Levels Into Game");
 
 		load.add(loadLevel);
 		load.add(loadNextLevel);
 		load.add(loadPreviousLevel);
 		load.add(loadSave);
-		load.add(save);
 
 		edit.add(undo);
 		edit.add(redo);
 		edit.add(restart);
+		edit.add(save);
+		
+		levelBuilding.add(buildLevel);
+		levelBuilding.add(loadCustomLevel);
 
 		menuBar.add(load);
 		menuBar.add(edit);
+		menuBar.add(levelBuilding);
 
 		setJMenuBar(menuBar);
 
@@ -95,7 +105,8 @@ public class GameView extends JFrame implements GameListener {
 		
 		// PopupPanel
 		popupPane = new PopupPanel();
-		levelChooserPanel = new LevelChooserPanel();
+		levelChooserPane = new LevelChooserPanel();
+		levelBuilderPane = new LevelBuilderPanel();
 	}
 
 	/**
@@ -290,7 +301,7 @@ public class GameView extends JFrame implements GameListener {
 	public void gameCreated(GameEvent e) {
 		Game game = (Game) e.getSource();
 		
-		levelChooserPanel.addPredefinedLevels(game.getAllPredefinedLevelID());
+		levelChooserPane.addPredefinedLevels(game.getAllPredefinedLevelID());
 	}
 	
 	/**
@@ -402,6 +413,24 @@ public class GameView extends JFrame implements GameListener {
 	public JMenuItem getSave() {
 		return save;
 	}
+	
+	/**
+	 * Returns the build level menu item.
+	 * 
+	 * @return the build level menu item
+	 */
+	public JMenuItem getBuildLevel() {
+		return buildLevel;
+	}
+	
+	/**
+	 * Returns the load custom level menu item.
+	 * 
+	 * @return the load custom level menu item
+	 */
+	public JMenuItem getLoadCustomLevel() {
+		return loadCustomLevel;
+	}
 
 	/**
 	 * Returns the end turn button.
@@ -510,7 +539,7 @@ public class GameView extends JFrame implements GameListener {
 	 * @return the LevelChooserPanel
 	 */
 	public JPanel getLevelChooserPanel() {
-		return levelChooserPanel;
+		return levelChooserPane;
 	}
 	
 	/**
@@ -519,7 +548,7 @@ public class GameView extends JFrame implements GameListener {
 	 * @return the close button
 	 */
 	public JButton getLoadButton() {
-		return levelChooserPanel.getLoadButton();
+		return levelChooserPane.getLoadButton();
 	}
 	
 	/**
@@ -528,7 +557,7 @@ public class GameView extends JFrame implements GameListener {
 	 * @return the close button
 	 */
 	public JButton getCloseButton() {
-		return levelChooserPanel.getCloseButton();
+		return levelChooserPane.getCloseButton();
 	}
 	
 	/**
@@ -537,7 +566,7 @@ public class GameView extends JFrame implements GameListener {
 	 * @return the predefined levels list
 	 */
 	public JList<Integer> getPredefinedLevelsList() {
-		return levelChooserPanel.getPredefinedLevelsList();
+		return levelChooserPane.getPredefinedLevelsList();
 	}
 	
 	/**
@@ -546,6 +575,6 @@ public class GameView extends JFrame implements GameListener {
 	 * @return the custom levels list
 	 */
 	public JList<Integer> getCustomLevelsList() {
-		return levelChooserPanel.getCustomLevelsList();
+		return levelChooserPane.getCustomLevelsList();
 	}
 }

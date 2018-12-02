@@ -54,6 +54,8 @@ public class GameController {
 		gameView.getRestart().addActionListener(new MenuListener());
 		gameView.getLoadSave().addActionListener(new MenuListener());
 		gameView.getSave().addActionListener(new MenuListener());
+		gameView.getBuildLevel().addActionListener(new MenuListener());
+		gameView.getLoadCustomLevel().addActionListener(new MenuListener());
 
 		// End turn listener
 		gameView.getEndTurn().addActionListener(new EndTurnListener());
