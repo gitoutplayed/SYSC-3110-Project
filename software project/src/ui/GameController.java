@@ -70,10 +70,10 @@ public class GameController {
 
 		// Popup listener
 		gameView.getPopupButton().addActionListener(new PopupListener());
-
-		// LevelChooser listener
 		gameView.getCloseButton().addActionListener(new PopupListener());
 		gameView.getLoadButton().addActionListener(new PopupListener());
+		gameView.getDoneButton().addActionListener(new PopupListener());
+		gameView.getCancelButton().addActionListener(new PopupListener());
 	}
 
 	/**
@@ -116,6 +116,11 @@ public class GameController {
 				game.loadSave(load());
 			} else if(item == gameView.getSave()) {
 				game.save(save());
+			} else if(item == gameView.getBuildLevel()) {
+				if(gameView.getPopup() == null) {
+					gameView.setUpLevelBuilderPanel();
+					gameView.getPopup().show();
+				}
 			}
 		}
 	}

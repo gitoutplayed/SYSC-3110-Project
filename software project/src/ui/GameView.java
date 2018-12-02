@@ -497,7 +497,7 @@ public class GameView extends JFrame implements GameListener {
 	}
 	
 	/**
-	 * Displays popup.with specified panel.
+	 * Displays popup with specified panel.
 	 * 
 	 * @param panel the specified panel to be displayed in a popup
 	 */
@@ -507,6 +507,17 @@ public class GameView extends JFrame implements GameListener {
 		
 		PopupFactory popupFactory = new PopupFactory();
 		popup = popupFactory.getPopup(this, panel, x, y);
+	}
+	
+	/**
+	 * Displays the LevelBuilderPanel
+	 */
+	public void setUpLevelBuilderPanel() {
+		int x = GameView.WIDTH / 2 + (4 * GameView.SQUARE_SIZE) / 2 - 250;
+		int y = (GameView.HEIGHT + UpperPanel.HEIGHT) / 2 + 2 * GameView.SQUARE_SIZE - 200;
+		
+		PopupFactory popupFactory = new PopupFactory();
+		popup = popupFactory.getPopup(this, levelBuilderPane, x, y);
 	}
 	
 	/**
@@ -558,6 +569,24 @@ public class GameView extends JFrame implements GameListener {
 	 */
 	public JButton getCloseButton() {
 		return levelChooserPane.getCloseButton();
+	}
+	
+	/**
+	 * Returns the done button
+	 * 
+	 * @return the done button
+	 */
+	public JButton getDoneButton() {
+		return levelBuilderPane.getDoneButton();
+	}
+	
+	/**
+	 * Returns the cancel button
+	 * 
+	 * @return the cancel button
+	 */
+	public JButton getCancelButton() {
+		return levelBuilderPane.getCancelButton();
 	}
 	
 	/**
