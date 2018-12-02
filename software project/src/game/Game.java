@@ -782,6 +782,7 @@ public class Game {
 				return;
 			}
 			
+			GameState gameState = new GameState(); // create the undo and redo statcks
 			gameState = (GameState) obj;
 			currentLevel = gameState.getCurrentLevel();
 			levelManager.setLevelID(currentLevel.getLevelID() - 1);
