@@ -67,18 +67,21 @@ public class LevelBuilderPanel extends JPanel {
 		
 		JPanel spawnRatePane = getJPanel(null, null);
 		spawnRate = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+		spawnRate.setPreferredSize(new Dimension(GameView.SQUARE_SIZE / 2, GameView.SQUARE_SIZE / 4));
 		spawnRate.setEditor(new JSpinner.DefaultEditor(spawnRate));
 		spawnRatePane.add(new JLabel("Spawn Rate: "));
 		spawnRatePane.add(spawnRate);
 		
 		JPanel spawnAmountPane = getJPanel(null, null);
 		spawnAmount = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+		spawnAmount.setPreferredSize(new Dimension(GameView.SQUARE_SIZE / 2, GameView.SQUARE_SIZE / 4));
 		spawnAmount.setEditor(new JSpinner.DefaultEditor(spawnAmount));
 		spawnAmountPane.add(new JLabel("Spawn Amount: "));
 		spawnAmountPane.add(spawnAmount);
 		
 		JPanel baseSunGainPane = getJPanel(null, null);
 		baseSunGain = new JSpinner(new SpinnerNumberModel(25, 1, 100, 1));
+		baseSunGain.setPreferredSize(new Dimension(GameView.SQUARE_SIZE / 2, GameView.SQUARE_SIZE / 4));
 		baseSunGain.setEditor(new JSpinner.DefaultEditor(baseSunGain));
 		baseSunGainPane.add(new JLabel("Base Sun Gain: "));
 		baseSunGainPane.add(baseSunGain);
