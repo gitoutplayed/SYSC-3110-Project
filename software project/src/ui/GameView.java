@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import game.Game;
 import game.GameState;
+import plant.PlantFactory;
+import plant.PlantName;
 import tile.Tile;
 import tile.TileTypes;
 import zombie.Zombie;
@@ -142,7 +144,11 @@ public class GameView extends JFrame implements GameListener {
 		}
 
 		upperPane.setTurnNumber(game.getTurnNumber());
-		upperPane.setLevelNumber(game.getLevelNumber());
+		if(game.getLevelNumber() == -1) {
+			upperPane.setLevelName(game.getLevelName());
+		} else {
+			upperPane.setLevelNumber(game.getLevelNumber());
+		}
 		upperPane.setZombiesLeft(game.getNumberOfZombiesLeft());
 		upperPane.setSunCtouner(game.getSunCounter());
 
@@ -328,8 +334,41 @@ public class GameView extends JFrame implements GameListener {
 			return;
 		}
 		
-		upperPane.loadShop(((Game) e.getSource()).getShopPlants()); // load plants into the shop
+		Game game = (Game) e.getSource();
+		
+		upperPane.loadShop(game.getShopPlants()); // load plants into the shop
 		updateView(e);
+		levelChooserPane.addCustomLevels(game.getAllCustomLevels());
+		showMessage(e.getMessage());
+	}
+	
+	/**
+	 * Called when trying to build a custom level.
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void customLevelBuilt(GameEvent e) {
+		showMessage(e.getMessage());
+	}
+	
+	/**
+	 * Called when trying to load custom levels.
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void customLevelLoaded(GameEvent e) {
+		if(!e.getSuccess()) {
+			showMessage(e.getMessage());
+			return;
+		}
+		
+		Game game = (Game) e.getSource();
+		
+		levelChooserPane.addCustomLevels(game.getAllCustomLevels());
 		showMessage(e.getMessage());
 	}
 
@@ -338,7 +377,7 @@ public class GameView extends JFrame implements GameListener {
 	 * 
 	 * @param message the message to be displayed
 	 */
-	private void showMessage(String message) {
+	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(this, message);
 	}
 
@@ -514,7 +553,7 @@ public class GameView extends JFrame implements GameListener {
 	 */
 	public void setUpLevelBuilderPanel() {
 		int x = GameView.WIDTH / 2 + (4 * GameView.SQUARE_SIZE) / 2 - 250;
-		int y = (GameView.HEIGHT + UpperPanel.HEIGHT) / 2 + 2 * GameView.SQUARE_SIZE - 200;
+		int y = (GameView.HEIGHT + UpperPanel.HEIGHT) / 2 + 2 * GameView.SQUARE_SIZE - 300;
 		
 		PopupFactory popupFactory = new PopupFactory();
 		popup = popupFactory.getPopup(this, levelBuilderPane, x, y);
@@ -603,7 +642,139 @@ public class GameView extends JFrame implements GameListener {
 	 * 
 	 * @return the custom levels list
 	 */
-	public JList<Integer> getCustomLevelsList() {
+	public JList<String> getCustomLevelsList() {
 		return levelChooserPane.getCustomLevelsList();
+	}
+	
+	/**
+	 * Returns the available plants.
+	 * 
+	 * @return the available plants
+	 */
+	public List<ShopButton> getAvailablePlants() {
+		return levelBuilderPane.getAvailablePlants();
+	}
+	
+	/**
+	 * Returns the available zombies.
+	 * 
+	 * @return the available zombies
+	 */
+	public List<ZombieButton> getAvailableZombies() {
+		return levelBuilderPane.getAvailableZombies();
+	}
+	
+	/**
+	 * Add a choosen plant.
+	 * 
+	 * @param plant the plant that is choosen
+	 * 
+	 * @return the butthon that has the chosen plant
+	 */
+	public ShopButton addChoosenPlant(ShopButton plant) {
+		return levelBuilderPane.addChosenPlant(plant);
+	}
+	
+	/**
+	 * Returns true if the button is in the chosen plant list or false otherwise.
+	 * 
+	 * @return true if the button is in the chosen plant list or false otherwise
+	 */
+	public boolean isChosenPlant(ShopButton button) {
+		return levelBuilderPane.isChosenPlant(button);
+	}
+	
+	/**
+	 * Remove chosen plant.
+	 * 
+	 * @param button the plant to be removed
+	 */
+	public void removeChosenPlant(ShopButton button) {
+		levelBuilderPane.removeChosenPlant(button);
+	}
+	
+	/**
+	 * Add a chosen zombie.
+	 * 
+	 * @param zombie the zombie that is chosen
+	 * 
+	 * @return the button that has the chosen zombie
+	 */
+	public ZombieButton addChosenZombie(ZombieButton zombie) {
+		return levelBuilderPane.addChosenZombie(zombie);
+	}
+	
+	/**
+	 * Returns true if the button is in the chosen zombie list or false otherwise.
+	 * 
+	 * @param button the button to check
+	 * 
+	 * @return true if the button is in the chosen zombie list or false otherwise
+	 */
+	public boolean isChosenZombie(ZombieButton button) {
+		return levelBuilderPane.isChosenZombie(button);
+	}
+	
+	/**
+	 * Remove chosen zombie.
+	 * 
+	 * @param button the button to remove
+	 * 
+	 * @param button the zombie to be removed
+	 */
+	public void removeChosenZombie(ZombieButton button) {
+		levelBuilderPane.removeChosenZombie(button);
+	}
+	
+	/**
+	 * Returns the chosen plants.
+	 * 
+	 * @return the chosen plants
+	 */
+	public List<ShopButton> getChosenPlants() {
+		return levelBuilderPane.getChosenPlants();
+	}
+	
+	/**
+	 * Returns the chosen zombies
+	 * 
+	 * @return chosen zombies
+	 */
+	public List<ZombieButton> getChosenZombies() {
+		return levelBuilderPane.getChosenZombies();
+	}
+	
+	/**
+	 * Returns spawn rate JSpinner.
+	 * 
+	 * @return spawn rate JSpinner
+	 */
+	public JSpinner getSpawnRate() {
+		return levelBuilderPane.getSpawnRate();
+	}
+	
+	/**
+	 * Returns spawn amount JSpinner.
+	 * 
+	 * @return spawn amount JSpinner
+	 */
+	public JSpinner getSpawnAmount() {
+		return levelBuilderPane.getSpawnAmount();
+	}
+	
+	/**
+	 * Returns base sun gain JSpinner.
+	 * 
+	 * @return base sun gain JSpinner
+	 */
+	public JSpinner getBaseSunGain() {
+		return levelBuilderPane.getBaseSunGain();
+	}
+	
+	/**
+	 * Clear level chosen plants and zombies panel.
+	 */
+	public void clearPanels() {
+		levelBuilderPane.clearPanels();
 	}
 }

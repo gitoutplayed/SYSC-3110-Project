@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 /**
@@ -22,7 +23,7 @@ import javax.swing.ListSelectionModel;
  */
 public class LevelChooserPanel extends JPanel {
 	private JList<Integer> predefinedLevels;
-	private JList<Integer> customLevels;
+	private JList<String> customLevels;
 	private JButton loadButton;
 	private JButton closeButton;
 
@@ -47,7 +48,7 @@ public class LevelChooserPanel extends JPanel {
 		predefinedLevelsLabel.setPreferredSize(new Dimension(WIDTH / 2, LABEL_HEIGHT));
 		JLabel customLevelsLabel = new JLabel("Custom Levels", JLabel.CENTER);
 		customLevelsLabel.setPreferredSize(new Dimension(WIDTH / 2, LABEL_HEIGHT));
-		
+
 		// Predefined levels list setup
 		predefinedLevels = new JList<Integer>();
 		predefinedLevels.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -56,16 +57,16 @@ public class LevelChooserPanel extends JPanel {
 		JScrollPane scrollPanePredefined = new JScrollPane(predefinedLevels, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPanePredefined.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT - BUTTON_HEIGHT - LABEL_HEIGHT));
-		
-		//Custom levels list setup
-		customLevels = new JList<Integer>();
+
+		// Custom levels list setup
+		customLevels = new JList<String>();
 		customLevels.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		customLevels.setLayoutOrientation(JList.VERTICAL);
 		customLevels.setVisibleRowCount(-1);
 		JScrollPane scrollPaneCustom = new JScrollPane(customLevels, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneCustom.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT - BUTTON_HEIGHT - LABEL_HEIGHT));
-		
+
 		add(loadButton);
 		add(closeButton);
 		add(predefinedLevelsLabel);
@@ -73,7 +74,7 @@ public class LevelChooserPanel extends JPanel {
 		add(scrollPanePredefined);
 		add(scrollPaneCustom);
 	}
-	
+
 	/**
 	 * Adds a list of predefined levels.
 	 * 
@@ -81,14 +82,29 @@ public class LevelChooserPanel extends JPanel {
 	 */
 	public void addPredefinedLevels(List<Integer> predefinedLevels) {
 		DefaultListModel<Integer> list = new DefaultListModel<Integer>();
-		
+
 		for(Integer i : predefinedLevels) {
 			list.addElement(i);
 		}
-		
+
 		this.predefinedLevels.setModel(list);
 	}
-	
+
+	/**
+	 * Adds a list of custom levels.
+	 * 
+	 * @param customLevels
+	 */
+	public void addCustomLevels(List<String> customLevels) {
+		DefaultListModel<String> list = new DefaultListModel<String>();
+
+		for(String i : customLevels) {
+			list.addElement(i);
+		}
+
+		this.customLevels.setModel(list);
+	}
+
 	/**
 	 * Returns the load button.
 	 * 
@@ -97,7 +113,7 @@ public class LevelChooserPanel extends JPanel {
 	public JButton getLoadButton() {
 		return loadButton;
 	}
-	
+
 	/**
 	 * Returns the close button.
 	 * 
@@ -106,7 +122,7 @@ public class LevelChooserPanel extends JPanel {
 	public JButton getCloseButton() {
 		return closeButton;
 	}
-	
+
 	/**
 	 * Returns the predefined levels list.
 	 * 
@@ -115,13 +131,13 @@ public class LevelChooserPanel extends JPanel {
 	public JList<Integer> getPredefinedLevelsList() {
 		return predefinedLevels;
 	}
-	
+
 	/**
 	 * Returns the custom levels list.
 	 * 
 	 * @return the custom levels list
 	 */
-	public JList<Integer> getCustomLevelsList() {
+	public JList<String> getCustomLevelsList() {
 		return customLevels;
 	}
 }

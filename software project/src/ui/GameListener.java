@@ -3,9 +3,27 @@ package ui;
  *  The GameListener interface.
  * 
  * @author Michael Fan 101029934
- * @version Nov 16, 2018
+ * @version Dec 2, 2018
  */
 public interface GameListener {
+	/**
+	 * Called when trying to load custom levels.
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void customLevelLoaded(GameEvent e);
+	
+	/**
+	 * Called when trying to build a custom level.
+	 * 
+	 * @param e the GameEvent
+	 * 
+	 * @see GameEvent
+	 */
+	public void customLevelBuilt(GameEvent e);
+	
 	/**
 	 * Called when trying to save.
 	 * 

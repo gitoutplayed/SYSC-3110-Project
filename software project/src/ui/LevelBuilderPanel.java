@@ -6,15 +6,23 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import plant.PlantFactory;
+import plant.PlantName;
+import tile.TileTypes;
+import zombie.ZombieFactory;
+import zombie.ZombieTypes;
 
 /**
  * This class represents the LevelBuilderPanel. This is where a custom level is
@@ -26,11 +34,11 @@ import javax.swing.SpinnerNumberModel;
 public class LevelBuilderPanel extends JPanel {
 	private List<ShopButton> availablePlants;
 	private List<ZombieButton> availableZombies;
-	private List<ShopButton> choosenPlants;
-	private List<ZombieButton> choosenZombies;
+	private List<ShopButton> chosenPlants;
+	private List<ZombieButton> chosenZombies;
 
-	private JPanel choosenPlantsPane;
-	private JPanel choosenZombiesPane;
+	private JPanel chosenPlantsPane;
+	private JPanel chosenZombiesPane;
 	private JButton done;
 	private JButton cancel;
 	private JSpinner spawnRate;
@@ -46,10 +54,10 @@ public class LevelBuilderPanel extends JPanel {
 	public LevelBuilderPanel() {
 		availablePlants = new ArrayList<ShopButton>();
 		availableZombies = new ArrayList<ZombieButton>();
-		choosenPlants = new LinkedList<ShopButton>();
-		choosenZombies = new LinkedList<ZombieButton>();
+		chosenPlants = new LinkedList<ShopButton>();
+		chosenZombies = new LinkedList<ZombieButton>();
 		
-		setPreferredSize(new Dimension(2 * (PANEL_WIDTH + 10), GameView.SQUARE_SIZE * 4 - 20));
+		setPreferredSize(new Dimension(2 * (PANEL_WIDTH + 15), GameView.SQUARE_SIZE * 7));
 		setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
 		setBackground(Color.WHITE);
 
@@ -70,7 +78,7 @@ public class LevelBuilderPanel extends JPanel {
 		spawnAmountPane.add(spawnAmount);
 		
 		JPanel baseSunGainPane = getJPanel(null, null);
-		baseSunGain = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+		baseSunGain = new JSpinner(new SpinnerNumberModel(25, 1, 100, 1));
 		baseSunGain.setEditor(new JSpinner.DefaultEditor(baseSunGain));
 		baseSunGainPane.add(new JLabel("Base Sun Gain: "));
 		baseSunGainPane.add(baseSunGain);
@@ -85,31 +93,49 @@ public class LevelBuilderPanel extends JPanel {
 
 		JScrollPane scrollPaneAvailablePlants = getJScrollPane(availablePlantsPane,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
-				new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE));
+				new Dimension(PANEL_WIDTH + 15, GameView.SQUARE_SIZE));
+		
+		for(PlantName plant : PlantName.values()) {
+			ShopButton button = new ShopButton();
+			button.setPlant(plant);
+			button.setIcon(PlantFactory.createPlant(plant).getIcon(TileTypes.GRASS));
+			button.setPreferredSize(new Dimension(GameView.SQUARE_SIZE, GameView.SQUARE_SIZE));
+			availablePlantsPane.add(button);
+			availablePlants.add(button);
+		}
 
 		// Available zombies
-		JPanel availableZombiesPane = getJPanel(new Dimension(PANEL_WIDTH, PANEL_HEIGHT),
+		JPanel availableZombiesPane = getJPanel(new Dimension(2 * PANEL_WIDTH, PANEL_HEIGHT),
 				new FlowLayout(FlowLayout.LEADING, 0, 0));
 		JScrollPane scrollPaneAvailableZombies = getJScrollPane(availableZombiesPane,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
-				new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE));
+				new Dimension(2 * (PANEL_WIDTH + 15), GameView.SQUARE_SIZE));
+		
+		for(ZombieTypes zombie : ZombieTypes.values()) {
+			ZombieButton button = new ZombieButton();
+			button.setZombie(zombie);
+			button.setIcon(ZombieFactory.createZombie(zombie).getIcon(TileTypes.GRASS));
+			button.setPreferredSize(new Dimension(GameView.SQUARE_SIZE, GameView.SQUARE_SIZE));
+			availableZombiesPane.add(button);
+			availableZombies.add(button);
+		}
 
 		// Chosen plants
-		choosenPlantsPane = getJPanel(new Dimension(PANEL_WIDTH, PANEL_HEIGHT),
+		chosenPlantsPane = getJPanel(new Dimension(PANEL_WIDTH, PANEL_HEIGHT),
+				new FlowLayout(FlowLayout.LEADING, 0, 0));
+		
+		JScrollPane scrollPaneChosenPlants = getJScrollPane(chosenPlantsPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER, new Dimension(PANEL_WIDTH + 15, GameView.SQUARE_SIZE));
+
+		// Chosen zombies
+		chosenZombiesPane = getJPanel(new Dimension(2 * (PANEL_WIDTH), PANEL_HEIGHT * 50),
 				new FlowLayout(FlowLayout.LEADING, 0, 0));
 
-		JScrollPane scrollPaneChoosenPlants = getJScrollPane(choosenPlantsPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER, new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE));
-
-		// Available zombies
-		choosenZombiesPane = getJPanel(new Dimension(PANEL_WIDTH, PANEL_HEIGHT),
-				new FlowLayout(FlowLayout.LEADING, 0, 0));
-
-		JScrollPane scrollPaneChoosenZombies = getJScrollPane(choosenZombiesPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER, new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE));
+		JScrollPane scrollPaneChosenZombies = getJScrollPane(chosenZombiesPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER, new Dimension(2 * (PANEL_WIDTH + 15), GameView.SQUARE_SIZE * 3));
 		
 		// Button panel
-		JPanel buttonPane = getJPanel(new Dimension(2 * (PANEL_WIDTH + 10), GameView.SQUARE_SIZE * 4 - 20),
+		JPanel buttonPane = getJPanel(new Dimension(2 * (PANEL_WIDTH + 15), GameView.SQUARE_SIZE - 20),
 				new FlowLayout(FlowLayout.TRAILING));
 		
 		done = new JButton("Done");
@@ -120,13 +146,13 @@ public class LevelBuilderPanel extends JPanel {
 		
 		add(upperPane);
 		add(getJLabel(" Available Plants", new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE / 4)));
-		add(getJLabel("Choosen Plants", new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE / 4)));
+		add(getJLabel("chosen Plants", new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE / 4)));
 		add(scrollPaneAvailablePlants);
-		add(scrollPaneChoosenPlants);
+		add(scrollPaneChosenPlants);
 		add(getJLabel(" Available Zombies", new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE / 4)));
-		add(getJLabel("Choosen Zombies", new Dimension(PANEL_WIDTH + 10, GameView.SQUARE_SIZE / 4)));
 		add(scrollPaneAvailableZombies);
-		add(scrollPaneChoosenZombies);
+		add(getJLabel("chosen Zombies", new Dimension(2 * (PANEL_WIDTH + 10), GameView.SQUARE_SIZE / 4)));
+		add(scrollPaneChosenZombies);
 		add(buttonPane);
 	}
 
@@ -197,5 +223,187 @@ public class LevelBuilderPanel extends JPanel {
 	 */
 	public JButton getCancelButton() {
 		return cancel;
+	}
+	
+	/**
+	 * Add a chosen plant.
+	 * 
+	 * @param plant the plant that is chosen
+	 * 
+	 * @return the button that has the chosen plant
+	 */
+	public ShopButton addChosenPlant(ShopButton plant) {
+		if(!chosenPlants.isEmpty()) {
+			if(hasShopButton(plant.getPlant())) {
+				return null;
+			}
+		}
+		
+		ShopButton button = new ShopButton();
+		button.setPlant(plant.getPlant());
+		button.setIcon(plant.getIcon());
+		button.setPreferredSize(new Dimension(GameView.SQUARE_SIZE, GameView.SQUARE_SIZE));
+		chosenPlants.add(button);
+		chosenPlantsPane.add(button);
+		chosenPlantsPane.revalidate();
+		chosenPlantsPane.repaint();
+		
+		return button;
+	}
+	
+	/**
+	 * Returns true if the button containing the specified plant is already in the chosen plant list or false otherwise.
+	 * 
+	 * @return true if the button containing the specified plant is already in the chosen plant list or false otherwise
+	 */
+	private boolean hasShopButton(PlantName plant) {
+		for(ShopButton button : chosenPlants) {
+			if(button.getPlant() == plant) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Returns the available plants.
+	 * 
+	 * @return the available plants
+	 */
+	public List<ShopButton> getAvailablePlants() {
+		return availablePlants;
+	}
+	
+	/**
+	 * Returns the available zombies.
+	 * 
+	 * @return the available zombies
+	 */
+	public List<ZombieButton> getAvailableZombies() {
+		return availableZombies;
+	}
+	
+	/**
+	 * Returns true if the button is in the chosen plant list or false otherwise.
+	 * 
+	 * @return true if the button is in the chosen plant list or false otherwise
+	 */
+	public boolean isChosenPlant(ShopButton button) {
+		return chosenPlants.contains(button);
+	}
+	
+	/**
+	 * Remove chosen plant.
+	 * 
+	 * @param button the plant to be removed
+	 */
+	public void removeChosenPlant(ShopButton button) {
+		chosenPlants.remove(button);
+		chosenPlantsPane.remove(button);
+		chosenPlantsPane.revalidate();
+		chosenPlantsPane.repaint();
+	}
+	
+	/**
+	 * Add a chosen zombie.
+	 * 
+	 * @param zombie the zombie that is chosen
+	 * 
+	 * @return the button that has the chosen zombie
+	 */
+	public ZombieButton addChosenZombie(ZombieButton zombie) {
+		ZombieButton button = new ZombieButton();
+		button.setZombie(zombie.getZombie());
+		button.setIcon(zombie.getIcon());
+		button.setPreferredSize(new Dimension(GameView.SQUARE_SIZE, GameView.SQUARE_SIZE));
+		chosenZombies.add(button);
+		chosenZombiesPane.add(button);
+		chosenZombiesPane.revalidate();
+		chosenZombiesPane.repaint();
+		
+		return button;
+	}
+	
+	/**
+	 * Returns true if the button is in the chosen zombie list or false otherwise.
+	 * 
+	 * @param button the button to check
+	 * 
+	 * @return true if the button is in the chosen zombie list or false otherwise
+	 */
+	public boolean isChosenZombie(ZombieButton button) {
+		return chosenZombies.contains(button);
+	}
+	
+	/**
+	 * Remove chosen zombie.
+	 * 
+	 * @param button the button to remove
+	 * 
+	 * @param button the zombie to be removed
+	 */
+	public void removeChosenZombie(ZombieButton button) {
+		chosenZombies.remove(button);
+		chosenZombiesPane.remove(button);
+		chosenZombiesPane.revalidate();
+		chosenZombiesPane.repaint();
+	}
+	
+	/**
+	 * Returns the chosen plants.
+	 * 
+	 * @return the chosen plants
+	 */
+	public List<ShopButton> getChosenPlants() {
+		return chosenPlants;
+	}
+	
+	/**
+	 * Returns the chosen zombies
+	 * 
+	 * @return chosen zombies
+	 */
+	public List<ZombieButton> getChosenZombies() {
+		return chosenZombies;
+	}
+	
+	/**
+	 * Returns spawn rate JSpinner.
+	 * 
+	 * @return spawn rate JSpinner
+	 */
+	public JSpinner getSpawnRate() {
+		return spawnRate;
+	}
+	
+	/**
+	 * Returns spawn amount JSpinner.
+	 * 
+	 * @return spawn amount JSpinner
+	 */
+	public JSpinner getSpawnAmount() {
+		return spawnAmount;
+	}
+	
+	/**
+	 * Returns base sun gain JSpinner.
+	 * 
+	 * @return base sun gain JSpinner
+	 */
+	public JSpinner getBaseSunGain() {
+		return baseSunGain;
+	}
+	
+	/**
+	 * Clear level chosen plants and zombies panel.
+	 */
+	public void clearPanels() {
+		chosenPlantsPane.removeAll();
+		chosenPlantsPane.revalidate();
+		chosenPlantsPane.repaint();
+		chosenZombiesPane.removeAll();
+		chosenZombiesPane.removeAll();
+		chosenZombiesPane.repaint();
 	}
 }

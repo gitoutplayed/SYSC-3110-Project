@@ -13,7 +13,7 @@ import zombie.ZombieTypes;
  *  spawn rate(how fast are zombies spawning) and spawn amonut(how many per spawn).
  * 
  * @author Michael Fan 101029934
- * @version Nov 19, 2018
+ * @version Dec 2, 2018
  */
 
 public class Level implements java.io.Serializable {
@@ -23,6 +23,7 @@ public class Level implements java.io.Serializable {
 	private int levelID;
 	private int spawnRate;
 	private int spawnAmount;
+	private String name; // used for custom levels
 
 	/**
 	 * Creates a new level with the specified level ID.
@@ -33,6 +34,7 @@ public class Level implements java.io.Serializable {
 		plants = new HashSet<PlantName>();
 		zombies = new HashMap<ZombieTypes, Integer>();
 		this.levelID = levelID;
+		name = "";
 	}
 
 	/**
@@ -141,5 +143,23 @@ public class Level implements java.io.Serializable {
 	 */
 	public int getSpawnAmount() {
 		return spawnAmount;
+	}
+	
+	/**
+	 * Sets name of the level. Only used for custom levels.
+	 * 
+	 * @param name the name of the level
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * Returns the name of the level. Only used for custom levels.
+	 * 
+	 * @return the name of the level
+	 */
+	public String getName() {
+		return name;
 	}
 }

@@ -10,9 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
+import java.util.Set;
 import javax.swing.ImageIcon;
 
+import game.LevelManager.Mode;
 import plant.Plant;
 import plant.PlantName;
 import tile.Tile;
@@ -606,6 +607,15 @@ public class Game {
 	public int getLevelNumber() {
 		return currentLevel.getLevelID();
 	}
+	
+	/**
+	 * Returns the name of the level. Only used for custom levels.
+	 * 
+	 * @return the name of the level
+	 */
+	public String getLevelName() {
+		return currentLevel.getName();
+	}
 
 	// End Game info
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -628,7 +638,7 @@ public class Game {
 			return;
 		}
 
-		currentLevel = levelManager.getLevel(levelID - 1);
+		currentLevel = levelManager.getLevel(levelID);
 
 		if(currentLevel == null) {
 			gameEvent.setSuccess(false).setMessage("Level does not exist");
@@ -727,7 +737,7 @@ public class Game {
 			gameListener.gameSaved(gameEvent);
 			return;
 		}
-		
+
 		try {
 			FileOutputStream fileOut = new FileOutputStream(save.getAbsolutePath() + ".ser");
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
@@ -740,8 +750,9 @@ public class Game {
 			gameEvent.setSuccess(true).setMessage("Game saved");
 			gameListener.gameSaved(gameEvent);
 		} catch(Exception e) {
-			e.printStackTrace(System.out);
-		} 
+			gameEvent.setSuccess(false).setMessage("Saving failed");
+			gameListener.gameSaved(gameEvent);
+		}
 	}
 
 	/**
@@ -751,16 +762,13 @@ public class Game {
 	 */
 	public void loadSave(File save) {
 		GameEvent gameEvent = new GameEvent(this);
-		
-		if(levelLoaded && !gameState.isLevelFinished()) {
-			gameEvent.setSuccess(false).setMessage("Level not finished");
-			gameListener.saveLoaded(gameEvent);
-			return;
-		} else if(save == null) {
+
+		if(save == null) {
 			gameEvent.setSuccess(false).setMessage("No save loaded");
 			gameListener.saveLoaded(gameEvent);
 			return;
-		} else if(save.getName().substring(save.getName().lastIndexOf('.'), save.getName().length()).equalsIgnoreCase("ser")) {
+		} else if(save.getName().substring(save.getName().lastIndexOf('.'), save.getName().length())
+				.equalsIgnoreCase("ser")) {
 			gameEvent.setSuccess(false).setMessage("File extension not .ser");
 			gameListener.saveLoaded(gameEvent);
 			return;
@@ -769,32 +777,141 @@ public class Game {
 		try {
 			FileInputStream fileIn = new FileInputStream(save.getAbsolutePath());
 			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-			
+
 			Object obj = objectIn.readObject();
-			
+
 			fileIn.close();
 			objectIn.close();
-			
-			// Return if the deserialized object is not an instance of GameSate 
+
+			// Return if the deserialized object is not an instance of GameSate
 			if(!(obj instanceof GameState)) {
 				gameEvent.setSuccess(false).setMessage("Invalid save file");
 				gameListener.saveLoaded(gameEvent);
 				return;
 			}
-			
+
 			GameState createUndoRedo = new GameState(); // create the undo and redo statcks
-			
+
 			gameState = (GameState) obj;
 			currentLevel = gameState.getCurrentLevel();
-			levelManager.setLevelID(currentLevel.getLevelID() - 1);
+			
+			// Custom level
+			if(currentLevel.getLevelID() == -1) {
+				levelManager.setMode(LevelManager.Mode.CUSTOM);
+				levelManager.addCustomLevel(currentLevel);
+				levelManager.setLevelID(0);
+			} else {
+				levelManager.setMode(LevelManager.Mode.PREDEFINED);
+				levelManager.setLevelID(currentLevel.getLevelID() - 1);
+			}
+			
 			levelLoaded = true;
 			gameState.recoverImages();
-			
+
 			gameEvent.setSuccess(true).setMessage("Save loaded");
 			gameListener.saveLoaded(gameEvent);
 		} catch(Exception e) {
-			e.printStackTrace(System.out);
+			gameEvent.setSuccess(false).setMessage("Loading failed");
+			gameListener.saveLoaded(gameEvent);
 		}
+	}
+
+	/**
+	 * Creates a new custom level and writes the custom level to the given file.
+	 * 
+	 * @param level the custom level to be created
+	 */
+	public void createCustomLevel(File file, Set<PlantName> plants, Map<ZombieTypes, Integer> zombies, int baseSunGain,
+			int spawnRate, int spawnAmount) {
+		GameEvent gameEvent = new GameEvent(this);
+
+		if(file == null) {
+			gameEvent.setSuccess(false).setMessage("Invaild file");
+			gameListener.customLevelBuilt(gameEvent);
+			return;
+		}
+
+		try {
+			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath() + ".ser");
+			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+
+			Level level = levelManager.createCustomLevel(file.getName(), plants, zombies, baseSunGain, spawnRate,
+					spawnAmount);
+
+			objectOut.writeObject(level);
+
+			fileOut.close();
+			objectOut.close();
+
+			gameEvent.setSuccess(true).setMessage("Level built successfully");
+			gameListener.customLevelBuilt(gameEvent);
+		} catch(Exception e) {
+			gameEvent.setSuccess(false).setMessage("Level build failed");
+			gameListener.customLevelBuilt(gameEvent);
+		}
+	}
+
+	public void loadCustomLevels(File[] files) {
+		GameEvent gameEvent = new GameEvent(this);
+
+		if(files == null || files.length == 0) {
+			gameEvent.setSuccess(false).setMessage("Invalid files");
+			gameListener.customLevelLoaded(gameEvent);
+			return;
+		}
+		
+		FileInputStream fileIn = null;
+		ObjectInputStream objectIn = null;
+		
+		for(File file : files) {
+			try {
+				 fileIn = new FileInputStream(file.getAbsolutePath());
+				 objectIn = new ObjectInputStream(fileIn);
+
+				Object obj = objectIn.readObject();
+
+				// Return if the deserialized object is not an instance of GameSate
+				if(!(obj instanceof Level)) {
+					continue;
+				}
+				
+				Level level = (Level) obj;
+				
+				levelManager.addCustomLevel(level);
+			} catch(Exception e) {
+				gameEvent.setSuccess(false).setMessage("Error while loading" + file.getName());
+				gameListener.customLevelLoaded(gameEvent);
+			}
+		}
+		
+		try {
+			fileIn.close();
+			objectIn.close();
+		} catch(Exception e) {
+			gameEvent.setSuccess(false).setMessage("Error occured while loading custom levels");
+			gameListener.customLevelLoaded(gameEvent);
+		}
+		
+		gameEvent.setSuccess(true).setMessage("Custom levels loaded");
+		gameListener.customLevelLoaded(gameEvent);
+	}
+	
+	/**
+	 * Returns a list of all the custom levels.
+	 * 
+	 * @return a list of all the custom levels
+	 */
+	public List<String> getAllCustomLevels() {
+		return levelManager.getAllCustomLevels();
+	}
+	
+	/**
+	 * Sets the mode of level manager.
+	 * 
+	 * @param mode the mode of the level manager
+	 */
+	public void setLevelManagerMode(Mode mode) {
+		levelManager.setMode(mode);
 	}
 
 	// End Level loading

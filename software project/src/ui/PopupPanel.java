@@ -57,7 +57,7 @@ public class PopupPanel extends JPanel {
 	}
 
 	/**
-	 * Add zombies to the popup
+	 * Add zombies to the popup.
 	 * 
 	 * @param zombies the zombies to add to the popup
 	 * @param tileType the type of the tile

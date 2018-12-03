@@ -77,21 +77,18 @@ public class UpperPanel extends JPanel {
 
 		// Info panel
 		JPanel infoPane = new JPanel();
-		infoPane.setLayout(new GridLayout(3, 1));
+		infoPane.setLayout(new GridLayout(4, 1));
 		int infoPaneWidth = (GameView.WIDTH - ShopPanel.WIDTH - GameView.SQUARE_SIZE - 50) / 2;
 		infoPane.setPreferredSize(new Dimension(infoPaneWidth, HEIGHT));
 		infoPane.setBackground(Color.WHITE);
-		JPanel labelPane = new JPanel();
-		labelPane.setLayout(new GridLayout(1, 2));
-		labelPane.setBackground(Color.WHITE);
 		endTurn = new JButton("End Turn");
 		turnNumber = new JLabel("  Turn #: ");
-		levelNumber = new JLabel("  Level #: ");
+		levelNumber = new JLabel("  Level: ");
 		zombiesLeft = new JLabel("  Zombies Left: ");
-		labelPane.add(turnNumber);
-		labelPane.add(levelNumber);
+		
 		infoPane.add(endTurn);
-		infoPane.add(labelPane);
+		infoPane.add(turnNumber);
+		infoPane.add(levelNumber);
 		infoPane.add(zombiesLeft);
 		add(infoPane);
 	}
@@ -147,7 +144,16 @@ public class UpperPanel extends JPanel {
 	 * @param levelNumber the level number
 	 */
 	public void setLevelNumber(int levelNumber) {
-		this.levelNumber.setText("  Level #: " + levelNumber);
+		this.levelNumber.setText("  Level: " + levelNumber);
+	}
+	
+	/**
+	 * Display the level name. Only used for custom level.
+	 * 
+	 * @param levelName the name of the level
+	 */
+	public void setLevelName(String levelName) {
+		this.levelNumber.setText(" Level: " + levelName);
 	}
 
 	/**

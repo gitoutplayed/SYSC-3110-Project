@@ -2,13 +2,20 @@ package ui;
 
 import java.awt.event.*;
 import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuListener;
 
 import game.Game;
 import game.GameState;
+import game.LevelManager;
+import plant.PlantName;
 import tile.Tile;
+import zombie.ZombieTypes;
 
 /**
  * This class represents the GameController. This class contains the main
@@ -74,6 +81,14 @@ public class GameController {
 		gameView.getLoadButton().addActionListener(new PopupListener());
 		gameView.getDoneButton().addActionListener(new PopupListener());
 		gameView.getCancelButton().addActionListener(new PopupListener());
+
+		// LevelBuilderPanel Listener
+		for(ShopButton button : gameView.getAvailablePlants()) {
+			button.addActionListener(new LevelBuilderListener());
+		}
+		for(ZombieButton button : gameView.getAvailableZombies()) {
+			button.addActionListener(new LevelBuilderListener());
+		}
 	}
 
 	/**
@@ -95,11 +110,11 @@ public class GameController {
 			if(item == gameView.getLoadNextLevel()) {
 				game.loadNextLevel();
 			} else if(item == gameView.getLoadLevel()) {
-				if(game.isLevelLoaded() && !game.isLevelFinished()) {
+				if(game.isLevelLoaded()) {
 					game.loadLevel(1); // this is just to trigger the error message
 					return;
 				}
-				
+
 				if(gameView.getPopup() == null) {
 					gameView.setupPopup(gameView.getLevelChooserPanel());
 					gameView.getPopup().show();
@@ -113,14 +128,27 @@ public class GameController {
 			} else if(item == gameView.getRestart()) {
 				game.restart();
 			} else if(item == gameView.getLoadSave()) {
+				if(game.isLevelLoaded()) {
+					return;
+				}
 				game.loadSave(load());
 			} else if(item == gameView.getSave()) {
 				game.save(save());
 			} else if(item == gameView.getBuildLevel()) {
+				if(game.isLevelLoaded()) {
+					return;
+				}
+				
 				if(gameView.getPopup() == null) {
 					gameView.setUpLevelBuilderPanel();
 					gameView.getPopup().show();
 				}
+			} else if(item == gameView.getLoadCustomLevel()) {
+				if(game.isLevelLoaded()) {
+					return;
+				}
+				
+				game.loadCustomLevels(loadMultiFile());
 			}
 		}
 	}
@@ -238,34 +266,116 @@ public class GameController {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
-			
+
 			// PopupPanel
 			if(button == gameView.getPopupButton()) {
 				gameView.clearPopupPanel();
 			}
-			
 			// LevelChooserPanel
-			if(button == gameView.getLoadButton()) {
-				// Do nothing if no level is selected
-				if(gameView.getPredefinedLevelsList().getSelectedIndex() < 0) {
+			else if(button == gameView.getLoadButton()) {
+				if(gameView.getPredefinedLevelsList().getSelectedIndex() > -1) {
+					game.setLevelManagerMode(LevelManager.Mode.PREDEFINED);
+					game.loadLevel(gameView.getPredefinedLevelsList().getSelectedIndex());
+				} else if(gameView.getCustomLevelsList().getSelectedIndex() > -1) {
+					game.setLevelManagerMode(LevelManager.Mode.CUSTOM);
+					game.loadLevel(gameView.getCustomLevelsList().getSelectedIndex());
+				} 
+			}
+			// LevelBuilderPanel
+			else if(button == gameView.getDoneButton()) {
+				if(gameView.getChosenPlants().isEmpty() || gameView.getChosenZombies().isEmpty()) {
+					gameView.disposePopup();
+					gameView.showMessage("No plant or zombie is chosen");
 					return;
 				}
-				int levelID = gameView.getPredefinedLevelsList().getSelectedValue();
-				game.loadLevel(levelID);
+				
+				Set<PlantName> plants = new HashSet<PlantName>();
+				for(ShopButton plant : gameView.getChosenPlants()) {
+					plants.add(plant.getPlant());
+				}
+				
+				Map<ZombieTypes, Integer> zombies = new HashMap<ZombieTypes, Integer>();
+				for(ZombieButton zombie : gameView.getChosenZombies()) {
+					zombies.put(zombie.getZombie(), zombies.getOrDefault(zombie.getZombie(), 0) + 1);
+				}
+				
+				Integer spawnRate = (Integer) gameView.getSpawnRate().getValue();
+				Integer spawnAmount = (Integer) gameView.getSpawnAmount().getValue();
+				Integer baseSunGain = (Integer) gameView.getBaseSunGain().getValue();
+				
+				gameView.clearPanels();
+				gameView.disposePopup();
+				game.createCustomLevel(save(), plants, zombies, baseSunGain, spawnRate, spawnAmount);
+				return;
 			}
-			
+
 			gameView.disposePopup();
 		}
 	}
-	
+
+	/**
+	 * The PopupListener. This class contains the actionPerformed method that will
+	 * be called when any button on the LevelBuilderPanel is clicked.
+	 * 
+	 * @author Michael Fan 101029934
+	 * @version Dec 2, 2018
+	 */
+	private class LevelBuilderListener implements ActionListener {
+		/**
+		 * The action that is performed when any button on the LevelBuilderPanel is
+		 * clicked.
+		 * 
+		 * @param e the ActionEvent
+		 */
+		public void actionPerformed(ActionEvent e) {
+			// Available plants
+			if(e.getSource() instanceof ShopButton) {
+				ShopButton button = (ShopButton) e.getSource();
+
+				if(!gameView.isChosenPlant(button)) {
+					ShopButton addedButton = gameView.addChoosenPlant(button);
+
+					if(addedButton != null) {
+						addedButton.addActionListener(this);
+					}
+				} else {
+					gameView.removeChosenPlant(button);
+				}
+			} else if(e.getSource() instanceof ZombieButton) {
+				ZombieButton button = (ZombieButton) e.getSource();
+				
+				if(!gameView.isChosenZombie(button)) {
+					gameView.addChosenZombie(button).addActionListener(this);;
+				} else {
+					gameView.removeChosenZombie(button);
+				}
+			}
+		}
+	}
+
 	/**
 	 * Opens up the save file chooser
 	 */
 	private File save() {
 		JFileChooser fileChooser = new JFileChooser();
-		
+
 		int option = fileChooser.showSaveDialog(gameView);
-		
+
+		if(option == JFileChooser.APPROVE_OPTION) {
+			return fileChooser.getSelectedFile();
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Opens up the file chooser
+	 */
+	private File load() {
+		JFileChooser fileChooser = new JFileChooser();
+
+		int option = fileChooser.showOpenDialog(gameView);
+
 		if(option == JFileChooser.APPROVE_OPTION) {
 			return fileChooser.getSelectedFile();
 		} else {
@@ -274,20 +384,21 @@ public class GameController {
 	}
 	
 	/**
-	 * Opens up the load file chooser
+	 * Opens up the file chooser(allow multi-file selection)
 	 */
-	private File load() {
-JFileChooser fileChooser = new JFileChooser();
-		
+	private File[] loadMultiFile() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setMultiSelectionEnabled(true);
+
 		int option = fileChooser.showOpenDialog(gameView);
-		
+
 		if(option == JFileChooser.APPROVE_OPTION) {
-			return fileChooser.getSelectedFile();
+			return fileChooser.getSelectedFiles();
 		} else {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * The main method.
 	 * 
