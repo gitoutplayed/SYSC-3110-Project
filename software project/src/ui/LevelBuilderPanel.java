@@ -402,9 +402,11 @@ public class LevelBuilderPanel extends JPanel {
 	 * Clear level chosen plants and zombies panel.
 	 */
 	public void clearPanels() {
+		chosenPlants.removeAll(chosenPlants);
 		chosenPlantsPane.removeAll();
 		chosenPlantsPane.revalidate();
 		chosenPlantsPane.repaint();
+		chosenZombies.removeAll(chosenZombies);
 		chosenZombiesPane.removeAll();
 		chosenZombiesPane.removeAll();
 		chosenZombiesPane.repaint();

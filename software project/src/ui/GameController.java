@@ -308,7 +308,8 @@ public class GameController {
 				game.createCustomLevel(save(), plants, zombies, baseSunGain, spawnRate, spawnAmount);
 				return;
 			}
-
+			
+			gameView.clearPanels();
 			gameView.disposePopup();
 		}
 	}
