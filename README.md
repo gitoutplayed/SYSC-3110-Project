@@ -10,14 +10,13 @@
 * This is the final version of the our project
 
 ## Changes Made Since the Previous Deliverable
-* Added new levels
-* Added new plants (Added classes DuelSunFlower, Repeater, Wallnut)
-* Added new zombies (Added classes BucketHat, ConeHat, Football, Newspaper)
+* Added save/load 
+* Finished level builder
+* Fixed bugs.
 * Added level selecter (Added class LevelChooserPanel)
-* Added new events to determine number of zombies on a tile (Added class PopupPanel)
 * Added JUnit test for zombies
 * Added JUnit test for plants
-* Implemented Undo and Redo 
+
 
 ## Known Issues
 * No known issues
