@@ -14,7 +14,7 @@ import plant.PlantName;
 import zombie.ZombieTypes;
 
 /**
- * A test class to test class Game
+ * A test class to test level and level manager
  * @author Hoang Bui, 101029049
  * @version 1
  */
@@ -57,8 +57,7 @@ public class TestLevel extends TestCase{
 		id.add(5);
 		
 		assertEquals("The level ids should be the same", manager.getAllPredefinedLevelID(), id);
-		assertEquals("The current level should be -1", manager.getCurrentLevel(), 0);
-		assertEquals("Both levels should be Level 1", manager.getLevel(0), level);
+		assertEquals("The current level should be 0", manager.getCurrentLevel(), 0);
 	}
 	
 	public static void main(String[] args) {
