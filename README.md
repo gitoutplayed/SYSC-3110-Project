@@ -4,10 +4,10 @@
 
 ### Authors: Michael Fan, Hoang Bui, Souheil Yazji, Tamer Ibrahim
 
-# Milestone 3
+# Milestone 4
 
 ## Rest of Deliverables
-* Milestone 4
+* This is the final version of the our project
 
 ## Changes Made Since the Previous Deliverable
 * Added new levels
@@ -22,7 +22,7 @@
 ## Known Issues
 * No known issues
 
-## Roadmap
+
 
 ### Game
 * Allow save and load 
