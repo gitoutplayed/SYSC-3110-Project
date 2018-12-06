@@ -5,7 +5,11 @@ import game.LevelManager;
 import game.Shop;
 import junit.framework.TestCase;
 import plant.PlantName;
-
+/**
+ * A test class to test the shop.
+ * @author Hoang Bui, 101029049
+ * @version 1
+ */
 public class TestShop extends TestCase{
 	private Level level;
 	private LevelManager manager;
