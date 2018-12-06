@@ -64,6 +64,21 @@ public class TestGameState extends TestCase {
 		assertEquals("The number of zombies pending should be 2", gameState.getNumberOfZombiesPending(), 2);
 	}
 
+	public void testUndo() {
+		GameState gameState2 = gameState;
+		gameState.nextTurn();
+		gameState.undo();
+		assertEquals("The gamestates should be the same after undo", gameState2, gameState);
+	}
+	
+	public void testRedo() {
+		gameState.nextTurn();
+		GameState gameState2 = gameState;
+		gameState.undo();
+		gameState.nextTurn();
+		assertEquals("The gamestates should be the same after redo", gameState2, gameState);
+	}
+	
 	public static void main(String[] args) {
 		junit.textui.TestRunner.run(TestGameState.class);
 	}
