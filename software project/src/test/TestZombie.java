@@ -40,12 +40,12 @@ public class TestZombie extends TestCase {
 	public void testZombiesMovement() {
 		walker.incrementMovementCounter();
 		walker.incrementMovementCounter();
-		assertEquals("The zombie should have a movement coutner value of 2", walker.getMovementCounter(), 2);
+		assertEquals("The zombie should have a movement counter value of 2", walker.getMovementCounter(), 2);
 		assertFalse("A current zombie should not be ready to move to the next tile", walker.isReadyToMove());
 		walker.incrementMovementCounter();
 		assertTrue("A current zombie should be ready to move to the next tile", walker.isReadyToMove());
 		walker.resetMovementCounter();
-		assertEquals("The zombie should have a movement coutner value of 0", walker.getMovementCounter(), 0);
+		assertEquals("The zombie should have a movement counter value of 0", walker.getMovementCounter(), 0);
 		assertFalse("A current zombie should not be ready to move to the next tile", walker.isReadyToMove());
 	}
 	
@@ -70,7 +70,7 @@ public class TestZombie extends TestCase {
 		assertEquals("A bucket hat zombie should have a start health of 200", bucketHat.getHealth(), 200);
 		assertEquals("A bucket hat zombie should have a base movement speed of 5", bucketHat.getCurrentMovementSpeed(), 5);
 		assertEquals("The bucket hat should have 0 for its movement counter",bucketHat.getMovementCounter(), 0);
-		assertEquals("The bucket hat of zombie should be a walker", bucketHat.getZombieType(), ZombieTypes.BUCKETHAT);
+		assertEquals("The type of zombie should be a bucket hat zombie", bucketHat.getZombieType(), ZombieTypes.BUCKETHAT);
 		assertEquals("The bucket hat zombie should have an attack range of 1", bucketHat.getAtkRange(), 1);
 	}
 	public void testFootball() {
@@ -78,16 +78,16 @@ public class TestZombie extends TestCase {
 		assertEquals("A football zombie should have a start health of 100", football.getHealth(), 100);
 		assertEquals("A football zombie should have a base movement speed of 1", football.getCurrentMovementSpeed(), 1);
 		assertEquals("The football zombie should have 0 for its movement counter",football.getMovementCounter(), 0);
-		assertEquals("The football zombie of zombie should be a walker", football.getZombieType(), ZombieTypes.FOOTBALL);
+		assertEquals("The type of zombie should be a football zombie", football.getZombieType(), ZombieTypes.FOOTBALL);
 		assertEquals("The football zombie should have an attack range of 1", football.getAtkRange(), 1);
 	}
 	public void testNewspaper() {
-		assertEquals("A bucket hat zombie should have a damage value of 50", newspaper.getDamage(), 50);
-		assertEquals("A bucket hat zombie should have a start health of 150", newspaper.getHealth(), 150);
-		assertEquals("A bucket hat zombie should have a base movement speed of 2", newspaper.getCurrentMovementSpeed(), 2);
-		assertEquals("The bucket hat should have 0 for its movement counter",newspaper.getMovementCounter(), 0);
-		assertEquals("The bucket hat of zombie should be a walker", newspaper.getZombieType(), ZombieTypes.NEWSPAPER);
-		assertEquals("The bucket hat zombie should have an attack range of 1", newspaper.getAtkRange(), 1);
+		assertEquals("A Newspaper zombie should have a damage value of 50", newspaper.getDamage(), 50);
+		assertEquals("A Newspaper zombie should have a start health of 150", newspaper.getHealth(), 150);
+		assertEquals("A Newspaper zombie should have a base movement speed of 2", newspaper.getCurrentMovementSpeed(), 2);
+		assertEquals("The Newspaper should have 0 for its movement counter",newspaper.getMovementCounter(), 0);
+		assertEquals("The type of zombie should be a Newspaper", newspaper.getZombieType(), ZombieTypes.NEWSPAPER);
+		assertEquals("The Newspaper zombie should have an attack range of 1", newspaper.getAtkRange(), 1);
 	}
 	
 	public static void main(String[] args) {

@@ -93,7 +93,7 @@ public class LevelChooserPanel extends JPanel {
 	/**
 	 * Adds a list of custom levels.
 	 * 
-	 * @param customLevels
+	 * @param customLevels the custome levels
 	 */
 	public void addCustomLevels(List<String> customLevels) {
 		DefaultListModel<String> list = new DefaultListModel<String>();
@@ -108,7 +108,7 @@ public class LevelChooserPanel extends JPanel {
 	/**
 	 * Returns the load button.
 	 * 
-	 * @return the close button
+	 * @return the load button
 	 */
 	public JButton getLoadButton() {
 		return loadButton;

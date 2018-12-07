@@ -5,7 +5,7 @@ import javax.swing.JButton;
 import plant.PlantName;
 
 /**
- * This class represents a ShopButton. The ShopButton is essentially a JBution but has the ability to hold
+ * This class represents a ShopButton. The ShopButton is essentially a JButton but has the ability to hold
  * name of a plant.
  * 
  * @author Michael Fan 101029934

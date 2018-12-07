@@ -654,7 +654,7 @@ public class Game {
 	}
 
 	/**
-	 * Returns true if loaded successfully or false otherwise.
+	 * Loads the next level if the current level is complete
 	 */
 	public void loadNextLevel() {
 		GameEvent gameEvent = new GameEvent(this);
@@ -681,7 +681,7 @@ public class Game {
 	}
 
 	/**
-	 * Returns true if loaded successfully or false otherwise.
+	 * Loads the previous level if the current level is complete
 	 */
 	public void loadPreviousLevel() {
 		GameEvent gameEvent = new GameEvent(this);
@@ -783,14 +783,14 @@ public class Game {
 			fileIn.close();
 			objectIn.close();
 
-			// Return if the deserialized object is not an instance of GameSate
+			// Return if the deserialized object is not an instance of GameState
 			if(!(obj instanceof GameState)) {
 				gameEvent.setSuccess(false).setMessage("Invalid save file");
 				gameListener.saveLoaded(gameEvent);
 				return;
 			}
 
-			GameState createUndoRedo = new GameState(); // create the undo and redo statcks
+			GameState createUndoRedo = new GameState(); // create the undo and redo stacks
 
 			gameState = (GameState) obj;
 			currentLevel = gameState.getCurrentLevel();
@@ -826,7 +826,7 @@ public class Game {
 		GameEvent gameEvent = new GameEvent(this);
 
 		if(file == null) {
-			gameEvent.setSuccess(false).setMessage("Invaild file");
+			gameEvent.setSuccess(false).setMessage("Invalid file");
 			gameListener.customLevelBuilt(gameEvent);
 			return;
 		}
@@ -851,6 +851,11 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Loads custom levels from a given array of files
+	 * 
+	 * @param files the array of files defining custom levels
+	 */
 	public void loadCustomLevels(File[] files) {
 		GameEvent gameEvent = new GameEvent(this);
 
@@ -870,7 +875,7 @@ public class Game {
 
 				Object obj = objectIn.readObject();
 
-				// Return if the deserialized object is not an instance of GameSate
+				// Return if the deserialized object is not an instance of GameState
 				if(!(obj instanceof Level)) {
 					continue;
 				}

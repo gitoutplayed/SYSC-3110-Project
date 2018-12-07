@@ -121,7 +121,7 @@ public class UpperPanel extends JPanel {
 	}
 
 	/**
-	 * Display the number of zombies left..
+	 * Display the number of zombies left.
 	 * 
 	 * @param zombiesLeft the number of zombies left to be displayed
 	 */
@@ -148,7 +148,7 @@ public class UpperPanel extends JPanel {
 	}
 	
 	/**
-	 * Display the level name. Only used for custom level.
+	 * Display the level name, only used for custom level.
 	 * 
 	 * @param levelName the name of the level
 	 */

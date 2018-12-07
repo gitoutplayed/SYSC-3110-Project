@@ -229,7 +229,7 @@ public class LevelBuilderPanel extends JPanel {
 	}
 	
 	/**
-	 * Add a chosen plant.
+	 * Add a chosen plant to the custom level shop.
 	 * 
 	 * @param plant the plant that is chosen
 	 * 

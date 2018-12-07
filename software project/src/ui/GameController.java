@@ -93,14 +93,14 @@ public class GameController {
 
 	/**
 	 * The MenuListener. This class contains the actionPerformed method that will be
-	 * called when a meun item is clicked.
+	 * called when a menu item is clicked.
 	 * 
 	 * @author Michael Fan 101029934
 	 * @version Nov 9, 2018
 	 */
 	private class MenuListener implements ActionListener {
 		/**
-		 * The action that is performed when a meun item is clicked.
+		 * The action that is performed when a menu item is clicked.
 		 * 
 		 * @param e the ActionEvent
 		 */
@@ -370,7 +370,7 @@ public class GameController {
 	}
 
 	/**
-	 * Opens up the file chooser
+	 * Opens up the load file chooser
 	 */
 	private File load() {
 		JFileChooser fileChooser = new JFileChooser();

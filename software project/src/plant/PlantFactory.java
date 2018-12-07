@@ -13,7 +13,7 @@ public class PlantFactory {
 	}
 	
 	/**
-	 * Takes a Plant name as a param and returns a new instance of the plant.
+	 * Takes a ENUM PlantName as a param and returns a new instance of the plant.
 	 *
 	 * @param name the name of the plant to be made.
 	 * @return returns null by default if passed a name that's not included in the ENUM PlantName, otherwise returns the respective plant.

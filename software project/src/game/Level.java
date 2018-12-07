@@ -28,7 +28,7 @@ public class Level implements java.io.Serializable {
 	/**
 	 * Creates a new level with the specified level ID.
 	 * 
-	 * @param levelID th ID of the level
+	 * @param levelID the ID of the level
 	 */
 	public Level(int levelID) {
 		plants = new HashSet<PlantName>();
